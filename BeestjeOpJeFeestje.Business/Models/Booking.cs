@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BeestjeOpJeFeestje.Business.Models
+﻿namespace BeestjeOpJeFeestje.Business.Models
 {
-    internal class Booking
+    public class Booking
     {
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public decimal TotalPrice { get; set; }
+        public bool IsConfirmed { get; set; }
+
+        public int AccountId { get; set; }
+        public Account Account { get; set; }
+
+        public virtual ICollection<Animal> Animals { get; set; } = [];
     }
 }

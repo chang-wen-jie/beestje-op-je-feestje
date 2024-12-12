@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BeestjeOpJeFeestje.Business\BeestjeOpJeFeestje.Business.csproj" />
+  </ItemGroup>
+
 </Project>

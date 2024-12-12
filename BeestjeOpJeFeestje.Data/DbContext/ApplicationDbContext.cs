@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using BeestjeOpJeFeestje.Business.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BeestjeOpJeFeestje.Data.DbContext
@@ -9,5 +10,9 @@ namespace BeestjeOpJeFeestje.Data.DbContext
             : base(options)
         {
         }
+
+        //public DbSet<Animal> Animals { get; set; }
+        //public DbSet<Account> Accounts { get; set; }
+        //public DbSet<Booking> Bookings { get; set; }
     }
 }
