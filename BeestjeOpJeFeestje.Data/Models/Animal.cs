@@ -1,17 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BeestjeOpJeFeestje.Business.Models
+namespace BeestjeOpJeFeestje.Data.Models
 {
-    public enum AnimalType
-    {
-        Jungle,
-        Boerderij,
-        Sneeuw,
-        Woestijn,
-        VIP,
-    }
-
     public class Animal
     {
         [Key]
@@ -21,8 +12,8 @@ namespace BeestjeOpJeFeestje.Business.Models
         [Column("animal_name")]
         public string Name { get; set; }
 
-        [Column("animal_type")]
-        public AnimalType Type { get; set; }
+        [Column("animal_type_id")]
+        public int TypeId { get; set; }
 
         [Column("animal_price")]
         public decimal Price { get; set; }
@@ -30,12 +21,11 @@ namespace BeestjeOpJeFeestje.Business.Models
         [Column("animal_image_url")]
         public string ImageUrl { get; set; }
 
-        [InverseProperty("Animals")]
-        public virtual ICollection<Booking> Bookings { get; set; } = [];
+        public AnimalType Type { get; set; }
 
-        public bool IsAvailableForBooking(DateTime date)
-        {
-            return !Bookings.Any(booking => booking.Date == date && booking.IsConfirmed);
-        }
+        [InverseProperty("Animals")]
+        public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+
+        public string TypeName { get; set; }
     }
 }

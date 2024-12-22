@@ -1,4 +1,5 @@
 using BeestjeOpJeFeestje.Data.DbContext;
+using BeestjeOpJeFeestje.Data.Seeders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,12 +13,12 @@ namespace BeestjeOpJeFeestje.Web
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("MyConnection") ?? throw new InvalidOperationException("Connection string 'MyConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddDbContext<BeestjeOpJeFeestjeDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<BeestjeOpJeFeestjeDbContext>();
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
@@ -45,6 +46,12 @@ namespace BeestjeOpJeFeestje.Web
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<BeestjeOpJeFeestjeDbContext>();
+                DatabaseSeeder.SeedDatabase(context);
+            }
 
             app.Run();
         }

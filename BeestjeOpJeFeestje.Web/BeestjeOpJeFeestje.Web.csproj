@@ -20,8 +20,4 @@
     <ProjectReference Include="..\BeestjeOpJeFeestje.Data\BeestjeOpJeFeestje.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Account\" />
-  </ItemGroup>
-
 </Project>

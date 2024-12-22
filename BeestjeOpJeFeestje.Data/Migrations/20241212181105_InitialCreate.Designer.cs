@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BeestjeOpJeFeestje.Web.Data.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
+    [DbContext(typeof(BeestjeOpJeFeestjeDbContext))]
     [Migration("20241212181105_InitialCreate")]
     partial class InitialCreate
     {

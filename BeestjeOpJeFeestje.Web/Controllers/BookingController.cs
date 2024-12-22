@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
-    public class BookingController(ApplicationDbContext context) : Controller
+    public class BookingController(BeestjeOpJeFeestjeDbContext context) : Controller
     {
-        private readonly ApplicationDbContext _context = context;
+        private readonly BeestjeOpJeFeestjeDbContext _context = context;
 
         public IActionResult Index()
         {

@@ -1,13 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BeestjeOpJeFeestje.Business.Models
+namespace BeestjeOpJeFeestje.Data.Models
 {
     public class Account
     {
         [Key]
         [Column("account_id")]
         public int Id { get; set; }
+
+        [Column("account_password")]
+        public string Password { get; set; }
 
         [Column("account_name")]
         public string Name { get; set; }
@@ -20,14 +23,18 @@ namespace BeestjeOpJeFeestje.Business.Models
         public string ZipCode { get; set; }
 
         [Column("account_email_address")]
-        public string EmailAddress { get; set; }
+        public string? EmailAddress { get; set; }
 
         [Column("account_phone_number")]
         [RegularExpression(@"^\+?[1-9]\d{1,14}$", ErrorMessage = "Telefoonnummer moet het internationale of binnenlandse formaat aanhouden.")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
+
+        [Column("account_type_id")]
+        public int TypeId { get; set; }
+        
+        public AccountType Type { get; set; }
 
         [InverseProperty("Account")]
-        public virtual ICollection<Booking> Bookings { get; set; } = [];
-
+        public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
     }
 }
