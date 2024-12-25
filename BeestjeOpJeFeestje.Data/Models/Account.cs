@@ -30,6 +30,7 @@ namespace BeestjeOpJeFeestje.Data.Models
         public string? PhoneNumber { get; set; }
 
         [Column("account_type_id")]
+        [Range(1, 4, ErrorMessage = "Type moet tussen de 1 en 4 liggen")]
         public int TypeId { get; set; }
         
         public AccountType Type { get; set; }

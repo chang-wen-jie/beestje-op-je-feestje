@@ -10,6 +10,7 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Animal
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Type is verplicht")]
+        [Range(1, 5, ErrorMessage = "Type moet tussen de 1 en 5 liggen")]
         public int TypeId { get; set; }
 
         [Required(ErrorMessage = "Prijs is verplicht")]

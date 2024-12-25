@@ -1,4 +1,6 @@
 using BeestjeOpJeFeestje.Data.DbContext;
+using BeestjeOpJeFeestje.Data.Interfaces;
+using BeestjeOpJeFeestje.Data.Repositories;
 using BeestjeOpJeFeestje.Data.Seeders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +22,10 @@ namespace BeestjeOpJeFeestje.Web
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<BeestjeOpJeFeestjeDbContext>();
             builder.Services.AddControllersWithViews();
-
+            
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

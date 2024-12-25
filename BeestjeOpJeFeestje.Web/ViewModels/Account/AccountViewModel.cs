@@ -21,9 +21,11 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Account
 
         public string? EmailAddress { get; set; }
 
+        [RegularExpression(@"^\+?[1-9]\d{1,14}$", ErrorMessage = "Telefoonnummer moet het internationale of binnenlandse formaat aanhouden.")]
         public string? PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Type is verplicht")]
+        [Range(1, 4, ErrorMessage = "Type moet tussen de 1 en 4 liggen")]
         public int TypeId { get; set; }
     }
 }

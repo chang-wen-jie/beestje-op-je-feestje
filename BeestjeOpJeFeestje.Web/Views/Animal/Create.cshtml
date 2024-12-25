@@ -1,5 +1,43 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using BeestjeOpJeFeestje.Web.ViewModels.Animal
+@model AnimalViewModel
+
 @{
+    ViewData["Title"] = "Beestje Aanmaken";
 }
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Beestje aanmaken</h1>
+
+    <form asp-action="Create" method="post">
+        <div class="row gy-3">
+            <div class="col-md-6">
+                <label asp-for="Name" class="form-label">Naam*</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="TypeId" class="form-label">Type*</label>
+                <input asp-for="TypeId" class="form-control" />
+                <span asp-validation-for="TypeId" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Price" class="form-label">Prijs*</label>
+                <input asp-for="Price" type="number" class="form-control" min="1" max="9999" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="ImageUrl" class="form-label">Afbeelding URL*</label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
+            <button type="submit" class="btn btn-success">Opslaan</button>
+        </div>
+    </form>
+</div>

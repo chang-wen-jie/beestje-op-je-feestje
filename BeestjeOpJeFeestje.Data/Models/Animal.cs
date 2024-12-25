@@ -13,6 +13,7 @@ namespace BeestjeOpJeFeestje.Data.Models
         public string Name { get; set; }
 
         [Column("animal_type_id")]
+        [Range(1, 5, ErrorMessage = "Type moet tussen de 1 en 5 liggen")]
         public int TypeId { get; set; }
 
         [Column("animal_price")]
@@ -25,7 +26,5 @@ namespace BeestjeOpJeFeestje.Data.Models
 
         [InverseProperty("Animals")]
         public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
-
-        public string TypeName { get; set; }
     }
 }
