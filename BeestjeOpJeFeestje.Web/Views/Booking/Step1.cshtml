@@ -1,0 +1,20 @@
+﻿@using BeestjeOpJeFeestje.Web.ViewModels.Booking
+@model BookingAnimalFormViewModel
+
+@{
+}
+
+<h2>Selecteer dieren</h2>
+<form asp-action="Step1" method="post">
+    <div class="form-group">
+        <p>Selecteer de dieren die je wilt boeken:</p>
+        @foreach (var animal in Model.AvailableAnimals)
+        {
+            <div class="form-check">
+                <input type="checkbox" asp-for="SelectedAnimalIds" value="@animal.Id" class="form-check-input" />
+                <label class="form-check-label">@animal.Name (@animal.Price.ToString("C"))</label>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Volgende</button>
+</form>

@@ -1,60 +1,66 @@
-﻿@using BeestjeOpJeFeestje.Web.ViewModels.Account
-@model AccountViewModel
+﻿@model BeestjeOpJeFeestje.Web.ViewModels.Customer.CustomerViewModel
 
 @{
-    ViewData["Title"] = "Account Aanmaken";
+    ViewData["Title"] = "Customer Bewerken";
 }
 
 <div class="container mt-4">
-    <h1 class="text-center mb-4">Account aanmaken</h1>
+    <h1 class="text-center mb-4">Customer bewerken</h1>
 
-    <form asp-action="Create" method="post">
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger text-center">@TempData["ErrorMessage"]</div>
+    }
+    
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        
         <div class="row gy-3">
             <div class="col-md-6">
                 <label asp-for="Password" class="form-label">Wachtwoord*</label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" class="form-control"/>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
             <div class="col-md-6">
                 <label asp-for="Name" class="form-label">Naam*</label>
-                <input asp-for="Name" class="form-control" />
+                <input asp-for="Name" class="form-control"/>
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <div class="col-md-6">
                 <label asp-for="HouseNumber" class="form-label">Huisnummer*</label>
-                <input asp-for="HouseNumber" type="number" class="form-control" min="0" max="9999" />
+                <input asp-for="HouseNumber" type="number" class="form-control" min="0" max="9999"/>
                 <span asp-validation-for="HouseNumber" class="text-danger"></span>
             </div>
 
             <div class="col-md-6">
                 <label asp-for="ZipCode" class="form-label">Postcode*</label>
-                <input asp-for="ZipCode" class="form-control" />
+                <input asp-for="ZipCode" class="form-control"/>
                 <span asp-validation-for="ZipCode" class="text-danger"></span>
             </div>
 
             <div class="col-md-6">
                 <label asp-for="EmailAddress" class="form-label">E-mailadres</label>
-                <input asp-for="EmailAddress" class="form-control" />
+                <input asp-for="EmailAddress" class="form-control"/>
                 <span asp-validation-for="EmailAddress" class="text-danger"></span>
             </div>
 
             <div class="col-md-6">
                 <label asp-for="PhoneNumber" class="form-label">Telefoonnummer</label>
-                <input asp-for="PhoneNumber" class="form-control" />
+                <input asp-for="PhoneNumber" class="form-control"/>
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
 
             <div class="col-md-6">
                 <label asp-for="TypeId" class="form-label">Klantenkaart*</label>
-                <input asp-for="TypeId" class="form-control" />
+                <input asp-for="TypeId" class="form-control"/>
                 <span asp-validation-for="TypeId" class="text-danger"></span>
             </div>
         </div>
 
         <div class="mt-4 d-flex gap-2">
-            <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
+            <a asp-action="Details" asp-route-accountId="@Model.Id" class="btn btn-secondary">Annuleren</a>
             <button type="submit" class="btn btn-success">Opslaan</button>
         </div>
     </form>

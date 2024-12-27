@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BeestjeOpJeFeestje.Web.ViewModels.Account
+namespace BeestjeOpJeFeestje.Web.ViewModels.Customer
 {
-    public class AccountViewModel
+    public class CustomerViewModel
     {
         public int Id { get; set; }
 
@@ -19,13 +19,13 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Account
         [RegularExpression(@"^\d{4}[A-Za-z]{2}$", ErrorMessage = "Postcode moet de 1234AB-formaat aanhouden")]
         public string ZipCode { get; set; }
 
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "E-mailadres moet een geldige formaat aanhouden")]
         public string? EmailAddress { get; set; }
 
-        [RegularExpression(@"^\+?[1-9]\d{1,14}$", ErrorMessage = "Telefoonnummer moet het internationale of binnenlandse formaat aanhouden.")]
+        [RegularExpression(@"^\+?[1-9]\d{1,14}$", ErrorMessage = "Telefoonnummer moet het internationale of binnenlandse formaat aanhouden")]
         public string? PhoneNumber { get; set; }
 
-        [Required(ErrorMessage = "Type is verplicht")]
         [Range(1, 4, ErrorMessage = "Type moet tussen de 1 en 4 liggen")]
-        public int TypeId { get; set; }
+        public int? TypeId { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿@using BeestjeOpJeFeestje.Web.ViewModels.Account
-@model AccountViewModel
+﻿@model BeestjeOpJeFeestje.Web.ViewModels.Customer.CustomerViewModel
 
 @{
     ViewData["Title"] = "Gegevens van " + @Model.Name;
@@ -59,7 +58,7 @@
         <a asp-action="Index" class="btn btn-secondary">Terug</a>
         <a asp-action="Edit" asp-route-accountId="@Model.Id" class="btn btn-primary">Wijzig</a>
         <form asp-action="Delete" method="post" class="d-inline">
-            <input type="hidden" name="accountId" value="@Model.Id" />
+            <input type="hidden" name="customerId" value="@Model.Id" />
             <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je @Model.Name wil verwijderen?')">
                 Verwijder
             </button>

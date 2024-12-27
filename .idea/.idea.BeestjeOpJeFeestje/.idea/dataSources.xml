@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="@192.168.68.102" uuid="8fbafee0-e98c-448f-93a0-16544c0f9cc6">
+    <data-source source="LOCAL" name="@192.168.68.100" uuid="97d0829f-e4f6-4955-88f0-41cb94606b17">
       <driver-ref>sqlserver.jb</driver-ref>
       <synchronize>true</synchronize>
       <configured-by-url>true</configured-by-url>
       <jdbc-driver>com.jetbrains.jdbc.sqlserver.SqlServerDriver</jdbc-driver>
-      <jdbc-url>Server=192.168.68.102,1433;Initial Catalog=beestjeopjefeestje;User Id=sa;Password=Kanker12!;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="@192.168.1.157" uuid="e613affa-7003-4f9e-9e0d-acbc6143dbd0">
-      <driver-ref>sqlserver.jb</driver-ref>
-      <synchronize>true</synchronize>
-      <configured-by-url>true</configured-by-url>
-      <jdbc-driver>com.jetbrains.jdbc.sqlserver.SqlServerDriver</jdbc-driver>
-      <jdbc-url>Server=192.168.1.157,1433;Initial Catalog=beestjeopjefeestje;User Id=SA;Password=Kanker12!;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;</jdbc-url>
+      <jdbc-url>Server=192.168.68.100,1433;Initial Catalog=beestjeopjefeestje;User Id=sa;Password=Kanker12!;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

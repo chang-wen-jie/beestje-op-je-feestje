@@ -20,4 +20,10 @@
     <ProjectReference Include="..\BeestjeOpJeFeestje.Data\BeestjeOpJeFeestje.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

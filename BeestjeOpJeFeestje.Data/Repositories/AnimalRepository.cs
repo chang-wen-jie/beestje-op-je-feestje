@@ -8,12 +8,12 @@ public class AnimalRepository(BeestjeOpJeFeestjeDbContext context) : IAnimalRepo
 {
     private readonly BeestjeOpJeFeestjeDbContext _context = context;
 
-    public IEnumerable<Animal> GetAnimals()
+    public IEnumerable<Animal> GetAllAnimals()
     {
         return _context.Animals;
     }
     
-    public Animal? GetAnimal(int animalId)
+    public Animal? GetAnimalById(int animalId)
     {
         var animalToRead = _context.Animals.Find(animalId);
         return animalToRead;

@@ -4,70 +4,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BeestjeOpJeFeestje.Data.DbContext
 {
-    public class BeestjeOpJeFeestjeDbContext(DbContextOptions<BeestjeOpJeFeestjeDbContext> options) : IdentityDbContext(options)
+    public class BeestjeOpJeFeestjeDbContext(DbContextOptions<BeestjeOpJeFeestjeDbContext> options)
+        : IdentityDbContext(options)
     {
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<AccountType> AccountTypes { get; set; }
         public DbSet<Animal> Animals { get; set; }
         public DbSet<AnimalType> AnimalTypes { get; set; }
         public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerType> CustomerTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>(entity =>
-            {
-                entity.ToTable("accounts");
-
-                entity.Property(a => a.Id)
-                    .HasColumnName("account_id");
-
-                entity.Property(a => a.Password)
-                    .HasColumnName("account_password")
-                    .IsRequired();
-
-                entity.Property(a => a.Name)
-                    .HasColumnName("account_name")
-                    .IsRequired();
-
-                entity.Property(a => a.HouseNumber)
-                    .HasColumnName("account_house_number")
-                    .IsRequired();
-
-                entity.Property(a => a.ZipCode)
-                      .HasColumnName("account_zip_code")
-                      .IsRequired();
-
-                entity.Property(a => a.EmailAddress)
-                      .HasColumnName("account_email_address");
-
-                entity.Property(a => a.PhoneNumber)
-                      .HasColumnName("account_phone_number");
-
-                entity.HasOne(a => a.Type)
-                .WithMany(at => at.Accounts)
-                .HasForeignKey(a => a.TypeId)
-                .HasConstraintName("fk_accounts_account_types_account_type_id")
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
-
-                entity.HasMany(a => a.Bookings)
-                    .WithOne(b => b.Account)
-                    .HasForeignKey(b => b.AccountId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<AccountType>(entity =>
-            {
-                entity.ToTable("account_types");
-
-                entity.Property(at => at.Id)
-                    .HasColumnName("account_type_id");
-
-                entity.Property(at => at.Name)
-                    .HasColumnName("account_type_name")
-                    .IsRequired();
-            });
-
             modelBuilder.Entity<Animal>(entity =>
             {
                 entity.ToTable("animals");
@@ -142,14 +89,73 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                       .HasColumnName("booking_total_price")
                       .HasColumnType("decimal(10, 2)")
                       .IsRequired();
+                
+                entity.Property(b => b.DiscountAmount)
+                    .HasColumnName("booking_discount_amount")
+                    .HasColumnType("decimal(10, 2)")
+                    .IsRequired();
 
                 entity.Property(b => b.IsConfirmed)
                       .HasColumnName("booking_is_confirmed")
                       .IsRequired();
 
-                entity.Property(b => b.AccountId)
-                      .HasColumnName("booking_account_id")
+                entity.Property(b => b.CustomerId)
+                      .HasColumnName("booking_customer_id")
                       .IsRequired();
+            });
+            
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.ToTable("customers");
+
+                entity.Property(c => c.Id)
+                    .HasColumnName("customer_id");
+
+                entity.Property(c => c.Password)
+                    .HasColumnName("customer_password")
+                    .IsRequired();
+
+                entity.Property(c => c.Name)
+                    .HasColumnName("customer_name")
+                    .IsRequired();
+
+                entity.Property(c => c.HouseNumber)
+                    .HasColumnName("customer_house_number")
+                    .IsRequired();
+
+                entity.Property(c => c.ZipCode)
+                    .HasColumnName("customer_zip_code")
+                    .IsRequired();
+
+                entity.Property(c => c.EmailAddress)
+                    .HasColumnName("customer_email_address");
+
+                entity.Property(c => c.PhoneNumber)
+                    .HasColumnName("customer_phone_number");
+
+                entity.HasOne(c => c.Type)
+                    .WithMany(ct => ct.Customers)
+                    .HasForeignKey(c => c.TypeId)
+                    .HasConstraintName("fk_customers_customer_types_customer_type_id")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                entity.HasMany(c => c.Bookings)
+                    .WithOne(b => b.Customer)
+                    .HasForeignKey(b => b.CustomerId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<CustomerType>(entity =>
+            {
+                entity.ToTable("customer_types");
+
+                entity.Property(ct => ct.Id)
+                    .HasColumnName("customer_type_id");
+
+                entity.Property(ct => ct.Name)
+                    .HasColumnName("customer_type_name")
+                    .IsRequired();
             });
 
             base.OnModelCreating(modelBuilder);

@@ -23,8 +23,18 @@ namespace BeestjeOpJeFeestje.Web
                 .AddEntityFrameworkStores<BeestjeOpJeFeestjeDbContext>();
             builder.Services.AddControllersWithViews();
             
-            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            
+            // Add session services.
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             
             var app = builder.Build();
 
@@ -44,6 +54,8 @@ namespace BeestjeOpJeFeestje.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            
+            app.UseSession();
 
             app.UseAuthorization();
 

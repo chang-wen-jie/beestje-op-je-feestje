@@ -11,7 +11,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         
         public IActionResult Index()
         {
-            var animals = _animalRepository.GetAnimals();
+            var animals = _animalRepository.GetAllAnimals();
 
             var animalViewModels = animals.Select(animalViewModel => new AnimalViewModel()
             {
@@ -28,7 +28,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         [HttpGet]
         public IActionResult Details(int animalId)
         {
-            var animal = _animalRepository.GetAnimal(animalId);
+            var animal = _animalRepository.GetAnimalById(animalId);
             if (animal == null) return NotFound();
 
             var animalViewModel = new AnimalViewModel()
@@ -50,6 +50,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         }
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(AnimalViewModel animalViewModel)
         {
             if (!ModelState.IsValid) return View(animalViewModel);
@@ -70,7 +71,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         [HttpGet]
         public IActionResult Edit(int animalId)
         {
-            var animal = _animalRepository.GetAnimal(animalId);
+            var animal = _animalRepository.GetAnimalById(animalId);
             if (animal == null) return NotFound();
 
             var animalViewModel = new AnimalViewModel()
@@ -86,6 +87,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         }
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(AnimalViewModel animalViewModel)
         {
             if (!ModelState.IsValid) return View(animalViewModel);
@@ -110,9 +112,10 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         }
         
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int animalId)
         {
-            var animal = _animalRepository.GetAnimal(animalId);
+            var animal = _animalRepository.GetAnimalById(animalId);
             if (animal == null) return NotFound();
 
             if (!_animalRepository.DeleteAnimal(animalId))
