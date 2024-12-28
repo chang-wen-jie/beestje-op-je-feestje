@@ -38,7 +38,7 @@
                 <td>@animal.Id</td>
                 <td>@animal.Name</td>
                 <td>@animal.TypeId</td>
-                <td>@animal.Price</td>
+                <td>@animal.Price.ToString("C")</td>
                 <td>@animal.ImageUrl</td>
                 <td>
                     <a asp-action="Details" asp-route-animalId="@animal.Id" class="btn btn-secondary btn-sm">Details</a>

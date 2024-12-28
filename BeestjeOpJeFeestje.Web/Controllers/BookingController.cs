@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
-    public class BookingController(ICustomerRepository customerRepository, IAnimalRepository animalRepository, IBookingRepository bookingRepository) : Controller
+    public class BookingController(IAnimalRepository animalRepository, IBookingRepository bookingRepository, ICustomerRepository customerRepository) : Controller
     {
-        private readonly ICustomerRepository _customerRepository = customerRepository;
         private readonly IAnimalRepository _animalRepository = animalRepository;
         private readonly IBookingRepository _bookingRepository = bookingRepository;
+        private readonly ICustomerRepository _customerRepository = customerRepository;
 
         public IActionResult Index()
         {
@@ -25,32 +25,35 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         {
             if (!ModelState.IsValid) return View(bookingDateFormViewModel);
             
-            HttpContext.Session.SetString("BookingDate", bookingDateFormViewModel.BookingDate.ToShortDateString());
+            var bookingDate = bookingDateFormViewModel.BookingDate.ToShortDateString();
+            HttpContext.Session.SetString("BookingDate", bookingDate);
+            
             return RedirectToAction("Step1");
         }        
         
         public IActionResult Step1()
         {
-            var bookingDate = HttpContext.Session.GetString("BookingDate");
-            if (string.IsNullOrEmpty(bookingDate)) return RedirectToAction("Index");
-
+            var bookingFormState = GetBookingFormState();
+            
             var bookings = _bookingRepository.GetBookings().ToList();
             var animals = _animalRepository.GetAllAnimals().ToList();
 
             var availableAnimals = animals
                 .Where(a => !bookings.Any(b =>
-                    b.Date == DateTime.Parse(bookingDate) && b.Animals.Any(ba => ba.Id == a.Id)))
+                    b.Date == DateTime.Parse(bookingFormState.Date) && b.Animals.Any(ba => ba.Id == a.Id)))
                 .ToList();
 
             var animalSelectViewModel = new BookingAnimalFormViewModel
             {
                 AvailableAnimals = availableAnimals,
+                BookingFormState = bookingFormState,
             };
             
             return View(animalSelectViewModel);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Step1(BookingAnimalFormViewModel bookingAnimalFormViewModel)
         {
             if (!ModelState.IsValid) return View(bookingAnimalFormViewModel);
@@ -132,6 +135,29 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             };
             
             return RedirectToAction("Index");
+        }
+
+        public BookingFormStateViewModel GetBookingFormState()
+        {
+            var bookingDate = HttpContext.Session.GetString("BookingDate");
+            var serializedAnimalIds = HttpContext.Session.GetString("SelectedAnimalIds");
+            var name = HttpContext.Session.GetString("Name");
+            var houseNumber = HttpContext.Session.GetInt32("HouseNumber");
+            var zipCode = HttpContext.Session.GetString("ZipCode");
+            var emailAddress = HttpContext.Session.GetString("EmailAddress");
+            var phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            
+            var animals = new List<Animal>();
+            var customer = new Customer();
+
+            var bookingFormState = new BookingFormStateViewModel()
+            {
+                Date = bookingDate,
+                Animals = animals,
+                Customer = customer,
+            };
+            
+            return bookingFormState;
         }
     }
 }

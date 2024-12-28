@@ -5,12 +5,20 @@
     ViewData["Title"] = "Beestje Boeken";
 }
 
-<h2>Selecteer een datum</h2>
-<form asp-action="Index" method="post">
-    <div class="form-group">
-        <label for="BookingDate">Kies een datum:</label>
-        <input type="date" asp-for="BookingDate" class="form-control" />
-        <span asp-validation-for="BookingDate" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Volgende</button>
-</form>
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Beestje boeken</h1>
+    
+    <form asp-action="Index" method="post">
+        <div class="row gy-3">
+            <div class="col-md-2">
+                <label asp-for="BookingDate" class="form-label">Datum*</label>
+                <input asp-for="BookingDate" type="date" class="form-control"/>
+                <span asp-validation-for="BookingDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Volgende</button>
+        </div>
+    </form>
+</div>

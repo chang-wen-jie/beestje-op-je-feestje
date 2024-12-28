@@ -9,8 +9,8 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Booking
         [Required(ErrorMessage = "Selecteer een beestje om verder te gaan")]
         public List<int> SelectedAnimalIds { get; set; }
         public List<BeestjeOpJeFeestje.Data.Models.Animal>? AvailableAnimals { get; set; }
-        //public BookingStatusModel? BookingStatus { get; set; }
-        public string? LoggedInUserEmail { get; set; }
+        public BookingFormStateViewModel? BookingFormState { get; set; }
+        public BeestjeOpJeFeestje.Data.Models.Customer? Customer { get; set; }
 
         /*
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext) 

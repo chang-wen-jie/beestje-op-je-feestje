@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<BeestjeOpJeFeestje.Web.ViewModels.Customer.CustomerViewModel>
 
 @{
-    ViewData["Title"] = "Accounts";
+    ViewData["Title"] = "Klanten";
 }
 
 <div class="container mt-4">
-    <h1 class="text-center mb-4">Alle customers (@Model.Count())</h1>
+    <h1 class="text-center mb-4">Alle klanten (@Model.Count())</h1>
 
     @if (TempData["SuccessMessage"] != null)
     {
@@ -25,18 +25,18 @@
         @if (!Model.Any())
         {
             <tr>
-                <td class="text-center">Geen customers gevonden</td>
+                <td class="text-center">Geen klanten gevonden</td>
             </tr>
         }
 
-        @foreach (var account in Model)
+        @foreach (var customer in Model)
         {
             <tr>
-                <td>@account.Id</td>
-                <td>@account.Name</td>
-                <td>@account.TypeId</td>
+                <td>@customer.Id</td>
+                <td>@customer.Name</td>
+                <td>@customer.TypeId</td>
                 <td>
-                    <a asp-action="Details" asp-route-accountId="@account.Id" class="btn btn-secondary btn-sm">Details</a>
+                    <a asp-action="Details" asp-route-customerId="@customer.Id" class="btn btn-secondary btn-sm">Details</a>
                 </td>
             </tr>
         }
@@ -44,6 +44,6 @@
     </table>
 
     <div class="mt-4">
-        <a asp-action="Create" class="btn btn-success">Customer Toevoegen</a>
+        <a asp-action="Create" class="btn btn-success">Klant Toevoegen</a>
     </div>
 </div>

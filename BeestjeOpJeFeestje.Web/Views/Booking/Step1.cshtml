@@ -2,19 +2,25 @@
 @model BookingAnimalFormViewModel
 
 @{
+    ViewData["Title"] = "Beestje Boeken";
 }
 
-<h2>Selecteer dieren</h2>
-<form asp-action="Step1" method="post">
-    <div class="form-group">
-        <p>Selecteer de dieren die je wilt boeken:</p>
-        @foreach (var animal in Model.AvailableAnimals)
-        {
-            <div class="form-check">
-                <input type="checkbox" asp-for="SelectedAnimalIds" value="@animal.Id" class="form-check-input" />
-                <label class="form-check-label">@animal.Name (@animal.Price.ToString("C"))</label>
-            </div>
-        }
-    </div>
-    <button type="submit" class="btn btn-primary">Volgende</button>
-</form>
+<div class="container mt-4">
+    <h1>Stap 1 - Kies je beestje(s)</h1>
+
+    <form asp-action="Step1" method="post">
+        <div class="form-group">
+            @foreach (var animal in Model.AvailableAnimals)
+            {
+                <div class="form-check">
+                    <input name="SelectedAnimalIds" type="checkbox"value="@animal.Id" class="form-check-input" />
+                    <label class="form-check-label">@animal.Name (@animal.Price.ToString("C"))</label>
+                </div>
+            }
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Volgende</button>
+        </div>
+    </form>
+</div>
