@@ -2,23 +2,23 @@
 
 namespace BeestjeOpJeFeestje.Web.ViewModels.Booking
 {
-    public class BookingDateFormViewModel
+    public class BookingDateFormViewModel : IValidatableObject
     {
         [Required(ErrorMessage = "Datum is verplicht")]
-        [BookingDateValidation(ErrorMessage = "Boekingsdatum kan niet eerder dan vandaag zijn")]
         public DateTime BookingDate { get; set; }
-    }
-
-    public class BookingDateValidation : ValidationAttribute
-    {
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (value == null) return new ValidationResult("Boekingsdatum is verplicht");
-            
-            var bookingDate = DateOnly.FromDateTime((DateTime)value);
+            var bookingDate = DateOnly.FromDateTime(BookingDate);
             var todaysDate = DateOnly.FromDateTime(DateTime.Today);
-            
-            return bookingDate < todaysDate ? new ValidationResult(ErrorMessage) : ValidationResult.Success;
+
+            if (bookingDate < todaysDate)
+            {
+                yield return new ValidationResult(
+                    "Boekingsdatum kan niet eerder dan vandaag zijn",
+                    [nameof(BookingDate)]
+                );
+            }
         }
     }
 }

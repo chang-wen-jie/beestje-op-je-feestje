@@ -84,6 +84,10 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                 entity.Property(b => b.Date)
                       .HasColumnName("booking_date")
                       .IsRequired();
+                
+                entity.Property(b => b.CustomerId)
+                    .HasColumnName("booking_customer_id")
+                    .IsRequired();
 
                 entity.Property(b => b.TotalPrice)
                       .HasColumnName("booking_total_price")
@@ -94,14 +98,6 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                     .HasColumnName("booking_discount_amount")
                     .HasColumnType("decimal(10, 2)")
                     .IsRequired();
-
-                entity.Property(b => b.IsConfirmed)
-                      .HasColumnName("booking_is_confirmed")
-                      .IsRequired();
-
-                entity.Property(b => b.CustomerId)
-                      .HasColumnName("booking_customer_id")
-                      .IsRequired();
             });
             
             modelBuilder.Entity<Customer>(entity =>
@@ -139,7 +135,7 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                     .HasConstraintName("fk_customers_customer_types_customer_type_id")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
-
+                
                 entity.HasMany(c => c.Bookings)
                     .WithOne(b => b.Customer)
                     .HasForeignKey(b => b.CustomerId)

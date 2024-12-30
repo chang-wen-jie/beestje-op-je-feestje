@@ -1,5 +1,38 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using BeestjeOpJeFeestje.Web.ViewModels.Booking
+@model BookingFormViewModel
+
 @{
+    ViewData["Title"] = "Beestje(s) Selecteren";
 }
+
+<div class="progress mb-4" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar" style="width: 0"></div>
+</div>
+
+<h2>Bevestig je boeking</h2>
+
+<h3>Geselecteerde dieren:</h3>
+<ul>
+    @foreach (var animal in Model.BookingFormState.Animals)
+    {
+        <li>@animal.Name - @animal.Price.ToString("C")</li>
+    }
+</ul>
+
+<h3>Contactgegevens:</h3>
+<p>
+    <strong>Naam:</strong> @Model.BookingFormState.Customer.Name <br />
+    <strong>Adres:</strong> @Model.BookingFormState.Customer.HouseNumber <br />
+    <strong>Email:</strong> @Model.BookingFormState.Customer.ZipCode
+    <strong>Email:</strong> @Model.BookingFormState.Customer.EmailAddress
+</p>
+
+<h3>Boekingsdatum:</h3>
+<p>@Model.BookingFormState.Date</p>
+
+<h3>Totaalprijs:</h3>
+<p>@Model.TotalPrice.ToString("C")</p>
+
+<form asp-action="Bevestiging" method="post">
+    <button type="submit" class="btn btn-success">Bevestig</button>
+</form>

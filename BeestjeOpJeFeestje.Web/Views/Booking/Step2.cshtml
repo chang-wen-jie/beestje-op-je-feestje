@@ -1,31 +1,82 @@
-﻿@model BeestjeOpJeFeestje.Web.ViewModels.Booking.BookingCustomerFormViewModel
+﻿@using BeestjeOpJeFeestje.Web.ViewModels.Booking
+@model BookingCustomerFormViewModel
 
-<h2>Contactgegevens</h2>
-<form asp-action="Step2" method="post">
-    <div class="form-group">
-        <label asp-for="Name">Voornaam:</label>
-        <input type="text" asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+@{
+    ViewData["Title"] = "Gegevens Invoeren";
+}
+
+
+vul deze data als ingelogd is, anders input field leeg (en maak geen nieuwe customer aan, maar pak customerid op basis van naam en adres?)
+<div class="container mt-4">
+    <div class="progress mb-4" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: 66%"></div>
     </div>
-    <div class="form-group">
-        <label asp-for="HouseNumber">Huisnummer*</label>
-        <input type="text" asp-for="HouseNumber" class="form-control" />
-        <span asp-validation-for="HouseNumber" class="text-danger"></span>
+    
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <span class="fw-bold">Stap 2 - Vul je contactgegevens in</span>
+                </div>
+                
+                <div class="card-body">
+                    <form asp-action="Step2" method="post">
+                        <div class="form-group">
+                            <label asp-for="Name">Naam*</label>
+                            <input type="text" asp-for="Name" class="form-control"/>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="HouseNumber">Huisnummer*</label>
+                            <input type="text" asp-for="HouseNumber" class="form-control"/>
+                            <span asp-validation-for="HouseNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ZipCode">Postcode*</label>
+                            <input type="text" asp-for="ZipCode" class="form-control"/>
+                            <span asp-validation-for="ZipCode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="EmailAddress">E-mailadres</label>
+                            <input type="text" asp-for="EmailAddress" class="form-control"/>
+                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber">Telefoonnummer</label>
+                            <input type="text" asp-for="PhoneNumber" class="form-control"/>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mt-4 d-flex gap-2">
+                            <a asp-action="Step1" class="btn btn-secondary">Terug</a>
+                            <button type="submit" class="btn btn-primary">Volgende</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <span class="fw-bold">Boeking</span>
+                </div>
+
+                <div class="card-body">
+                    <span>Datum: @Model.BookingFormState.Date</span>
+                    <hr/>
+                    <p>Beestje(s):</p>
+                    @if (!Model.BookingFormState.Animals.Any())
+                    {
+                        <p class="fst-italic">Geen beestjes gekozen</p>
+                    }
+
+                    @foreach (var animal in Model.BookingFormState.Animals)
+                    {
+                        <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/" + animal.ImageUrl)">
+                    }
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="ZipCode">Postcode*</label>
-        <input type="text" asp-for="ZipCode" class="form-control" />
-        <span asp-validation-for="ZipCode" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="EmailAddress">E-mailadres</label>
-        <input type="text" asp-for="EmailAddress" class="form-control" />
-        <span asp-validation-for="EmailAddress" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PhoneNumber">Telefoonnummer</label>
-        <input type="text" asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">Volgende</button>
-</form>
+</div>

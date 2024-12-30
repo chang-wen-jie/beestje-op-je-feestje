@@ -21,9 +21,6 @@ namespace BeestjeOpJeFeestje.Data.Models
         [Column("booking_discount_amount")]
         public decimal DiscountAmount { get; set; }
 
-        [Column("booking_is_confirmed")]
-        public bool IsConfirmed { get; set; }
-
         public Customer Customer { get; set; }
 
         [InverseProperty("Bookings")]

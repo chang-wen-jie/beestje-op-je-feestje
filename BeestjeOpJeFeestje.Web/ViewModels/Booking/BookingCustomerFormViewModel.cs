@@ -19,5 +19,7 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Booking
 
         [RegularExpression(@"^\+?[1-9]\d{1,14}$", ErrorMessage = "Telefoonnummer moet het internationale of binnenlandse formaat aanhouden")]
         public string? PhoneNumber { get; set; }
+        
+        public BookingFormStateViewModel BookingFormState { get; set; }
     }
 }

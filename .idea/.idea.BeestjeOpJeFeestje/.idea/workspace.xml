@@ -8,7 +8,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="44dbeae5-1f11-4641-b2d9-b90162b4c556" name="Changes" comment="" />
+    <list default="true" id="44dbeae5-1f11-4641-b2d9-b90162b4c556" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingAnimalFormViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingAnimalFormViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingCustomerFormViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingCustomerFormViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingFormViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingFormViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step1.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step1.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step2.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step2.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step3.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step3.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/appsettings.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,6 +34,7 @@
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 0
@@ -91,12 +102,16 @@
       <updated>1735293694439</updated>
       <workItem from="1735293695949" duration="15726000" />
       <workItem from="1735326627164" duration="5264000" />
+      <workItem from="1735373528891" duration="12212000" />
+      <workItem from="1735460283910" duration="2183000" />
+      <workItem from="1735494415774" duration="505000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
