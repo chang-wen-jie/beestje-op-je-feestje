@@ -4,9 +4,10 @@ namespace BeestjeOpJeFeestje.Data.Interfaces;
 
 public interface ICustomerRepository
 {
-    public IEnumerable<Customer> GetAllCustomers();
+    public IQueryable<Customer> GetAllCustomers();
     public Customer? GetCustomerById(int customerId);
-    public void AddCustomer(Customer customer);
+    public Customer? GetCustomerByAddress(int houseNumber, string zipCode);
+    public void CreateCustomer(Customer customer);
     public bool UpdateCustomer(Customer customer);
     public bool DeleteCustomer(int customerId);
 }

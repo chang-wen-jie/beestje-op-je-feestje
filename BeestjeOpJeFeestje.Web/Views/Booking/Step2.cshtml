@@ -9,7 +9,7 @@
 vul deze data als ingelogd is, anders input field leeg (en maak geen nieuwe customer aan, maar pak customerid op basis van naam en adres?)
 <div class="container mt-4">
     <div class="progress mb-4" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 66%"></div>
+        <div class="progress-bar" style="width: 50%"></div>
     </div>
     
     <div class="row">
@@ -20,38 +20,44 @@ vul deze data als ingelogd is, anders input field leeg (en maak geen nieuwe cust
                 </div>
                 
                 <div class="card-body">
-                    <form asp-action="Step2" method="post">
-                        <div class="form-group">
-                            <label asp-for="Name">Naam*</label>
-                            <input type="text" asp-for="Name" class="form-control"/>
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="HouseNumber">Huisnummer*</label>
-                            <input type="text" asp-for="HouseNumber" class="form-control"/>
-                            <span asp-validation-for="HouseNumber" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="ZipCode">Postcode*</label>
-                            <input type="text" asp-for="ZipCode" class="form-control"/>
-                            <span asp-validation-for="ZipCode" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="EmailAddress">E-mailadres</label>
-                            <input type="text" asp-for="EmailAddress" class="form-control"/>
-                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="PhoneNumber">Telefoonnummer</label>
-                            <input type="text" asp-for="PhoneNumber" class="form-control"/>
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                        </div>
+                    <div class="col-md-12">
+                        <form asp-action="Step2" method="post">
+                            <div class="mb-3">
+                                <label asp-for="Name">Naam*</label>
+                                <input asp-for="Name" value="@Model.BookingFormState.Customer.Name" type="text" class="form-control"/>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label asp-for="HouseNumber">Huisnummer*</label>
+                                <input asp-for="HouseNumber" value="@Model.BookingFormState.Customer.HouseNumber" type="number" class="form-control" min="0" max="9999"/>
+                                <span asp-validation-for="HouseNumber" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label asp-for="ZipCode">Postcode*</label>
+                                <input asp-for="ZipCode" value="@Model.BookingFormState.Customer.ZipCode" type="text" class="form-control" maxlength="6"/>
+                                <span asp-validation-for="ZipCode" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label asp-for="EmailAddress">E-mailadres</label>
+                                <input type="text" asp-for="EmailAddress" class="form-control"/>
+                                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label asp-for="PhoneNumber">Telefoonnummer</label>
+                                <input type="text" asp-for="PhoneNumber" class="form-control"/>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
 
-                        <div class="mt-4 d-flex gap-2">
-                            <a asp-action="Step1" class="btn btn-secondary">Terug</a>
-                            <button type="submit" class="btn btn-primary">Volgende</button>
-                        </div>
-                    </form>
+                            <div class="mt-4 d-flex gap-2">
+                                <a asp-action="Step1" class="btn btn-secondary">Terug</a>
+                                <button type="submit" class="btn btn-primary">Volgende</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,6 +72,7 @@ vul deze data als ingelogd is, anders input field leeg (en maak geen nieuwe cust
                     <span>Datum: @Model.BookingFormState.Date</span>
                     <hr/>
                     <p>Beestje(s):</p>
+                    
                     @if (!Model.BookingFormState.Animals.Any())
                     {
                         <p class="fst-italic">Geen beestjes gekozen</p>

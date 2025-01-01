@@ -17,6 +17,15 @@ namespace BeestjeOpJeFeestje.Web.Controllers
 
         public IActionResult Index()
         {
+            // Clear previous booking's session
+            var session = HttpContext.Session;
+            var sessionKeys = session.Keys;
+
+            foreach (var key in sessionKeys)
+            {
+                session.Remove(key);
+            }
+            
             return View();
         }
 
@@ -34,22 +43,27 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         
         public IActionResult Step1()
         {
-            var bookingFormState = GetBookingFormState();
-            
+            var bookingFormState = GetBookingFormState(); 
             var bookings = _bookingRepository.GetBookings().ToList();
             var animals = _animalRepository.GetAllAnimals().ToList();
-
-            var availableAnimals = animals
+            var animalViewModels = animals.Select(animal => new AnimalViewModel
+            {
+                Id = animal.Id,
+                Name = animal.Name,
+                TypeId = animal.TypeId,
+                Price = animal.Price,
+                ImageUrl = animal.ImageUrl,
+            }).ToList();
+            var availableAnimals = animalViewModels
                 .Where(a => !bookings.Any(b =>
-                    b.Date == DateTime.Parse(bookingFormState.Date) && b.Animals.Any(ba => ba.Id == a.Id)))
+                    b.Date == DateOnly.Parse(bookingFormState.Date) && b.Animals.Any(ba => ba.Id == a.Id)))
                 .ToList();
-
             var bookingAnimalFormViewModel = new BookingAnimalFormViewModel
             {
                 AvailableAnimals = availableAnimals,
                 BookingFormState = bookingFormState,
             };
-            
+
             return View(bookingAnimalFormViewModel);
         }
 
@@ -62,9 +76,17 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 var bookingFormState = GetBookingFormState();
                 var bookings = _bookingRepository.GetBookings().ToList();
                 var animals = _animalRepository.GetAllAnimals().ToList();
-                var availableAnimals = animals
+                var animalViewModels = animals.Select(animal => new AnimalViewModel
+                {
+                    Id = animal.Id,
+                    Name = animal.Name,
+                    TypeId = animal.TypeId,
+                    Price = animal.Price,
+                    ImageUrl = animal.ImageUrl,
+                }).ToList();
+                var availableAnimals = animalViewModels
                     .Where(a => !bookings.Any(b =>
-                        b.Date == DateTime.Parse(bookingFormState.Date) && b.Animals.Any(ba => ba.Id == a.Id)))
+                        b.Date == DateOnly.Parse(bookingFormState.Date) && b.Animals.Any(ba => ba.Id == a.Id)))
                     .ToList();
                 
                 bookingAnimalFormViewModel.AvailableAnimals = availableAnimals;
@@ -108,13 +130,13 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             HttpContext.Session.SetString("ZipCode", bookingCustomerFormViewModel.ZipCode);
             HttpContext.Session.SetString("EmailAddress", bookingCustomerFormViewModel.EmailAddress ?? string.Empty);
             HttpContext.Session.SetString("PhoneNumber", bookingCustomerFormViewModel.PhoneNumber ?? string.Empty);
+            
             return RedirectToAction("Step3");
         }
 
         public IActionResult Step3()
         {
             var bookingFormState = GetBookingFormState();
-            
             var bookingFormViewModel = new BookingFormViewModel()
             {
                 TotalPrice = 0,
@@ -129,19 +151,42 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         public IActionResult Step3(BookingFormViewModel bookingFormViewModel)
         {
             var bookingFormState = GetBookingFormState();
-            var bookingDate = DateTime.Parse(bookingFormState.Date);
             var selectedAnimalIds = bookingFormState.Animals?.Select(a => a.Id).ToList();
+            var customer = bookingFormState.Customer;
 
-            if (bookingFormState.Customer != null) _customerRepository.AddCustomer(bookingFormState.Customer);
+            //check of customer eerst bestaat voordat je het erin doet
+            var customerModel = new Customer
+            {
+                Password = "abcdefg",
+                Name = customer.Name,
+                HouseNumber = customer.HouseNumber,
+                ZipCode = customer.ZipCode,
+                EmailAddress = customer.EmailAddress,
+                PhoneNumber = customer.PhoneNumber,
+            };
+            
+            _customerRepository.CreateCustomer(customerModel);
+            var customerId = _customerRepository.GetCustomerByAddress(customerModel.HouseNumber, customerModel.ZipCode).Id;
 
             var booking = new Booking
             {
-                Date = bookingDate,
+                Date = DateOnly.Parse(bookingFormState.Date),
+                CustomerId = customerId,
                 TotalPrice = bookingFormViewModel.TotalPrice,
+                TotalDiscountPercentage = 0,
             };
             
+            _bookingRepository.AddBooking(booking);
             
-            TempData["BookingSuccess"] = "De booking is aangemaakt";
+            var session = HttpContext.Session;
+            var sessionKeys = session.Keys;
+
+            foreach (var key in sessionKeys)
+            {
+                session.Remove(key);
+            }
+            
+            TempData["SuccessMessage"] = "Boeking is aangemaakt";
             return RedirectToAction("Index");
         }
 
@@ -150,28 +195,48 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var bookingDate = HttpContext.Session.GetString("BookingDate");
             var serializedAnimalIds = HttpContext.Session.GetString("SelectedAnimalIds");
             var name = HttpContext.Session.GetString("Name");
-            var houseNumber = HttpContext.Session.GetInt32("HouseNumber");
+            var houseNumber = HttpContext.Session.GetInt32("HouseNumber") ?? 0;
             var zipCode = HttpContext.Session.GetString("ZipCode");
-            var emailAddress = HttpContext.Session.GetString("EmailAddress");
-            var phoneNumber = HttpContext.Session.GetString("PhoneNumber");
+            var emailAddress = HttpContext.Session.GetString("EmailAddress") ?? string.Empty;
+            var phoneNumber = HttpContext.Session.GetString("PhoneNumber") ?? string.Empty;
             
-            var selectedAnimals = new List<Animal>();
-            var customer = new Customer();
+            var selectedAnimals = new List<AnimalViewModel>();
+            var customer = new CustomerViewModel
+            {
+                Name = name,
+                HouseNumber = houseNumber,
+                ZipCode = zipCode,
+                EmailAddress = emailAddress,
+                PhoneNumber = phoneNumber,
+            };
 
             if (!string.IsNullOrEmpty(serializedAnimalIds))
             {
+                // Convert animal ID's to animals
                 var selectedAnimalIds = JsonSerializer.Deserialize<List<int>>(serializedAnimalIds, new JsonSerializerOptions()
                 {
                     ReferenceHandler = ReferenceHandler.IgnoreCycles
                 });
 
-                foreach (var animalid in selectedAnimalIds)
+                if (selectedAnimalIds != null)
                 {
-                    var animal = _animalRepository.GetAnimalById(animalid);
-                    selectedAnimals.Add(animal);
+                    var animals = selectedAnimalIds
+                        .Select(animalId => _animalRepository.GetAnimalById(animalId))
+                        .Where(animal => animal != null)
+                        .Select(animal => new AnimalViewModel
+                        {
+                            Id = animal.Id,
+                            Name = animal.Name,
+                            TypeId = animal.TypeId,
+                            Price = animal.Price,
+                            ImageUrl = animal.ImageUrl,
+                        })
+                        .ToList();
+                    
+                    selectedAnimals.AddRange(animals);
                 }
             }
-
+            
             var bookingFormState = new BookingFormStateViewModel()
             {
                 Date = bookingDate,

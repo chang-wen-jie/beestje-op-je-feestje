@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BeestjeOpJeFeestje.Data.Models;
 
 namespace BeestjeOpJeFeestje.Web.ViewModels.Animal
 {
@@ -18,5 +19,7 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Animal
 
         [Required(ErrorMessage = "Afbeelding link is verplicht")]
         public string ImageUrl { get; set; }
+        
+        public AnimalType Type { get; set; }
     }
 }

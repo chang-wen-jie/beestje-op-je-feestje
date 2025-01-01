@@ -12,19 +12,13 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         public IActionResult Index()
         {
             var customers = _customerRepository.GetAllCustomers();
-
-            var customerViewModels = customers.Select(customerViewModel => new CustomerViewModel()
+            var customerViewModels = customers.Select(customer => new CustomerViewModel
             {
-                Id = customerViewModel.Id,
-                EmailAddress = customerViewModel.EmailAddress,
-                HouseNumber = customerViewModel.HouseNumber,
-                Name = customerViewModel.Name,
-                Password = customerViewModel.Password,
-                PhoneNumber = customerViewModel.PhoneNumber,
-                ZipCode = customerViewModel.ZipCode,
-                TypeId = customerViewModel.TypeId,
+                Id = customer.Id,
+                Name = customer.Name,
+                Type = customer.Type,
             }).ToList();
-            
+
             return View(customerViewModels);
         }
 
@@ -34,7 +28,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var customer = _customerRepository.GetCustomerById(customerId);
             if (customer == null) return NotFound();
 
-            var customerViewModel = new CustomerViewModel()
+            var customerViewModel = new CustomerViewModel
             {
                 Id = customer.Id,
                 Password = customer.Password,
@@ -71,7 +65,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 TypeId = customerViewModel.TypeId,
             };
             
-            _customerRepository.AddCustomer(customer);
+            _customerRepository.CreateCustomer(customer);
             TempData["SuccessMessage"] = $"{customer.Name} is aangemaakt";
             return RedirectToAction("Index");
         }
@@ -82,7 +76,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var customer = _customerRepository.GetCustomerById(customerId);
             if (customer == null) return NotFound();
 
-            var customerViewModel = new CustomerViewModel()
+            var customerViewModel = new CustomerViewModel
             {
                 Id = customer.Id,
                 Password = customer.Password,

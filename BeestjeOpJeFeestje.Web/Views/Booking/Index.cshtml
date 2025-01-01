@@ -7,11 +7,16 @@
 
 <div class="container mt-4">
     <h1 class="text-center mb-4">Beestje boeken</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
+    }
     
     <form asp-action="Index" method="post">
         <div class="row gy-3">
             <div class="col-md-2">
-                <label asp-for="BookingDate" class="form-label">Datum*</label>
+                <label asp-for="BookingDate" class="form-label">Boekingsdatum*</label>
                 <input asp-for="BookingDate" type="date" class="form-control"/>
                 <span asp-validation-for="BookingDate" class="text-danger"></span>
             </div>

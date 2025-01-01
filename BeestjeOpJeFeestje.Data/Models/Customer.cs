@@ -33,8 +33,7 @@ namespace BeestjeOpJeFeestje.Data.Models
         [Column("customer_type_id")]
         [Range(1, 4, ErrorMessage = "Type moet tussen de 1 en 4 liggen")]
         public int? TypeId { get; set; }
-        
-        public CustomerType Type { get; set; }
+        public CustomerType? Type { get; set; } // Todo: add "Geen" type
 
         [InverseProperty("Customer")]
         public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();

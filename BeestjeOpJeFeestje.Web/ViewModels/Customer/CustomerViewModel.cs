@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using BeestjeOpJeFeestje.Data.Models;
 
 namespace BeestjeOpJeFeestje.Web.ViewModels.Customer
 {
@@ -27,5 +28,7 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Customer
 
         [Range(1, 4, ErrorMessage = "Type moet tussen de 1 en 4 liggen")]
         public int? TypeId { get; set; }
+        
+        public CustomerType? Type { get; set; }
     }
 }

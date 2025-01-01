@@ -48,7 +48,7 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                         j => j.HasOne<Booking>()
                             .WithMany()
                             .HasForeignKey("booking_id")
-                            .HasConstraintName("fk_animals_bookings_booking_id")
+                            .HasConstraintName("fk_bookings_animals_booking_id")
                             .OnDelete(DeleteBehavior.Cascade),
                         j => j.HasOne<Animal>()
                             .WithMany()
@@ -94,8 +94,8 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                       .HasColumnType("decimal(10, 2)")
                       .IsRequired();
                 
-                entity.Property(b => b.DiscountAmount)
-                    .HasColumnName("booking_discount_amount")
+                entity.Property(b => b.TotalDiscountPercentage)
+                    .HasColumnName("booking_total_discount_percentage")
                     .HasColumnType("decimal(10, 2)")
                     .IsRequired();
             });
@@ -133,8 +133,7 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                     .WithMany(ct => ct.Customers)
                     .HasForeignKey(c => c.TypeId)
                     .HasConstraintName("fk_customers_customer_types_customer_type_id")
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .IsRequired();
+                    .OnDelete(DeleteBehavior.Cascade);
                 
                 entity.HasMany(c => c.Bookings)
                     .WithOne(b => b.Customer)

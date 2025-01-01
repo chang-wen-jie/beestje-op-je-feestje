@@ -15,14 +15,13 @@ namespace BeestjeOpJeFeestje.Data.Models
         [Column("animal_type_id")]
         [Range(1, 5, ErrorMessage = "Type moet tussen de 1 en 5 liggen")]
         public int TypeId { get; set; }
+        public AnimalType Type { get; set; }
 
         [Column("animal_price")]
         public decimal Price { get; set; }
 
         [Column("animal_image_url")]
         public string ImageUrl { get; set; }
-
-        public AnimalType Type { get; set; }
 
         [InverseProperty("Animals")]
         public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();

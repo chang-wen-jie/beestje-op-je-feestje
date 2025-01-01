@@ -12,14 +12,13 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         public IActionResult Index()
         {
             var animals = _animalRepository.GetAllAnimals();
-
-            var animalViewModels = animals.Select(animalViewModel => new AnimalViewModel()
+            var animalViewModels = animals.Select(animal => new AnimalViewModel
             {
-                Id = animalViewModel.Id,
-                Name = animalViewModel.Name,
-                TypeId = animalViewModel.TypeId,
-                Price = animalViewModel.Price,
-                ImageUrl = animalViewModel.ImageUrl,
+                Id = animal.Id,
+                Name = animal.Name,
+                Type = animal.Type,
+                Price = animal.Price,
+                ImageUrl = animal.ImageUrl,
             }).ToList();
             
             return View(animalViewModels);
@@ -31,7 +30,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var animal = _animalRepository.GetAnimalById(animalId);
             if (animal == null) return NotFound();
 
-            var animalViewModel = new AnimalViewModel()
+            var animalViewModel = new AnimalViewModel
             {
                 Id = animal.Id,
                 Name = animal.Name,
@@ -63,7 +62,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 ImageUrl = animalViewModel.ImageUrl,
             };
             
-            _animalRepository.AddAnimal(animal);
+            _animalRepository.CreateAnimal(animal);
             TempData["SuccessMessage"] = $"{animal.Name} is aangemaakt";
             return RedirectToAction("Index");
         }
@@ -74,7 +73,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var animal = _animalRepository.GetAnimalById(animalId);
             if (animal == null) return NotFound();
 
-            var animalViewModel = new AnimalViewModel()
+            var animalViewModel = new AnimalViewModel
             {
                 Id = animal.Id,
                 Name = animal.Name,

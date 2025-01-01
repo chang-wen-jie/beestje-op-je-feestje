@@ -1,9 +1,12 @@
-﻿namespace BeestjeOpJeFeestje.Web.ViewModels.Booking
+﻿using BeestjeOpJeFeestje.Web.ViewModels.Animal;
+using BeestjeOpJeFeestje.Web.ViewModels.Customer;
+
+namespace BeestjeOpJeFeestje.Web.ViewModels.Booking
 {
     public class BookingFormStateViewModel
     {
-        public string Date { get; set; }
-        public List<BeestjeOpJeFeestje.Data.Models.Animal>? Animals { get; set; }
-        public BeestjeOpJeFeestje.Data.Models.Customer? Customer { get; set; }
+        public string? Date { get; init; }
+        public List<AnimalViewModel>? Animals { get; init; }
+        public CustomerViewModel? Customer { get; init; }
     }
 }

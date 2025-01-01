@@ -36,7 +36,7 @@
 
             <div class="col-md-6">
                 <label asp-for="ZipCode" class="form-label">Postcode*</label>
-                <input asp-for="ZipCode" class="form-control"/>
+                <input asp-for="ZipCode" class="form-control" maxlength="6"/>
                 <span asp-validation-for="ZipCode" class="text-danger"></span>
             </div>
 
@@ -60,7 +60,7 @@
         </div>
 
         <div class="mt-4 d-flex gap-2">
-            <a asp-action="Details" asp-route-accountId="@Model.Id" class="btn btn-secondary">Annuleren</a>
+            <a asp-action="Details" asp-route-customerId="@Model.Id" class="btn btn-secondary">Annuleren</a>
             <button type="submit" class="btn btn-success">Opslaan</button>
         </div>
     </form>

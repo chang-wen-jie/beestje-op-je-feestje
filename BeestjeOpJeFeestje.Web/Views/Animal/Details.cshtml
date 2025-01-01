@@ -16,27 +16,27 @@
     <div class="row gy-3">
         <div class="col-md-6">
             <label asp-for="Id" class="form-label">ID</label>
-            <input asp-for="Id" class="form-control" readonly />
+            <input asp-for="Id" class="form-control" readonly/>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Name" class="form-label">Naam</label>
-            <input asp-for="Name" class="form-control" readonly />
+            <input asp-for="Name" class="form-control" readonly/>
         </div>
 
         <div class="col-md-6">
             <label asp-for="TypeId" class="form-label">Type</label>
-            <input asp-for="TypeId" class="form-control" readonly />
+            <input asp-for="TypeId" class="form-control" readonly/>
         </div>
 
         <div class="col-md-6">
             <label asp-for="Price" class="form-label">Prijs</label>
-            <input asp-for="Price" class="form-control" readonly />
+            <input asp-for="Price" class="form-control" readonly/>
         </div>
 
         <div class="col-md-6">
             <label asp-for="ImageUrl" class="form-label">Afbeelding URL</label>
-            <input asp-for="ImageUrl" class="form-control" readonly />
+            <input asp-for="ImageUrl" class="form-control" readonly/>
         </div>
     </div>
 
@@ -44,7 +44,7 @@
         <a asp-action="Index" class="btn btn-secondary">Terug</a>
         <a asp-action="Edit" asp-route-animalId="@Model.Id" class="btn btn-primary">Wijzig</a>
         <form asp-action="Delete" method="post" class="d-inline">
-            <input type="hidden" name="animalId" value="@Model.Id" />
+            <input type="hidden" name="animalId" value="@Model.Id"/>
             <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je @Model.Name wil verwijderen?')">
                 Verwijder
             </button>

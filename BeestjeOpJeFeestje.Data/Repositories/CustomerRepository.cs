@@ -1,6 +1,7 @@
 using BeestjeOpJeFeestje.Data.DbContext;
 using BeestjeOpJeFeestje.Data.Interfaces;
 using BeestjeOpJeFeestje.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeestjeOpJeFeestje.Data.Repositories;
 
@@ -8,9 +9,9 @@ public class CustomerRepository(BeestjeOpJeFeestjeDbContext context) : ICustomer
 {
     private readonly BeestjeOpJeFeestjeDbContext _context = context;
 
-    public IEnumerable<Customer> GetAllCustomers()
+    public IQueryable<Customer> GetAllCustomers()
     {
-        return _context.Customers;
+        return _context.Customers.Include(c => c.Type);
     }
     
     public Customer? GetCustomerById(int customerId)
@@ -19,7 +20,14 @@ public class CustomerRepository(BeestjeOpJeFeestjeDbContext context) : ICustomer
         return customerToRead;
     }
 
-    public void AddCustomer(Customer customer)
+    public Customer? GetCustomerByAddress(int houseNumber, string zipCode)
+    {
+        var customerToRead = _context.Customers
+            .FirstOrDefault(c => c.HouseNumber == houseNumber && c.ZipCode == zipCode);
+        return customerToRead;
+    }
+
+    public void CreateCustomer(Customer customer)
     {
         _context.Customers.Add(customer);
         _context.SaveChanges();

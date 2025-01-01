@@ -4,12 +4,12 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Booking
 {
     public class BookingDateFormViewModel : IValidatableObject
     {
-        [Required(ErrorMessage = "Datum is verplicht")]
-        public DateTime BookingDate { get; set; }
-        
+        [Required(ErrorMessage = "Boekingsdatum is verplicht")]
+        public DateOnly BookingDate { get; set; }
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var bookingDate = DateOnly.FromDateTime(BookingDate);
+            var bookingDate = BookingDate;
             var todaysDate = DateOnly.FromDateTime(DateTime.Today);
 
             if (bookingDate < todaysDate)

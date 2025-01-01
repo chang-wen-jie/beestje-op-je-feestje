@@ -1,7 +1,8 @@
-﻿@model IEnumerable<BeestjeOpJeFeestje.Web.ViewModels.Customer.CustomerViewModel>
+﻿@using BeestjeOpJeFeestje.Web.ViewModels.Customer
+@model IEnumerable<CustomerViewModel>
 
 @{
-    ViewData["Title"] = "Klanten";
+    ViewData["Title"] = "Alle Klanten";
 }
 
 <div class="container mt-4">
@@ -21,25 +22,26 @@
             <th>Acties</th>
         </tr>
         </thead>
+        
         <tbody>
-        @if (!Model.Any())
-        {
-            <tr>
-                <td colspan="4" class="text-center fst-italic">Geen klanten gevonden</td>
-            </tr>
-        }
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="4" class="text-center fst-italic">Geen klanten gevonden</td>
+                </tr>
+            }
 
-        @foreach (var customer in Model)
-        {
-            <tr>
-                <td>@customer.Id</td>
-                <td>@customer.Name</td>
-                <td>@customer.TypeId</td>
-                <td>
-                    <a asp-action="Details" asp-route-customerId="@customer.Id" class="btn btn-secondary btn-sm">Details</a>
-                </td>
-            </tr>
-        }
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.Id</td>
+                    <td>@customer.Name</td>
+                    <td>@(customer.Type?.Name ?? "Geen")</td>
+                    <td>
+                        <a asp-action="Details" asp-route-customerId="@customer.Id" class="btn btn-secondary btn-sm">Details</a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 

@@ -2,7 +2,7 @@
 @model IEnumerable<AnimalViewModel>
 
 @{
-    ViewData["Title"] = "Beestjes";
+    ViewData["Title"] = "Alle Beestjes";
 }
 
 <div class="container mt-4">
@@ -24,27 +24,30 @@
             <th>Acties</th>
         </tr>
         </thead>
+        
         <tbody>
-        @if (!Model.Any())
-        {
-            <tr>
-                <td colspan="6" class="text-center fst-italic">Geen beestjes gevonden</td>
-            </tr>
-        }
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6" class="text-center fst-italic">Geen beestjes gevonden</td>
+                </tr>
+            }
 
-        @foreach (var animal in Model)
-        {
-            <tr>
-                <td>@animal.Id</td>
-                <td>@animal.Name</td>
-                <td>@animal.TypeId</td>
-                <td>@animal.Price.ToString("C")</td>
-                <td>@animal.ImageUrl</td>
-                <td>
-                    <a asp-action="Details" asp-route-animalId="@animal.Id" class="btn btn-secondary btn-sm">Details</a>
-                </td>
-            </tr>
-        }
+            @foreach (var animal in Model)
+            {
+                <tr>
+                    <td>@animal.Id</td>
+                    <td>@animal.Name</td>
+                    <td>@animal.Type.Name</td>
+                    <td>@animal.Price.ToString("C")</td>
+                    <td>
+                        <img src="@Url.Content("~/img/" + animal.ImageUrl)" alt="@animal.Name" style="height: 50px"/>
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-animalId="@animal.Id" class="btn btn-secondary btn-sm">Details</a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 

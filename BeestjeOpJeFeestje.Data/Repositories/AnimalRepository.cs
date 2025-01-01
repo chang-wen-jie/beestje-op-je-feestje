@@ -1,6 +1,7 @@
 using BeestjeOpJeFeestje.Data.DbContext;
 using BeestjeOpJeFeestje.Data.Interfaces;
 using BeestjeOpJeFeestje.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeestjeOpJeFeestje.Data.Repositories;
 
@@ -8,9 +9,9 @@ public class AnimalRepository(BeestjeOpJeFeestjeDbContext context) : IAnimalRepo
 {
     private readonly BeestjeOpJeFeestjeDbContext _context = context;
 
-    public IEnumerable<Animal> GetAllAnimals()
+    public IQueryable<Animal> GetAllAnimals()
     {
-        return _context.Animals;
+        return _context.Animals.Include(a => a.Type);
     }
     
     public Animal? GetAnimalById(int animalId)
@@ -19,7 +20,7 @@ public class AnimalRepository(BeestjeOpJeFeestjeDbContext context) : IAnimalRepo
         return animalToRead;
     }
 
-    public void AddAnimal(Animal animal)
+    public void CreateAnimal(Animal animal)
     {
         _context.Animals.Add(animal);
         _context.SaveChanges();

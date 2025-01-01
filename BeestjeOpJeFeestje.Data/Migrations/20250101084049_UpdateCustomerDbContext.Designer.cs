@@ -4,6 +4,7 @@ using BeestjeOpJeFeestje.Data.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeestjeOpJeFeestje.Web.Data.Migrations
 {
     [DbContext(typeof(BeestjeOpJeFeestjeDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250101084049_UpdateCustomerDbContext")]
+    partial class UpdateCustomerDbContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,17 +87,18 @@ namespace BeestjeOpJeFeestje.Web.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("int")
                         .HasColumnName("booking_customer_id");
 
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date")
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
                         .HasColumnName("booking_date");
 
-                    b.Property<decimal>("TotalDiscountPercentage")
+                    b.Property<decimal>("DiscountAmount")
                         .HasColumnType("decimal(10, 2)")
-                        .HasColumnName("booking_total_discount_percentage");
+                        .HasColumnName("booking_discount_amount");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(10, 2)")
@@ -487,7 +491,7 @@ namespace BeestjeOpJeFeestje.Web.Data.Migrations
                         .HasForeignKey("booking_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_bookings_animals_booking_id");
+                        .HasConstraintName("fk_animals_bookings_booking_id");
                 });
 
             modelBuilder.Entity("BeestjeOpJeFeestje.Data.Models.AnimalType", b =>
