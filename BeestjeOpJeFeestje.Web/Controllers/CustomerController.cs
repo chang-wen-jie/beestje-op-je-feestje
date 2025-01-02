@@ -14,7 +14,6 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var customers = _customerRepository.GetAllCustomers();
             var customerViewModels = customers.Select(customer => new CustomerViewModel
             {
-                Id = customer.Id,
                 Name = customer.Name,
                 Type = customer.Type,
             }).ToList();
@@ -30,13 +29,9 @@ namespace BeestjeOpJeFeestje.Web.Controllers
 
             var customerViewModel = new CustomerViewModel
             {
-                Id = customer.Id,
-                Password = customer.Password,
                 Name = customer.Name,
                 HouseNumber = customer.HouseNumber,
                 ZipCode = customer.ZipCode,
-                EmailAddress = customer.EmailAddress,
-                PhoneNumber = customer.PhoneNumber,
                 TypeId = customer.TypeId,
             };
             
@@ -56,12 +51,9 @@ namespace BeestjeOpJeFeestje.Web.Controllers
 
             var customer = new Customer()
             {
-                Password = customerViewModel.Password,
                 Name = customerViewModel.Name,
                 HouseNumber = customerViewModel.HouseNumber,
                 ZipCode = customerViewModel.ZipCode,
-                EmailAddress = customerViewModel.EmailAddress,
-                PhoneNumber = customerViewModel.PhoneNumber,
                 TypeId = customerViewModel.TypeId,
             };
             
@@ -78,13 +70,9 @@ namespace BeestjeOpJeFeestje.Web.Controllers
 
             var customerViewModel = new CustomerViewModel
             {
-                Id = customer.Id,
-                Password = customer.Password,
                 Name = customer.Name,
                 HouseNumber = customer.HouseNumber,
                 ZipCode = customer.ZipCode,
-                EmailAddress = customer.EmailAddress,
-                PhoneNumber = customer.PhoneNumber,
                 TypeId = customer.TypeId,
             };
             
@@ -98,13 +86,9 @@ namespace BeestjeOpJeFeestje.Web.Controllers
 
             var customer = new Customer()
             {
-                Id = customerViewModel.Id,
-                Password = customerViewModel.Password,
                 Name = customerViewModel.Name,
                 HouseNumber = customerViewModel.HouseNumber,
                 ZipCode = customerViewModel.ZipCode,
-                EmailAddress = customerViewModel.EmailAddress,
-                PhoneNumber = customerViewModel.PhoneNumber,
                 TypeId = customerViewModel.TypeId,
             };
 

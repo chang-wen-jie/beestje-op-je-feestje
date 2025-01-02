@@ -1,5 +1,6 @@
 using BeestjeOpJeFeestje.Data.DbContext;
 using BeestjeOpJeFeestje.Data.Interfaces;
+using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Data.Repositories;
 using BeestjeOpJeFeestje.Data.Seeders;
 using Microsoft.AspNetCore.Identity;
@@ -19,9 +20,17 @@ namespace BeestjeOpJeFeestje.Web
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<Customer>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 1;
+                })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<BeestjeOpJeFeestjeDbContext>();
-            builder.Services.AddControllersWithViews();
             
             builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
@@ -56,7 +65,7 @@ namespace BeestjeOpJeFeestje.Web
             app.UseRouting();
             
             app.UseSession();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
@@ -66,8 +75,11 @@ namespace BeestjeOpJeFeestje.Web
 
             using (var scope = app.Services.CreateScope())
             {
-                var context = scope.ServiceProvider.GetRequiredService<BeestjeOpJeFeestjeDbContext>();
-                DatabaseSeeder.SeedDatabase(context);
+                var serviceProvider = scope.ServiceProvider;
+                var context = serviceProvider.GetRequiredService<BeestjeOpJeFeestjeDbContext>();
+                var userManager = serviceProvider.GetRequiredService<UserManager<Customer>>();
+                
+                DatabaseSeeder.SeedDatabase(context, userManager);
             }
 
             app.Run();

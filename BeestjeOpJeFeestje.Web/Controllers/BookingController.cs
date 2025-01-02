@@ -128,8 +128,6 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             HttpContext.Session.SetString("Name", bookingCustomerFormViewModel.Name);
             HttpContext.Session.SetInt32("HouseNumber", bookingCustomerFormViewModel.HouseNumber);
             HttpContext.Session.SetString("ZipCode", bookingCustomerFormViewModel.ZipCode);
-            HttpContext.Session.SetString("EmailAddress", bookingCustomerFormViewModel.EmailAddress ?? string.Empty);
-            HttpContext.Session.SetString("PhoneNumber", bookingCustomerFormViewModel.PhoneNumber ?? string.Empty);
             
             return RedirectToAction("Step3");
         }
@@ -155,14 +153,12 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var customer = bookingFormState.Customer;
 
             //check of customer eerst bestaat voordat je het erin doet
+            // AnimalBooking werkt niet
             var customerModel = new Customer
             {
-                Password = "abcdefg",
                 Name = customer.Name,
                 HouseNumber = customer.HouseNumber,
                 ZipCode = customer.ZipCode,
-                EmailAddress = customer.EmailAddress,
-                PhoneNumber = customer.PhoneNumber,
             };
             
             _customerRepository.CreateCustomer(customerModel);
@@ -171,7 +167,6 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var booking = new Booking
             {
                 Date = DateOnly.Parse(bookingFormState.Date),
-                CustomerId = customerId,
                 TotalPrice = bookingFormViewModel.TotalPrice,
                 TotalDiscountPercentage = 0,
             };
@@ -197,7 +192,6 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var name = HttpContext.Session.GetString("Name");
             var houseNumber = HttpContext.Session.GetInt32("HouseNumber") ?? 0;
             var zipCode = HttpContext.Session.GetString("ZipCode");
-            var emailAddress = HttpContext.Session.GetString("EmailAddress") ?? string.Empty;
             var phoneNumber = HttpContext.Session.GetString("PhoneNumber") ?? string.Empty;
             
             var selectedAnimals = new List<AnimalViewModel>();
@@ -206,8 +200,6 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 Name = name,
                 HouseNumber = houseNumber,
                 ZipCode = zipCode,
-                EmailAddress = emailAddress,
-                PhoneNumber = phoneNumber,
             };
 
             if (!string.IsNullOrEmpty(serializedAnimalIds))

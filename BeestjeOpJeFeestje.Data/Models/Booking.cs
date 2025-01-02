@@ -13,7 +13,7 @@ namespace BeestjeOpJeFeestje.Data.Models
         public DateOnly Date { get; set; }
         
         [Column("booking_customer_id")]
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; }
         public Customer Customer { get; set; }
 
         [Column("booking_total_price")]

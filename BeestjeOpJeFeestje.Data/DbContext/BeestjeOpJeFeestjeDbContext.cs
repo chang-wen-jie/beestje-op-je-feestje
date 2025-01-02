@@ -5,16 +5,17 @@ using Microsoft.EntityFrameworkCore;
 namespace BeestjeOpJeFeestje.Data.DbContext
 {
     public class BeestjeOpJeFeestjeDbContext(DbContextOptions<BeestjeOpJeFeestjeDbContext> options)
-        : IdentityDbContext(options)
+        : IdentityDbContext<Customer>(options)
     {
         public DbSet<Animal> Animals { get; set; }
         public DbSet<AnimalType> AnimalTypes { get; set; }
         public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerType> CustomerTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Animal>(entity =>
             {
                 entity.ToTable("animals");
@@ -84,7 +85,7 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                 entity.Property(b => b.Date)
                       .HasColumnName("booking_date")
                       .IsRequired();
-                
+
                 entity.Property(b => b.CustomerId)
                     .HasColumnName("booking_customer_id")
                     .IsRequired();
@@ -93,23 +94,16 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                       .HasColumnName("booking_total_price")
                       .HasColumnType("decimal(10, 2)")
                       .IsRequired();
-                
+
                 entity.Property(b => b.TotalDiscountPercentage)
                     .HasColumnName("booking_total_discount_percentage")
                     .HasColumnType("decimal(10, 2)")
                     .IsRequired();
             });
-            
+
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.ToTable("customers");
-
-                entity.Property(c => c.Id)
-                    .HasColumnName("customer_id");
-
-                entity.Property(c => c.Password)
-                    .HasColumnName("customer_password")
-                    .IsRequired();
 
                 entity.Property(c => c.Name)
                     .HasColumnName("customer_name")
@@ -123,18 +117,12 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                     .HasColumnName("customer_zip_code")
                     .IsRequired();
 
-                entity.Property(c => c.EmailAddress)
-                    .HasColumnName("customer_email_address");
-
-                entity.Property(c => c.PhoneNumber)
-                    .HasColumnName("customer_phone_number");
-
                 entity.HasOne(c => c.Type)
                     .WithMany(ct => ct.Customers)
                     .HasForeignKey(c => c.TypeId)
                     .HasConstraintName("fk_customers_customer_types_customer_type_id")
                     .OnDelete(DeleteBehavior.Cascade);
-                
+
                 entity.HasMany(c => c.Bookings)
                     .WithOne(b => b.Customer)
                     .HasForeignKey(b => b.CustomerId)
@@ -152,8 +140,6 @@ namespace BeestjeOpJeFeestje.Data.DbContext
                     .HasColumnName("customer_type_name")
                     .IsRequired();
             });
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

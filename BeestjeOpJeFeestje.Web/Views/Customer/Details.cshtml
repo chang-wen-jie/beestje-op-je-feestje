@@ -13,7 +13,7 @@
     }
 
     <div class="row gy-3">
-        <div class="col-md-6">
+        @*<div class="col-md-6">
             <label asp-for="Id" class="form-label">ID</label>
             <input asp-for="Id" class="form-control" readonly/>
         </div>
@@ -21,7 +21,7 @@
         <div class="col-md-6">
             <label asp-for="Password" class="form-label">Wachtwoord</label>
             <input asp-for="Password" class="form-control" readonly/>
-        </div>
+        </div>*@
 
         <div class="col-md-6">
             <label asp-for="Name" class="form-label">Naam</label>
@@ -38,7 +38,7 @@
             <input asp-for="ZipCode" class="form-control" readonly/>
         </div>
 
-        <div class="col-md-6">
+        @*<div class="col-md-6">
             <label asp-for="EmailAddress" class="form-label">E-mailadres</label>
             <input asp-for="EmailAddress" value="@((Model.EmailAddress ?? " -"))" class="form-control" readonly/>
         </div>
@@ -46,7 +46,7 @@
         <div class="col-md-6">
             <label asp-for="PhoneNumber" class="form-label">Telefoonnummer</label>
             <input asp-for="PhoneNumber" value="@((Model.PhoneNumber ?? " -"))" class="form-control" readonly/>
-        </div>
+        </div>*@
 
         <div class="col-md-6">
             <label asp-for="TypeId" class="form-label">Klantenkaart</label>

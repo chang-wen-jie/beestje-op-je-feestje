@@ -11,31 +11,31 @@ public class CustomerRepository(BeestjeOpJeFeestjeDbContext context) : ICustomer
 
     public IQueryable<Customer> GetAllCustomers()
     {
-        return _context.Customers.Include(c => c.Type);
+        return _context.Users.Include(c => c.Type);
     }
     
     public Customer? GetCustomerById(int customerId)
     {
-        var customerToRead = _context.Customers.Find(customerId);
+        var customerToRead = _context.Users.Find(customerId);
         return customerToRead;
     }
 
     public Customer? GetCustomerByAddress(int houseNumber, string zipCode)
     {
-        var customerToRead = _context.Customers
+        var customerToRead = _context.Users
             .FirstOrDefault(c => c.HouseNumber == houseNumber && c.ZipCode == zipCode);
         return customerToRead;
     }
 
     public void CreateCustomer(Customer customer)
     {
-        _context.Customers.Add(customer);
+        _context.Users.Add(customer);
         _context.SaveChanges();
     }
 
     public bool UpdateCustomer(Customer customer)
     {
-        var customerToUpdate = _context.Customers.Find(customer.Id);
+        var customerToUpdate = _context.Users.Find(customer.Id);
         if (customerToUpdate == null) return false;
         
         _context.Entry(customerToUpdate).CurrentValues.SetValues(customer);
@@ -45,10 +45,10 @@ public class CustomerRepository(BeestjeOpJeFeestjeDbContext context) : ICustomer
 
     public bool DeleteCustomer(int customerId)
     {
-        var customerToDelete = _context.Customers.Find(customerId);
+        var customerToDelete = _context.Users.Find(customerId);
         if (customerToDelete == null) return false;
         
-        _context.Customers.Remove(customerToDelete);
+        _context.Users.Remove(customerToDelete);
         _context.SaveChanges();
         return true;
     }

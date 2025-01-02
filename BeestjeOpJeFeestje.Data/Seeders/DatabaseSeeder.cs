@@ -1,11 +1,13 @@
 ﻿using BeestjeOpJeFeestje.Data.DbContext;
 using BeestjeOpJeFeestje.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BeestjeOpJeFeestje.Data.Seeders
 {
     public static class DatabaseSeeder
     {
-        public static void SeedDatabase(BeestjeOpJeFeestjeDbContext context)
+        public static void SeedDatabase(BeestjeOpJeFeestjeDbContext context, UserManager<Customer> userManager)
         {
             try
             {
@@ -78,20 +80,27 @@ namespace BeestjeOpJeFeestje.Data.Seeders
                     needsSeeding = true;
                 }
 
-                if (!context.Customers.Any())
+                if (!context.Users.Any())
                 {
                     var ownerType = context.CustomerTypes.SingleOrDefault(ct => ct.Name == "Eigenaar");
 
                     var customer = new Customer()
                     {
-                        Password = "admin",
+                        UserName = "admin@example.com",
+                        Email = "admin@example.com",
                         Name = "admin",
                         HouseNumber = 1,
                         ZipCode = "1111AA",
                         TypeId = ownerType.Id,
                     };
+                    
+                    const string password = "admin";
+                    var result = userManager.CreateAsync(customer, password).Result;
 
-                    context.Customers.Add(customer);
+                    Console.WriteLine(result.Succeeded
+                        ? "Admin user created successfully."
+                        : $"Failed to create admin user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+
                     needsSeeding = true;
                 }
 

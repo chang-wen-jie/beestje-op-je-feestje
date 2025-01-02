@@ -4,6 +4,7 @@ using BeestjeOpJeFeestje.Data.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeestjeOpJeFeestje.Web.Data.Migrations
 {
     [DbContext(typeof(BeestjeOpJeFeestjeDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250102164653_UpdateIdentity")]
+    partial class UpdateIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,10 +87,13 @@ namespace BeestjeOpJeFeestje.Web.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int")
                         .HasColumnName("booking_customer_id");
+
+                    b.Property<string>("CustomerId1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date")
@@ -103,7 +109,7 @@ namespace BeestjeOpJeFeestje.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CustomerId1");
 
                     b.ToTable("bookings", (string)null);
                 });
@@ -123,6 +129,10 @@ namespace BeestjeOpJeFeestje.Web.Data.Migrations
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("EmailAddress")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("customer_email_address");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
@@ -154,7 +164,8 @@ namespace BeestjeOpJeFeestje.Web.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("customer_phone_number");
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
@@ -190,7 +201,7 @@ namespace BeestjeOpJeFeestje.Web.Data.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("customers", (string)null);
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("BeestjeOpJeFeestje.Data.Models.CustomerType", b =>
@@ -378,7 +389,7 @@ namespace BeestjeOpJeFeestje.Web.Data.Migrations
                 {
                     b.HasOne("BeestjeOpJeFeestje.Data.Models.Customer", "Customer")
                         .WithMany("Bookings")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("CustomerId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -389,9 +400,7 @@ namespace BeestjeOpJeFeestje.Web.Data.Migrations
                 {
                     b.HasOne("BeestjeOpJeFeestje.Data.Models.CustomerType", "Type")
                         .WithMany("Customers")
-                        .HasForeignKey("TypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .HasConstraintName("fk_customers_customer_types_customer_type_id");
+                        .HasForeignKey("TypeId");
 
                     b.Navigation("Type");
                 });

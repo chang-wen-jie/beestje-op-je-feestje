@@ -9,6 +9,15 @@
     <div class="progress mb-4" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100">
         <div class="progress-bar" style="width: 25%"></div>
     </div>
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger">
+            @foreach (var error in ViewData.ModelState["SelectedAnimalIds"].Errors)
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
 
     <div class="row">
         <div class="col-md-9">
@@ -19,11 +28,13 @@
 
                 <div class="card-body">
                     <form asp-action="Step1" method="post">
-                        <div asp-validation-for="SelectedAnimalIds" class="text-danger"></div>
-
+                        <input type="hidden" asp-for="BookingFormState.Date" value="@Model.BookingFormState.Date"/>
+                        <input type="hidden" asp-for="AvailableAnimals" value="@Model.AvailableAnimals" />
+                        
                         <div class="row">
                             @foreach (var animal in Model.AvailableAnimals)
                             {
+                                
                                 <div class="col-md-2 mb-3">
                                     <label for="selectedAnimals_@animal.Id" class="card text-center">
                                         <div class="card-header">
