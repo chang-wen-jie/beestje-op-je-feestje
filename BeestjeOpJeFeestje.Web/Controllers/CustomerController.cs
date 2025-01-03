@@ -1,10 +1,12 @@
 ﻿using BeestjeOpJeFeestje.Data.Interfaces;
 using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Web.ViewModels.Customer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
+    [Authorize]
     public class CustomerController(ICustomerRepository customerRepository) : Controller
     {
         private readonly ICustomerRepository _customerRepository = customerRepository;

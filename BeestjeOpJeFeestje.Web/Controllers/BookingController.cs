@@ -5,6 +5,7 @@ using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Web.ViewModels.Animal;
 using BeestjeOpJeFeestje.Web.ViewModels.Booking;
 using BeestjeOpJeFeestje.Web.ViewModels.Customer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeestjeOpJeFeestje.Web.Controllers

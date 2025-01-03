@@ -71,12 +71,12 @@
 
                     @if (!Model.BookingFormState.Animals.Any())
                     {
-                        <p class="fst-italic">Geen beestjes gekozen</p>
+                        <p class="fst-italic">Geen beestjes geselecteerd</p>
                     }
 
                     @foreach (var animal in Model.BookingFormState.Animals)
                     {
-                        <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/" + animal.ImageUrl)">
+                        <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/animals/" + animal.ImageUrl)">
                     }
                 </div>
             </div>

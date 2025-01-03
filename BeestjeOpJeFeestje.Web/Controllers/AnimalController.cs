@@ -1,10 +1,12 @@
 ﻿using BeestjeOpJeFeestje.Data.Interfaces;
 using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Web.ViewModels.Animal;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
+    [Authorize]
     public class AnimalController(IAnimalRepository animalRepository) : Controller
     {
         private readonly IAnimalRepository _animalRepository = animalRepository;

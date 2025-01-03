@@ -2,13 +2,14 @@
 @model BookingAnimalFormViewModel
 
 @{
-    ViewData["Title"] = "Beestje Boeken";
+    ViewData["Title"] = "Beestjes Selecteren";
 }
 
 <div class="container mt-4">
     <div class="progress mb-4" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100">
         <div class="progress-bar" style="width: 25%"></div>
     </div>
+    
     @if (!ViewData.ModelState.IsValid)
     {
         <div class="alert alert-danger">
@@ -23,7 +24,7 @@
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header">
-                    <span class="fw-bold">Stap 1 - Kies je beestje(s)</span>
+                    <span class="fw-bold">Stap 1 - Selecteer de gewenste beestje(s)</span>
                 </div>
 
                 <div class="card-body">
@@ -34,7 +35,6 @@
                         <div class="row">
                             @foreach (var animal in Model.AvailableAnimals)
                             {
-                                
                                 <div class="col-md-2 mb-3">
                                     <label for="selectedAnimals_@animal.Id" class="card text-center">
                                         <div class="card-header">
@@ -45,7 +45,7 @@
                                                    @(Model.BookingFormState.Animals.Any(a => a.Id == animal.Id) ? "checked" : "")/>
                                         </div>
                                         <div class="card-body">
-                                            <img src="@Url.Content("~/img/" + animal.ImageUrl)" alt="@animal.Name" style="height: 100px"/>
+                                            <img src="@Url.Content("~/img/animals/" + animal.ImageUrl)" alt="@animal.Name" style="height: 100px"/>
                                         </div>
                                     </label>
                                 </div>
@@ -74,12 +74,12 @@
                     
                     @if (!Model.BookingFormState.Animals.Any())
                     {
-                        <p class="fst-italic">Geen beestjes gekozen</p>
+                        <p class="fst-italic">Geen beestjes geselecteerd</p>
                     }
                     
                     @foreach (var animal in Model.BookingFormState.Animals)
                     {
-                        <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/" + animal.ImageUrl)">
+                        <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/animals/" + animal.ImageUrl)">
                     }
                 </div>
             </div>

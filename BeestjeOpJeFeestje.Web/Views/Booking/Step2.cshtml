@@ -2,7 +2,7 @@
 @model BookingCustomerFormViewModel
 
 @{
-    ViewData["Title"] = "Gegevens Invoeren";
+    ViewData["Title"] = "Contactinformatie Invoeren";
 }
 
 
@@ -16,7 +16,7 @@ vul deze data als ingelogd is, anders input field leeg (en maak geen nieuwe cust
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header">
-                    <span class="fw-bold">Stap 2 - Vul je contactgegevens in</span>
+                    <span class="fw-bold">Stap 2 - Voer je contactinformatie in</span>
                 </div>
                 
                 <div class="card-body">
@@ -75,12 +75,12 @@ vul deze data als ingelogd is, anders input field leeg (en maak geen nieuwe cust
                     
                     @if (!Model.BookingFormState.Animals.Any())
                     {
-                        <p class="fst-italic">Geen beestjes gekozen</p>
+                        <p class="fst-italic">Geen beestjes geselecteerd</p>
                     }
 
                     @foreach (var animal in Model.BookingFormState.Animals)
                     {
-                        <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/" + animal.ImageUrl)">
+                        <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/animals/" + animal.ImageUrl)">
                     }
                 </div>
             </div>

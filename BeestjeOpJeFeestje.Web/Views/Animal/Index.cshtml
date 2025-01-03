@@ -41,7 +41,7 @@
                     <td>@animal.Type.Name</td>
                     <td>@animal.Price.ToString("C")</td>
                     <td>
-                        <img src="@Url.Content("~/img/" + animal.ImageUrl)" alt="@animal.Name" style="height: 50px"/>
+                        <img src="@Url.Content("~/img/animals/" + animal.ImageUrl)" alt="@animal.Name" style="height: 50px"/>
                     </td>
                     <td>
                         <a asp-action="Details" asp-route-animalId="@animal.Id" class="btn btn-secondary btn-sm">Details</a>
