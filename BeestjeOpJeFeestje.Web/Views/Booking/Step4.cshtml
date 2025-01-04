@@ -1,0 +1,95 @@
+﻿@using BeestjeOpJeFeestje.Web.ViewModels.Booking
+@model BookingFormViewModel
+
+@{
+    ViewData["Title"] = "Boeking Bevestigen";
+    var customer = @Model.BookingFormState.Customer;
+}
+
+<div class="container mt-4">
+    <div class="progress mb-4" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar" style="width: 75%"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <span class="fw-bold">Stap 4 - Bevestig je boeking</span>
+                </div>
+                
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <form asp-action="Step4" method="post">
+                            <h3>Totaalprijs</h3>
+                            <ul>
+                                @foreach (var animal in Model.BookingFormState.Animals)
+                                {
+                                    <li>@animal.Name - @animal.Price.ToString("C")</li>
+                                }
+                            </ul>
+
+                            <h3>Contactgegevens:</h3>
+                            <div class="mb-3">
+                                <label asp-for="@Model.BookingFormState.Customer.Name">Naam</label>
+                                <input asp-for="@Model.BookingFormState.Customer.Name" class="form-control" readonly/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="@Model.BookingFormState.Customer.HouseNumber">Huisnummer</label>
+                                <input asp-for="@Model.BookingFormState.Customer.HouseNumber" class="form-control" readonly/>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="@Model.BookingFormState.Customer.ZipCode">Postcode</label>
+                                <input asp-for="@Model.BookingFormState.Customer.ZipCode" class="form-control" readonly/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label asp-for="@Model.BookingFormState.Customer.EmailAddress">E-mailadres</label>
+                                <input asp-for="@Model.BookingFormState.Customer.EmailAddress" class="form-control" readonly/>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label asp-for="@Model.BookingFormState.Customer.PhoneNumber">Telefoonnummer</label>
+                                <input asp-for="@Model.BookingFormState.Customer.PhoneNumber" class="form-control" readonly/>
+                            </div>
+
+                            <h3>Totaalprijs:</h3>
+                            <p>@Model.TotalPrice.ToString("C")</p>
+
+                            <div class="mt-4 d-flex gap-2">
+                                <a asp-action="Step3" class="btn btn-secondary">Terug</a>
+                                <button type="submit" class="btn btn-success">Boeken</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <span class="fw-bold">Boeking</span>
+                </div>
+
+                <div class="card-body">
+                    <span>Datum: @Model.BookingFormState.Date</span>
+                    <hr/>
+                    <p>Beestjes:</p>
+
+                    @if (!Model.BookingFormState.Animals.Any())
+                    {
+                        <p class="fst-italic">Geen beestjes geselecteerd</p>
+                    }
+
+                    @foreach (var animal in Model.BookingFormState.Animals)
+                    {
+                        <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/animals/" + animal.ImageUrl)">
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

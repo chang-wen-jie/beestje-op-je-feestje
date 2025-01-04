@@ -9,49 +9,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44dbeae5-1f11-4641-b2d9-b90162b4c556" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step4.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Login.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Login.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/Email.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/Email.cshtml.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/Index.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/Index.cshtml.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/ManageNavPages.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/SetPassword.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/SetPassword.cshtml.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/_Layout.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/BeestjeOpJeFeestje.Web.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/BeestjeOpJeFeestje.Web.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/AnimalController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/AnimalController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/BeestjeOpJeFeestje.Business.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/BeestjeOpJeFeestje.Business.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/BeestjeOpJeFeestje.Data.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/BeestjeOpJeFeestje.Data.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/CustomerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/CustomerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/HomeController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingAnimalFormViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingAnimalFormViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingCustomerFormViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingCustomerFormViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Customer/CustomerViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Customer/CustomerViewModel.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Index.cshtml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step1.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step1.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step2.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step2.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step3.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step3.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Home/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Home/Index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Shared/_Layout.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Shared/_LoginPartial.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Shared/_LoginPartial.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/aap.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/bever.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/eend.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/ezel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/hond.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/ijsbeer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/kameel.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/koe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/kuiken.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/leeuw.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/olifant.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/pinguin.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/slang.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/trex.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/unicorn.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/zebra.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/wwwroot/img/zeehond.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,6 +128,7 @@
       <workItem from="1735814494405" duration="22575000" />
       <workItem from="1735889610970" duration="3533000" />
       <workItem from="1735894182831" duration="9496000" />
+      <workItem from="1735978670542" duration="13818000" />
     </task>
     <servers />
   </component>

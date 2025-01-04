@@ -10,7 +10,9 @@
 
     @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
+        <div class="alert alert-success text-center">
+            <span>@TempData["SuccessMessage"]</span>
+        </div>
     }
 
     <table class="table table-bordered table-striped text-center">

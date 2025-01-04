@@ -1,22 +1,19 @@
 ﻿@using BeestjeOpJeFeestje.Web.ViewModels.Booking
-@model BookingAnimalFormViewModel
+@model BookingDateFormViewModel
 
 @{
-    ViewData["Title"] = "Beestjes Selecteren";
+    ViewData["Title"] = "Boekingsdatum Kiezen";
 }
 
 <div class="container mt-4">
     <div class="progress mb-4" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 25%"></div>
+        <div class="progress-bar" style="width: 0"></div>
     </div>
-    
-    @if (!ViewData.ModelState.IsValid)
+
+    @if (TempData["SuccessMessage"] != null)
     {
-        <div class="alert alert-danger">
-            @foreach (var error in ViewData.ModelState["SelectedAnimalIds"].Errors)
-            {
-                <p>@error.ErrorMessage</p>
-            }
+        <div class="alert alert-success text-center">
+            <span>@TempData["SuccessMessage"]</span>
         </div>
     }
 
@@ -24,66 +21,41 @@
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header">
-                    <span class="fw-bold">Stap 1 - Selecteer de gewenste beestje(s)</span>
+                    <span class="fw-bold">Stap 1 - Kies de boekingsdatum</span>
                 </div>
 
                 <div class="card-body">
-                    <form asp-action="Step1" method="post">
-                        <input type="hidden" asp-for="BookingFormState.Date" value="@Model.BookingFormState.Date"/>
-                        <input type="hidden" asp-for="AvailableAnimals" value="@Model.AvailableAnimals" />
-                        
-                        <div class="row">
-                            @foreach (var animal in Model.AvailableAnimals)
-                            {
-                                <div class="col-md-2 mb-3">
-                                    <label for="selectedAnimals_@animal.Id" class="card text-center">
-                                        <div class="card-header">
-                                            <label asp-for="@animal.Id" class="fw-bold">@animal.Name</label>
-                                            <p class="card-text">@animal.Price.ToString("C")</p>
-                                            <input name="SelectedAnimalIds" value="@animal.Id" type="checkbox" class="form-check-input"
-                                                   style="cursor: pointer;"
-                                                   @(Model.BookingFormState.Animals.Any(a => a.Id == animal.Id) ? "checked" : "")/>
-                                        </div>
-                                        <div class="card-body">
-                                            <img src="@Url.Content("~/img/animals/" + animal.ImageUrl)" alt="@animal.Name" style="height: 100px"/>
-                                        </div>
-                                    </label>
-                                </div>
-                            }
-                        </div>
+                    <div class="col-md-12">
+                        <form asp-action="Step1" method="post">
+                            <div class="mb-3">
+                                <label asp-for="BookingDate" class="form-label">Datum*</label>
+                                <input asp-for="BookingDate" type="date" class="form-control"/>
+                                <span asp-validation-for="BookingDate" class="text-danger"></span>
+                            </div>
 
-                        <div class="mt-4 d-flex gap-2">
-                            <a asp-action="Index" class="btn btn-secondary">Annuleren</a>
-                            <button type="submit" class="btn btn-primary">Volgende</button>
-                        </div>
-                    </form>
+                            <div class="mt-4 d-flex">
+                                <button type="submit" class="btn btn-primary">Volgende</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-
+        
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">
-                    <span class="fw-bold">Boeking</span>
+                    <span class="fw-bold">Boekingsregels</span>
                 </div>
                 
                 <div class="card-body">
-                    <span>Datum: @Model.BookingFormState.Date</span>
-                    <hr/>
-                    <p>Beestje(s):</p>
-                    
-                    @if (!Model.BookingFormState.Animals.Any())
-                    {
-                        <p class="fst-italic">Geen beestjes geselecteerd</p>
-                    }
-                    
-                    @foreach (var animal in Model.BookingFormState.Animals)
-                    {
-                        <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/animals/" + animal.ImageUrl)">
-                    }
+                    <ul class="ps-3">
+                        <li>Boekingsdatum kan niet eerder zijn dan vandaag</li>
+                        <li>Voor bepaalde beestjes gelden speciale maatregelen om ze te kunnen boeken</li>
+                        <li>Boekingen kunnen alleen in Nederland plaatsvinden</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
-

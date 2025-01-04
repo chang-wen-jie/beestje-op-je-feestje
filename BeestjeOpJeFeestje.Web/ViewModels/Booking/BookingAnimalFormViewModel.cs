@@ -28,11 +28,6 @@
                 var selectedAnimals = animals.Where(animal => SelectedAnimalIds.Contains(animal.Id));
                 var bookingDate = DateOnly.Parse(BookingFormState.Date);
 
-                foreach (var animal in AvailableAnimals)
-                {
-                    Console.WriteLine("WWEEEEE: " + animal.Name);
-                }
-
                 if (selectedAnimals.Any(animal => animal.Name == "Leeuw" || animal.Name == "IJsbeer"))
                 {
                     if (selectedAnimals.Any(animal => animal.Type.Name == "Boerderij"))
@@ -41,20 +36,20 @@
                     }
                 }
 
-                if (!selectedAnimals.Any(animal => animal.Name == "Pinguïn")) yield break;
-                if (bookingDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
+                if (selectedAnimals.Any(animal => animal.Name == "Pinguïn") &&
+                    bookingDate.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
                 {
                     yield return new ValidationResult("Dieren in pak werken alleen doordeweeks", [nameof(SelectedAnimalIds)]);
                 }
 
-                if (!selectedAnimals.Any(animal => animal.Type.Name == "Woestijn")) yield break;
-                if (bookingDate.Month is >= 10 or <= 2)
+                if (selectedAnimals.Any(animal => animal.Type.Name == "Woestijn") &&
+                    bookingDate.Month is >= 10 or <= 2)
                 {
                     yield return new ValidationResult("Brrrr – Veelste koud", [nameof(SelectedAnimalIds)]);
                 }
 
-                if (!selectedAnimals.Any(animal => animal.Type.Name == "Sneeuw")) yield break;
-                if (bookingDate.Month is >= 6 and <= 8)
+                if (selectedAnimals.Any(animal => animal.Type.Name == "Sneeuw") &&
+                    bookingDate.Month is >= 6 and <= 8)
                 {
                     yield return new ValidationResult("Some People Are Worth Melting For. ~ Olaf", [nameof(SelectedAnimalIds)]);
                 }

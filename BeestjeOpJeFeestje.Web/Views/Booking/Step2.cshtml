@@ -1,83 +1,82 @@
 ﻿@using BeestjeOpJeFeestje.Web.ViewModels.Booking
-@model BookingCustomerFormViewModel
+@model BookingAnimalFormViewModel
 
 @{
-    ViewData["Title"] = "Contactinformatie Invoeren";
+    ViewData["Title"] = "Beestjes Selecteren";
 }
 
-
-vul deze data als ingelogd is, anders input field leeg (en maak geen nieuwe customer aan, maar pak customerid op basis van naam en adres?)
 <div class="container mt-4">
     <div class="progress mb-4" role="progressbar" aria-label="Example with label" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar" style="width: 50%"></div>
+        <div class="progress-bar" style="width: 25%"></div>
     </div>
     
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger text-center">
+            @foreach (var error in ViewData.ModelState["SelectedAnimalIds"].Errors)
+            {
+                <p>@error.ErrorMessage</p>
+            }
+        </div>
+    }
+
     <div class="row">
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header">
-                    <span class="fw-bold">Stap 2 - Voer je contactinformatie in</span>
+                    <span class="fw-bold">Stap 2 - Selecteer de gewenste beestjes</span>
                 </div>
-                
-                <div class="card-body">
-                    <div class="col-md-12">
-                        <form asp-action="Step2" method="post">
-                            <div class="mb-3">
-                                <label asp-for="Name">Naam*</label>
-                                <input asp-for="Name" value="@Model.BookingFormState.Customer.Name" type="text" class="form-control"/>
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label asp-for="HouseNumber">Huisnummer*</label>
-                                <input asp-for="HouseNumber" value="@Model.BookingFormState.Customer.HouseNumber" type="number" class="form-control" min="0" max="9999"/>
-                                <span asp-validation-for="HouseNumber" class="text-danger"></span>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label asp-for="ZipCode">Postcode*</label>
-                                <input asp-for="ZipCode" value="@Model.BookingFormState.Customer.ZipCode" type="text" class="form-control" maxlength="6"/>
-                                <span asp-validation-for="ZipCode" class="text-danger"></span>
-                            </div>
-                            
-                            @*<div class="mb-3">
-                                <label asp-for="EmailAddress">E-mailadres</label>
-                                <input type="text" asp-for="EmailAddress" class="form-control"/>
-                                <span asp-validation-for="EmailAddress" class="text-danger"></span>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label asp-for="PhoneNumber">Telefoonnummer</label>
-                                <input type="text" asp-for="PhoneNumber" class="form-control"/>
-                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                            </div>*@
 
-                            <div class="mt-4 d-flex gap-2">
-                                <a asp-action="Step1" class="btn btn-secondary">Terug</a>
-                                <button type="submit" class="btn btn-primary">Volgende</button>
-                            </div>
-                        </form>
-                    </div>
+                <div class="card-body">
+                    <form asp-action="Step2" method="post">
+                        <input type="hidden" asp-for="BookingFormState.Date" value="@Model.BookingFormState.Date"/>
+                        <input type="hidden" asp-for="AvailableAnimals" value="@Model.AvailableAnimals" />
+                        
+                        <div class="row">
+                            @foreach (var animal in Model.AvailableAnimals)
+                            {
+                                <div class="col-md-2 mb-3">
+                                    <label for="selectedAnimals_@animal.Id" class="card text-center">
+                                        <div class="card-header">
+                                            <label asp-for="@animal.Id" class="fw-bold">@animal.Name</label>
+                                            <p class="card-text">@animal.Price.ToString("C")</p>
+                                            <input name="SelectedAnimalIds" value="@animal.Id" type="checkbox" class="form-check-input"
+                                                   style="cursor: pointer;"
+                                                   @(Model.BookingFormState.Animals.Any(a => a.Id == animal.Id) ? "checked" : "")/>
+                                        </div>
+                                        <div class="card-body">
+                                            <img src="@Url.Content("~/img/animals/" + animal.ImageUrl)" alt="@animal.Name" style="height: 100px"/>
+                                        </div>
+                                    </label>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="mt-4 d-flex gap-2">
+                            <a asp-action="Step1" class="btn btn-secondary">Annuleren</a>
+                            <button type="submit" class="btn btn-primary">Volgende</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-        
+
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">
                     <span class="fw-bold">Boeking</span>
                 </div>
-
+                
                 <div class="card-body">
                     <span>Datum: @Model.BookingFormState.Date</span>
                     <hr/>
-                    <p>Beestje(s):</p>
+                    <p>Beestjes:</p>
                     
                     @if (!Model.BookingFormState.Animals.Any())
                     {
                         <p class="fst-italic">Geen beestjes geselecteerd</p>
                     }
-
+                    
                     @foreach (var animal in Model.BookingFormState.Animals)
                     {
                         <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/animals/" + animal.ImageUrl)">
@@ -87,3 +86,4 @@ vul deze data als ingelogd is, anders input field leeg (en maak geen nieuwe cust
         </div>
     </div>
 </div>
+

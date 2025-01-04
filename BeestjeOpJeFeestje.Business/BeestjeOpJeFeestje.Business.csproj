@@ -18,8 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\BeestjeOpJeFeestje.Data\BeestjeOpJeFeestje.Data.csproj" />
   </ItemGroup>
 
 </Project>
