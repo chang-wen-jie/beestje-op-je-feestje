@@ -1,3 +1,4 @@
+using BeestjeOpJeFeestje.Business.Interfaces;
 using BeestjeOpJeFeestje.Business.Services;
 using BeestjeOpJeFeestje.Data.DbContext;
 using BeestjeOpJeFeestje.Data.Interfaces;
@@ -31,12 +32,13 @@ namespace BeestjeOpJeFeestje.Web
                     options.Password.RequiredLength = 1;
                 })
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<BeestjeOpJeFeestjeDbContext>()
-                .AddSignInManager<CustomSignInManager>();
+                .AddEntityFrameworkStores<BeestjeOpJeFeestjeDbContext>();
             
             builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<ISignInManagerService, SignInManagerService>();
+            builder.Services.AddScoped<IPasswordGeneratorService, PasswordGeneratorService>();
             
             // Add session services.
             builder.Services.AddDistributedMemoryCache();

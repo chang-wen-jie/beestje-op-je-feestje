@@ -18,8 +18,8 @@
     <table class="table table-bordered table-striped text-center">
         <thead class="thead-dark">
         <tr>
-            <th>ID</th>
             <th>Naam</th>
+            <th>E-mailadres</th>
             <th>Klantenkaart</th>
             <th>Acties</th>
         </tr>
@@ -36,11 +36,11 @@
             @foreach (var customer in Model)
             {
                 <tr>
-                    <td>@customer.Id</td>
                     <td>@customer.Name</td>
+                    <td>@customer.EmailAddress</td>
                     <td>@(customer.Type?.Name ?? "Geen")</td>
                     <td>
-                        <a asp-action="Details" asp-route-customerId="@customer.Id" class="btn btn-secondary btn-sm">Details</a>
+                        <a asp-action="Details" asp-route-customerEmail="@customer.EmailAddress" class="btn btn-secondary btn-sm">Details</a>
                     </td>
                 </tr>
             }

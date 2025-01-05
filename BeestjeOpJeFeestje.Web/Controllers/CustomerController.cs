@@ -1,15 +1,20 @@
-﻿using BeestjeOpJeFeestje.Data.Interfaces;
+﻿using BeestjeOpJeFeestje.Business.Interfaces;
+using BeestjeOpJeFeestje.Data.Interfaces;
 using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Web.ViewModels.Customer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
     [Authorize]
-    public class CustomerController(ICustomerRepository customerRepository) : Controller
+    public class CustomerController(ICustomerRepository customerRepository, UserManager<Customer> userManager,
+        IPasswordGeneratorService passwordGeneratorService) : Controller
     {
         private readonly ICustomerRepository _customerRepository = customerRepository;
+        private readonly UserManager<Customer> _userManager = userManager;
+        private readonly IPasswordGeneratorService _passwordGeneratorService = passwordGeneratorService;
         
         public IActionResult Index()
         {
@@ -17,6 +22,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var customerViewModels = customers.Select(customer => new CustomerViewModel
             {
                 Name = customer.Name,
+                EmailAddress = customer.Email,
                 Type = customer.Type,
             }).ToList();
 
@@ -24,16 +30,18 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Details(int customerId)
+        public IActionResult Details(string customerEmail)
         {
-            var customer = _customerRepository.GetCustomerById(customerId);
+            var customer = _customerRepository.GetCustomerByEmail(customerEmail);
             if (customer == null) return NotFound();
-
+            
             var customerViewModel = new CustomerViewModel
             {
                 Name = customer.Name,
                 HouseNumber = customer.HouseNumber,
                 ZipCode = customer.ZipCode,
+                EmailAddress = customer.Email,
+                PhoneNumber = customer.PhoneNumber,
                 TypeId = customer.TypeId,
             };
             
@@ -47,27 +55,33 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(CustomerViewModel customerViewModel)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CustomerViewModel customerViewModel)
         {
             if (!ModelState.IsValid) return View(customerViewModel);
 
             var customer = new Customer()
             {
+                UserName = customerViewModel.EmailAddress,
                 Name = customerViewModel.Name,
                 HouseNumber = customerViewModel.HouseNumber,
                 ZipCode = customerViewModel.ZipCode,
+                Email = customerViewModel.EmailAddress,
+                PhoneNumber = customerViewModel.PhoneNumber,
                 TypeId = customerViewModel.TypeId,
             };
             
-            _customerRepository.CreateCustomer(customer);
-            TempData["SuccessMessage"] = $"{customer.Name} is aangemaakt";
+            var generatedPassword = _passwordGeneratorService.GeneratePassword();
+            await _userManager.CreateAsync(customer, generatedPassword);
+            
+            TempData["SuccessMessage"] = $"{customer.Name} is aangemaakt met het wachtwoord: {generatedPassword}";
             return RedirectToAction("Index");
         }
-
+        
         [HttpGet]
-        public IActionResult Edit(int customerId)
+        public IActionResult Edit(string customerEmail)
         {
-            var customer = _customerRepository.GetCustomerById(customerId);
+            var customer = _customerRepository.GetCustomerByEmail(customerEmail);
             if (customer == null) return NotFound();
 
             var customerViewModel = new CustomerViewModel
@@ -75,6 +89,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 Name = customer.Name,
                 HouseNumber = customer.HouseNumber,
                 ZipCode = customer.ZipCode,
+                EmailAddress = customer.Email,
                 TypeId = customer.TypeId,
             };
             
@@ -82,38 +97,45 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(CustomerViewModel customerViewModel)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(CustomerViewModel customerViewModel)
         {
             if (!ModelState.IsValid) return View(customerViewModel);
+            
+            var customer = await _userManager.FindByEmailAsync(customerViewModel.EmailAddress);
+            if (customer == null) return NotFound();
 
-            var customer = new Customer()
-            {
-                Name = customerViewModel.Name,
-                HouseNumber = customerViewModel.HouseNumber,
-                ZipCode = customerViewModel.ZipCode,
-                TypeId = customerViewModel.TypeId,
-            };
+            customer.UserName = customerViewModel.EmailAddress;
+            customer.Name = customerViewModel.Name;
+            customer.HouseNumber = customerViewModel.HouseNumber;
+            customer.ZipCode = customerViewModel.ZipCode;
+            customer.Email = customerViewModel.EmailAddress;
+            customer.PhoneNumber = customerViewModel.PhoneNumber;
+            customer.TypeId = customerViewModel.TypeId;
 
-            if (!_customerRepository.UpdateCustomer(customer))
+            var result = await _userManager.UpdateAsync(customer);
+            if (!result.Succeeded)
             {
                 TempData["ErrorMessage"] = $"{customer.Name} kon niet worden bewerkt";
-                return RedirectToAction("Edit", new { customerId = customer.Id });
+                return RedirectToAction("Edit", new { customerEmail = customer.Email });
             }
 
             TempData["SuccessMessage"] = $"{customer.Name} is bewerkt";
-            return RedirectToAction("Details", new { customerId = customer.Id });
+            return RedirectToAction("Details", new { customerEmail = customer.Email });
         }
 
         [HttpPost]
-        public IActionResult Delete(int customerId)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(string customerEmail)
         {
-            var customer = _customerRepository.GetCustomerById(customerId);
+            var customer = await _userManager.FindByEmailAsync(customerEmail);
             if (customer == null) return NotFound();
 
-            if (!_customerRepository.DeleteCustomer(customerId))
+            var result = await _userManager.DeleteAsync(customer);
+            if (!result.Succeeded)
             {
                 TempData["ErrorMessage"] = $"{customer.Name} kon niet worden verwijderd";
-                return RedirectToAction("Edit", new { customerId });
+                return RedirectToAction("Edit", new { customerEmail });
             }
             
             TempData["SuccessMessage"] = $"{customer.Name} is verwijderd";

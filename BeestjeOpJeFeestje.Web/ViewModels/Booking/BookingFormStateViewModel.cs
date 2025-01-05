@@ -7,6 +7,6 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Booking
     {
         public string? Date { get; init; }
         public List<AnimalViewModel>? Animals { get; init; }
-        public CustomerViewModel? Customer { get; init; }
+        public CustomerViewModel? Customer { get; set; }
     }
 }

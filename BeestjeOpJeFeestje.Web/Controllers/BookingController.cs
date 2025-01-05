@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using BeestjeOpJeFeestje.Business.Interfaces;
 using BeestjeOpJeFeestje.Data.Interfaces;
 using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Web.ViewModels.Animal;
@@ -12,19 +13,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
-    public class BookingController(IAnimalRepository animalRepository, IBookingRepository bookingRepository, ICustomerRepository customerRepository, UserManager<Customer> userManager) : Controller
+    public class BookingController(IAnimalRepository animalRepository, IBookingRepository bookingRepository,
+        ICustomerRepository customerRepository, UserManager<Customer> userManager, IPasswordGeneratorService passwordGeneratorService) : Controller
     {
+        private readonly UserManager<Customer> _userManager = userManager;
         private readonly IAnimalRepository _animalRepository = animalRepository;
         private readonly IBookingRepository _bookingRepository = bookingRepository;
         private readonly ICustomerRepository _customerRepository = customerRepository;
-        private readonly UserManager<Customer> _userManager = userManager;
+        private readonly IPasswordGeneratorService _passwordGeneratorService = passwordGeneratorService;
 
         public IActionResult Step1()
         {
             // Clear previous booking's session
             var session = HttpContext.Session;
             var sessionKeys = session.Keys;
-
             foreach (var key in sessionKeys)
             {
                 session.Remove(key);
@@ -47,9 +49,11 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         
         public IActionResult Step2()
         {
-            var bookingFormState = GetBookingFormState(); 
+            var bookingFormState = GetBookingFormState();
+            var userEmail = HttpContext.User.Identity?.Name;
             var bookings = _bookingRepository.GetBookings().ToList();
             var animals = _animalRepository.GetAllAnimals().ToList();
+            
             var animalViewModels = animals.Select(animal => new AnimalViewModel
             {
                 Id = animal.Id,
@@ -58,14 +62,17 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 Price = animal.Price,
                 ImageUrl = animal.ImageUrl,
             }).ToList();
+            
             var availableAnimals = animalViewModels
                 .Where(a => !bookings.Any(b =>
                     b.Date == DateOnly.Parse(bookingFormState.Date) && b.Animals.Any(ba => ba.Id == a.Id)))
                 .ToList();
+            
             var bookingAnimalFormViewModel = new BookingAnimalFormViewModel
             {
                 AvailableAnimals = availableAnimals,
                 BookingFormState = bookingFormState,
+                CustomerEmail = userEmail,
             };
 
             return View(bookingAnimalFormViewModel);
@@ -80,6 +87,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 var bookingFormState = GetBookingFormState();
                 var bookings = _bookingRepository.GetBookings().ToList();
                 var animals = _animalRepository.GetAllAnimals().ToList();
+                
                 var animalViewModels = animals.Select(animal => new AnimalViewModel
                 {
                     Id = animal.Id,
@@ -88,6 +96,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                     Price = animal.Price,
                     ImageUrl = animal.ImageUrl,
                 }).ToList();
+                
                 var availableAnimals = animalViewModels
                     .Where(a => !bookings.Any(b =>
                         b.Date == DateOnly.Parse(bookingFormState.Date) && b.Animals.Any(ba => ba.Id == a.Id)))
@@ -108,18 +117,18 @@ namespace BeestjeOpJeFeestje.Web.Controllers
 
         public async Task<IActionResult> Step3()
         {
-            var user = await _userManager.GetUserAsync(User);
             var bookingFormState = GetBookingFormState();
             var bookingCustomerFormViewModel = new BookingCustomerFormViewModel
             {
                 BookingFormState = bookingFormState,
             };
-
+            
+            var user = await _userManager.GetUserAsync(User);
             if (user == null) return View(bookingCustomerFormViewModel);
             bookingCustomerFormViewModel.Name = user.Name;
             bookingCustomerFormViewModel.HouseNumber = user.HouseNumber;
             bookingCustomerFormViewModel.ZipCode = user.ZipCode;
-            bookingCustomerFormViewModel.EmailAddress = user.Email;
+            bookingCustomerFormViewModel.EmailAddress = user.Email ?? string.Empty;
             bookingCustomerFormViewModel.PhoneNumber = user.PhoneNumber;
                 
             return View(bookingCustomerFormViewModel);
@@ -160,36 +169,47 @@ namespace BeestjeOpJeFeestje.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Step4(BookingFormViewModel bookingFormViewModel)
+        public async Task<IActionResult> Step4(BookingFormViewModel bookingFormViewModel)
         {
+            // AnimalBooking werkt niet
             var bookingFormState = GetBookingFormState();
             var selectedAnimalIds = bookingFormState.Animals?.Select(a => a.Id).ToList();
             var customer = bookingFormState.Customer;
-
-            //check of customer eerst bestaat voordat je het erin doet
-            // AnimalBooking werkt niet
-            var customerModel = new Customer
-            {
-                Name = customer.Name,
-                HouseNumber = customer.HouseNumber,
-                ZipCode = customer.ZipCode,
-            };
+            var existingCustomer = _customerRepository.GetCustomerByEmail(customer.EmailAddress);
             
-            _customerRepository.CreateCustomer(customerModel);
-            var customerId = _customerRepository.GetCustomerByAddress(customerModel.HouseNumber, customerModel.ZipCode).Id;
+            string customerId;
+            if (existingCustomer != null)
+            {
+                customerId = existingCustomer.Id;
+            }
+            else
+            {
+                var newCustomer = new Customer
+                {
+                    UserName = customer.EmailAddress,
+                    Name = customer.Name,
+                    HouseNumber = customer.HouseNumber,
+                    ZipCode = customer.ZipCode,
+                    Email = customer.EmailAddress,
+                    PhoneNumber =  customer.PhoneNumber,
+                };
+                var generatedPassword = _passwordGeneratorService.GeneratePassword();
+                await _userManager.CreateAsync(newCustomer, generatedPassword);
+
+                customerId = newCustomer.Id;
+            }
 
             var booking = new Booking
             {
                 Date = DateOnly.Parse(bookingFormState.Date),
+                CustomerId = customerId,
                 TotalPrice = bookingFormViewModel.TotalPrice,
                 TotalDiscountPercentage = 0,
             };
-            
             _bookingRepository.AddBooking(booking);
             
             var session = HttpContext.Session;
             var sessionKeys = session.Keys;
-
             foreach (var key in sessionKeys)
             {
                 session.Remove(key);
@@ -210,15 +230,6 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var phoneNumber = HttpContext.Session.GetString("PhoneNumber");
             
             var selectedAnimals = new List<AnimalViewModel>();
-            var customer = new CustomerViewModel
-            {
-                Name = name,
-                HouseNumber = houseNumber,
-                ZipCode = zipCode,
-                EmailAddress = emailAddress,
-                PhoneNumber = phoneNumber,
-            };
-
             if (!string.IsNullOrEmpty(serializedAnimalIds))
             {
                 // Convert animal ID's to animals
@@ -249,6 +260,15 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                     selectedAnimals.AddRange(animals);
                 }
             }
+            
+            var customer = new CustomerViewModel
+            {
+                Name = name,
+                HouseNumber = houseNumber,
+                ZipCode = zipCode,
+                EmailAddress = emailAddress,
+                PhoneNumber = phoneNumber,
+            };
             
             var bookingFormState = new BookingFormStateViewModel()
             {

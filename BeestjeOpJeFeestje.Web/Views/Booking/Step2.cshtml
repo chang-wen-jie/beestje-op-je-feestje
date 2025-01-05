@@ -31,6 +31,7 @@
                     <form asp-action="Step2" method="post">
                         <input type="hidden" asp-for="BookingFormState.Date" value="@Model.BookingFormState.Date"/>
                         <input type="hidden" asp-for="AvailableAnimals" value="@Model.AvailableAnimals" />
+                        <input type="hidden" asp-for="CustomerEmail" value="@Model.CustomerEmail" />
                         
                         <div class="row">
                             @foreach (var animal in Model.AvailableAnimals)

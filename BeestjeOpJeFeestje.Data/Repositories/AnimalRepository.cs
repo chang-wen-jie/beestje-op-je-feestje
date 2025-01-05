@@ -14,9 +14,9 @@ public class AnimalRepository(BeestjeOpJeFeestjeDbContext context) : IAnimalRepo
         return _context.Animals.Include(a => a.Type);
     }
     
-    public Animal? GetAnimalById(int animalId)
+    public Animal? GetAnimalById(int id)
     {
-        var animalToRead = _context.Animals.Find(animalId);
+        var animalToRead = _context.Animals.Find(id);
         return animalToRead;
     }
 
@@ -36,9 +36,9 @@ public class AnimalRepository(BeestjeOpJeFeestjeDbContext context) : IAnimalRepo
         return true;
     }
 
-    public bool DeleteAnimal(int animalId)
+    public bool DeleteAnimal(int id)
     {
-        var animalToDelete = _context.Animals.Find(animalId);
+        var animalToDelete = _context.Animals.Find(id);
         if (animalToDelete == null) return false;
         
         _context.Animals.Remove(animalToDelete);

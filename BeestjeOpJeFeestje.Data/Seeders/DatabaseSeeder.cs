@@ -95,11 +95,7 @@ namespace BeestjeOpJeFeestje.Data.Seeders
                     };
                     
                     const string password = "admin";
-                    var result = userManager.CreateAsync(customer, password).Result;
-
-                    Console.WriteLine(result.Succeeded
-                        ? "Admin user created successfully."
-                        : $"Failed to create admin user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+                    userManager.CreateAsync(customer, password).Wait();
 
                     needsSeeding = true;
                 }

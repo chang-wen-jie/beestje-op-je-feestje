@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using BeestjeOpJeFeestje.Business.Interfaces;
 using BeestjeOpJeFeestje.Data.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace BeestjeOpJeFeestje.Business.Services;
 
-public class CustomSignInManager(
+public class SignInManagerService(
     UserManager<Customer> userManager,
     IHttpContextAccessor contextAccessor,
     IUserClaimsPrincipalFactory<Customer> claimsFactory,
@@ -17,7 +18,7 @@ public class CustomSignInManager(
     IAuthenticationSchemeProvider schemes,
     IUserConfirmation<Customer> confirmation)
     : SignInManager<Customer>(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes,
-        confirmation)
+        confirmation), ISignInManagerService
 {
     public override async Task<ClaimsPrincipal> CreateUserPrincipalAsync(Customer user)
     {

@@ -11,7 +11,7 @@
             public List<int> SelectedAnimalIds { get; init; }
             public List<AnimalViewModel>? AvailableAnimals { get; set; }
             public BookingFormStateViewModel? BookingFormState { get; set; }
-            public CustomerViewModel? Customer { get; init; }
+            public string? CustomerEmail { get; init; }
 
             public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
             {
@@ -24,10 +24,13 @@
                 }
                 
                 var animalRepository = validationContext.GetService(typeof(IAnimalRepository)) as IAnimalRepository;
-                var animals = animalRepository.GetAllAnimals();
-                var selectedAnimals = animals.Where(animal => SelectedAnimalIds.Contains(animal.Id));
+                var customerRepository = validationContext.GetService(typeof(ICustomerRepository)) as ICustomerRepository;
+                
                 var bookingDate = DateOnly.Parse(BookingFormState.Date);
-
+                var animals = animalRepository?.GetAllAnimals();
+                var selectedAnimals = animals.Where(animal => SelectedAnimalIds.Contains(animal.Id));
+                var customer = customerRepository?.GetCustomerByEmail(CustomerEmail);
+                
                 if (selectedAnimals.Any(animal => animal.Name == "Leeuw" || animal.Name == "IJsbeer"))
                 {
                     if (selectedAnimals.Any(animal => animal.Type.Name == "Boerderij"))
@@ -53,6 +56,38 @@
                 {
                     yield return new ValidationResult("Some People Are Worth Melting For. ~ Olaf", [nameof(SelectedAnimalIds)]);
                 }
+
+                var isVipAnimalSelected = selectedAnimals.Any(animal => animal.Type.Name == "VIP");
+                if (customer != null)
+                {
+                    if (customer.TypeId == null && SelectedAnimalIds.Count > 3)
+                    {
+                        yield return new ValidationResult("Kies maximaal drie beestjes", [nameof(SelectedAnimalIds)]);
+                    }
+                    else if (customer.Type?.Name == "Zilver" && SelectedAnimalIds.Count > 4)
+                    {
+                        yield return new ValidationResult("Kies maximaal vier beestjes", [nameof(SelectedAnimalIds)]);
+                    }
+
+                    if (customer.Type?.Name != "Platina" && isVipAnimalSelected)
+                    {
+                        yield return new ValidationResult("Magische ervaring alleen voor VIP's", [nameof(SelectedAnimalIds)
+                        ]);
+                    }
+                }
+                else
+                {
+                    if (isVipAnimalSelected)
+                    {
+                        yield return new ValidationResult("Magische ervaring alleen voor VIP's", [nameof(SelectedAnimalIds)
+                        ]);
+                    }
+                    if (SelectedAnimalIds.Count > 3)
+                    {
+                        yield return new ValidationResult("Kies maximaal drie beestjes", [nameof(SelectedAnimalIds)]);
+                    }
+                }
+
             }
         }
     }

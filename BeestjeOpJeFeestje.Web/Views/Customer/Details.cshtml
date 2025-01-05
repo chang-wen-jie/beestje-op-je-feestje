@@ -13,16 +13,6 @@
     }
 
     <div class="row gy-3">
-        @*<div class="col-md-6">
-            <label asp-for="Id" class="form-label">ID</label>
-            <input asp-for="Id" class="form-control" readonly/>
-        </div>
-
-        <div class="col-md-6">
-            <label asp-for="Password" class="form-label">Wachtwoord</label>
-            <input asp-for="Password" class="form-control" readonly/>
-        </div>*@
-
         <div class="col-md-6">
             <label asp-for="Name" class="form-label">Naam</label>
             <input asp-for="Name" class="form-control" readonly/>
@@ -38,27 +28,27 @@
             <input asp-for="ZipCode" class="form-control" readonly/>
         </div>
 
-        @*<div class="col-md-6">
+        <div class="col-md-6">
             <label asp-for="EmailAddress" class="form-label">E-mailadres</label>
-            <input asp-for="EmailAddress" value="@((Model.EmailAddress ?? " -"))" class="form-control" readonly/>
+            <input asp-for="EmailAddress" class="form-control" readonly/>
         </div>
 
         <div class="col-md-6">
             <label asp-for="PhoneNumber" class="form-label">Telefoonnummer</label>
             <input asp-for="PhoneNumber" value="@((Model.PhoneNumber ?? " -"))" class="form-control" readonly/>
-        </div>*@
+        </div>
 
         <div class="col-md-6">
             <label asp-for="TypeId" class="form-label">Klantenkaart</label>
-            <input asp-for="TypeId" class="form-control" readonly/>
+            <input asp-for="TypeId" value="@((Model.TypeId ?? 0))" class="form-control" readonly/>
         </div>
     </div>
 
     <div class="mt-4 d-flex gap-2">
         <a asp-action="Index" class="btn btn-secondary">Terug</a>
-        <a asp-action="Edit" asp-route-customerId="@Model.Id" class="btn btn-primary">Wijzig</a>
+        <a asp-action="Edit" asp-route-customerEmail="@Model.EmailAddress" class="btn btn-primary">Wijzig</a>
         <form asp-action="Delete" method="post" class="d-inline">
-            <input type="hidden" name="customerId" value="@Model.Id"/>
+            <input type="hidden" name="customerEmail" value="@Model.EmailAddress"/>
             <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je @Model.Name wil verwijderen?')">
                 Verwijder
             </button>
