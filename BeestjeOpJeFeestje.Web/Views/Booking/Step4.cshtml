@@ -21,42 +21,59 @@
                 <div class="card-body">
                     <div class="col-md-12">
                         <form asp-action="Step4" method="post">
-                            <h3>Totaalprijs</h3>
-                            <ul>
-                                @foreach (var animal in Model.BookingFormState.Animals)
-                                {
-                                    <li>@animal.Name - @animal.Price.ToString("C")</li>
-                                }
-                            </ul>
+                            <div class="card">
+                                <div class="card-header">
+                                    <span class="fw-bold">Contactinformatie</span>
+                                </div>
+                                
+                                <div class="card-body">
 
-                            <h3>Contactgegevens:</h3>
-                            <div class="mb-3">
-                                <label asp-for="@Model.BookingFormState.Customer.Name">Naam</label>
-                                <input asp-for="@Model.BookingFormState.Customer.Name" class="form-control" readonly/>
-                            </div>
+                                    <div class="mb-3">
+                                        <label asp-for="@Model.BookingFormState.Customer.Name">Naam</label>
+                                        <input asp-for="@Model.BookingFormState.Customer.Name" class="form-control" readonly/>
+                                    </div>
 
-                            <div class="mb-3">
-                                <label asp-for="@Model.BookingFormState.Customer.HouseNumber">Huisnummer</label>
-                                <input asp-for="@Model.BookingFormState.Customer.HouseNumber" class="form-control" readonly/>
-                            </div>
+                                    <div class="mb-3">
+                                        <label asp-for="@Model.BookingFormState.Customer.HouseNumber">Huisnummer</label>
+                                        <input asp-for="@Model.BookingFormState.Customer.HouseNumber" class="form-control" readonly/>
+                                    </div>
 
-                            <div class="mb-3">
-                                <label asp-for="@Model.BookingFormState.Customer.ZipCode">Postcode</label>
-                                <input asp-for="@Model.BookingFormState.Customer.ZipCode" class="form-control" readonly/>
+                                    <div class="mb-3">
+                                        <label asp-for="@Model.BookingFormState.Customer.ZipCode">Postcode</label>
+                                        <input asp-for="@Model.BookingFormState.Customer.ZipCode" class="form-control" readonly/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="@Model.BookingFormState.Customer.EmailAddress">E-mailadres</label>
+                                        <input asp-for="@Model.BookingFormState.Customer.EmailAddress" class="form-control" readonly/>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label asp-for="@Model.BookingFormState.Customer.PhoneNumber">Telefoonnummer</label>
+                                        <input asp-for="@Model.BookingFormState.Customer.PhoneNumber" class="form-control" readonly/>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="mb-3">
-                                <label asp-for="@Model.BookingFormState.Customer.EmailAddress">E-mailadres</label>
-                                <input asp-for="@Model.BookingFormState.Customer.EmailAddress" class="form-control" readonly/>
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <span class="fw-bold">Boekingsoverzicht</span>
+                                </div>
+                                
+                                <div class="card-body">
+                                    <ul class="ps-3">
+                                        @foreach (var animal in Model.BookingFormState.Animals)
+                                        {
+                                            <li>
+                                                <span>@animal.Name - @animal.Price.ToString("C")</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                    <span class="fst-italic">Korting: @Model.TotalDiscountPercentage%</span>
+                                    <hr/>
+                                    <span>Totaalprijs: @Model.TotalPrice.ToString("C")</span>
+                                </div>
                             </div>
-                            
-                            <div class="mb-3">
-                                <label asp-for="@Model.BookingFormState.Customer.PhoneNumber">Telefoonnummer</label>
-                                <input asp-for="@Model.BookingFormState.Customer.PhoneNumber" class="form-control" readonly/>
-                            </div>
-
-                            <h3>Totaalprijs:</h3>
-                            <p>@Model.TotalPrice.ToString("C")</p>
 
                             <div class="mt-4 d-flex gap-2">
                                 <a asp-action="Step3" class="btn btn-secondary">Terug</a>

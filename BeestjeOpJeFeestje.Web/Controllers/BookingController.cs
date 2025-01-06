@@ -2,25 +2,28 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using BeestjeOpJeFeestje.Business.Interfaces;
+using BeestjeOpJeFeestje.Business.Services;
 using BeestjeOpJeFeestje.Data.Interfaces;
 using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Web.ViewModels.Animal;
 using BeestjeOpJeFeestje.Web.ViewModels.Booking;
 using BeestjeOpJeFeestje.Web.ViewModels.Customer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
     public class BookingController(IAnimalRepository animalRepository, IBookingRepository bookingRepository,
-        ICustomerRepository customerRepository, UserManager<Customer> userManager, IPasswordGeneratorService passwordGeneratorService) : Controller
+        ICustomerRepository customerRepository, UserManager<Customer> userManager, IPasswordGeneratorService passwordGeneratorService,
+        DiscountService discountService) : Controller
     {
         private readonly UserManager<Customer> _userManager = userManager;
         private readonly IAnimalRepository _animalRepository = animalRepository;
         private readonly IBookingRepository _bookingRepository = bookingRepository;
         private readonly ICustomerRepository _customerRepository = customerRepository;
         private readonly IPasswordGeneratorService _passwordGeneratorService = passwordGeneratorService;
+        private readonly DiscountService _discountService = discountService;
+        
 
         public IActionResult Step1()
         {
@@ -158,11 +161,32 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         public IActionResult Step4()
         {
             var bookingFormState = GetBookingFormState();
-            var bookingFormViewModel = new BookingFormViewModel()
+            var bookingFormViewModel = new BookingFormViewModel
             {
-                TotalPrice = 0,
                 BookingFormState = bookingFormState,
             };
+
+            var customer = new Customer
+            {
+                TypeId = bookingFormViewModel.BookingFormState.Customer.TypeId,
+            };
+            
+            var booking = new Booking
+            {
+                Date = DateOnly.Parse(bookingFormState.Date),
+                Customer = customer,
+                Animals = bookingFormState.Animals.Select(a => new Animal
+                {
+                    Name = a.Name,
+                    TypeId = a.TypeId,
+                }).ToList(),
+            };
+            
+            var totalPrice = bookingFormViewModel.BookingFormState.Animals.Sum(a => a.Price);
+            var discountPercentage = _discountService.CalculateDiscount(booking);
+            var discountedPrice = totalPrice * (1 - discountPercentage / 100);
+            bookingFormViewModel.TotalPrice = discountedPrice;
+            bookingFormViewModel.TotalDiscountPercentage = discountPercentage;
             
             return View(bookingFormViewModel);
         }
@@ -171,11 +195,10 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Step4(BookingFormViewModel bookingFormViewModel)
         {
-            // AnimalBooking werkt niet
             var bookingFormState = GetBookingFormState();
-            var selectedAnimalIds = bookingFormState.Animals?.Select(a => a.Id).ToList();
             var customer = bookingFormState.Customer;
             var existingCustomer = _customerRepository.GetCustomerByEmail(customer.EmailAddress);
+            var phoneNumber = string.IsNullOrWhiteSpace(customer.PhoneNumber) ? null : customer.PhoneNumber;
             
             string customerId;
             if (existingCustomer != null)
@@ -191,13 +214,19 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                     HouseNumber = customer.HouseNumber,
                     ZipCode = customer.ZipCode,
                     Email = customer.EmailAddress,
-                    PhoneNumber =  customer.PhoneNumber,
+                    PhoneNumber =  phoneNumber,
                 };
                 var generatedPassword = _passwordGeneratorService.GeneratePassword();
                 await _userManager.CreateAsync(newCustomer, generatedPassword);
 
                 customerId = newCustomer.Id;
+                TempData["AccountSuccessMessage"] = "Klantenaccount is aangemaakt met het wachtwoord: " + generatedPassword;
             }
+
+            var bookingAnimals = bookingFormState.Animals.Select(animalViewModel => _animalRepository.GetAllAnimals()
+                    .FirstOrDefault(a => a.Id == animalViewModel.Id))
+                .OfType<Animal>()
+                .ToList();
 
             var booking = new Booking
             {
@@ -205,6 +234,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 CustomerId = customerId,
                 TotalPrice = bookingFormViewModel.TotalPrice,
                 TotalDiscountPercentage = 0,
+                Animals = bookingAnimals,
             };
             _bookingRepository.AddBooking(booking);
             
@@ -215,7 +245,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 session.Remove(key);
             }
             
-            TempData["SuccessMessage"] = "Boeking is aangemaakt";
+            TempData["BookingSuccessMessage"] = "Boeking is aangemaakt";
             return RedirectToAction("Step1");
         }
 
@@ -229,10 +259,10 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var emailAddress = HttpContext.Session.GetString("EmailAddress") ?? string.Empty;
             var phoneNumber = HttpContext.Session.GetString("PhoneNumber");
             
+            // Convert animal ID's to animals
             var selectedAnimals = new List<AnimalViewModel>();
             if (!string.IsNullOrEmpty(serializedAnimalIds))
             {
-                // Convert animal ID's to animals
                 var selectedAnimalIds = JsonSerializer.Deserialize<List<int>>(serializedAnimalIds, new JsonSerializerOptions()
                 {
                     ReferenceHandler = ReferenceHandler.IgnoreCycles
@@ -261,14 +291,25 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 }
             }
             
-            var customer = new CustomerViewModel
+            var existingCustomer = _customerRepository.GetCustomerByEmail(emailAddress);
+            var customer = new CustomerViewModel();
+            if (existingCustomer != null)
             {
-                Name = name,
-                HouseNumber = houseNumber,
-                ZipCode = zipCode,
-                EmailAddress = emailAddress,
-                PhoneNumber = phoneNumber,
-            };
+                customer.Name = existingCustomer.Name;
+                customer.HouseNumber = existingCustomer.HouseNumber;
+                customer.ZipCode = existingCustomer.ZipCode;
+                customer.EmailAddress = existingCustomer.Email;
+                customer.PhoneNumber = existingCustomer.PhoneNumber;
+                customer.TypeId = existingCustomer.TypeId;
+            }
+            else
+            {
+                customer.Name = name;
+                customer.HouseNumber = houseNumber;
+                customer.ZipCode = zipCode;
+                customer.EmailAddress = emailAddress;
+                customer.PhoneNumber = phoneNumber;
+            }
             
             var bookingFormState = new BookingFormStateViewModel()
             {

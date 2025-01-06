@@ -5,8 +5,6 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Customer
 {
     public class CustomerViewModel
     {
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "Naam is verplicht")]
         public string Name { get; set; }
 

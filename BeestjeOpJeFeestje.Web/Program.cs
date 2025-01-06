@@ -1,5 +1,6 @@
 using BeestjeOpJeFeestje.Business.Interfaces;
 using BeestjeOpJeFeestje.Business.Services;
+using BeestjeOpJeFeestje.Business.Services.DiscountRules;
 using BeestjeOpJeFeestje.Data.DbContext;
 using BeestjeOpJeFeestje.Data.Interfaces;
 using BeestjeOpJeFeestje.Data.Models;
@@ -39,6 +40,12 @@ namespace BeestjeOpJeFeestje.Web
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<ISignInManagerService, SignInManagerService>();
             builder.Services.AddScoped<IPasswordGeneratorService, PasswordGeneratorService>();
+            builder.Services.AddScoped<IDiscountRule, AnimalTypeDiscountService>();
+            builder.Services.AddScoped<IDiscountRule, DuckDiscountService>();
+            builder.Services.AddScoped<IDiscountRule, DayOfWeekDiscountService>();
+            builder.Services.AddScoped<IDiscountRule, NameLetterDiscountService>();
+            builder.Services.AddScoped<IDiscountRule, CustomerCardDiscountService>();
+            builder.Services.AddScoped<DiscountService>();
             
             // Add session services.
             builder.Services.AddDistributedMemoryCache();

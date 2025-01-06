@@ -10,10 +10,16 @@
         <div class="progress-bar" style="width: 0"></div>
     </div>
 
-    @if (TempData["SuccessMessage"] != null)
+    @if (TempData["BookingSuccessMessage"] != null)
     {
         <div class="alert alert-success text-center">
-            <span>@TempData["SuccessMessage"]</span>
+            <span>@TempData["BookingSuccessMessage"]</span>
+        </div>
+    }
+    @if (TempData["AccountSuccessMessage"] != null)
+    {
+        <div class="alert alert-warning text-center">
+            <span>@TempData["AccountSuccessMessage"]</span>
         </div>
     }
 
