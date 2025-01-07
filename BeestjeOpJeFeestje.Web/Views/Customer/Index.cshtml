@@ -14,6 +14,12 @@
             <span>@TempData["SuccessMessage"]</span>
         </div>
     }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            <span>@TempData["ErrorMessage"]</span>
+        </div>
+    }
     
     <table class="table table-bordered table-striped text-center">
         <thead class="thead-dark">

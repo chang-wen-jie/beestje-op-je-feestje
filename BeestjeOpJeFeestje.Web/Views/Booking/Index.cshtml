@@ -1,0 +1,67 @@
+@using BeestjeOpJeFeestje.Web.ViewModels.Booking;
+@model IEnumerable<BookingViewModel>
+
+@{
+    ViewData["Title"] = "Mijn Boekingen";
+}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Mijn Boekingen (@Model.Count())</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-center">
+            <span>@TempData["SuccessMessage"]</span>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            <span>@TempData["ErrorMessage"]</span>
+        </div>
+    }
+    
+    <table class="table table-bordered table-striped text-center">
+        <thead class="thead-dark">
+        <tr>
+            <th>Datum</th>
+            <th>Totaalbedrag</th>
+            <th>Kortingspercentage</th>
+            <th>Beestjes</th>
+            <th>Acties</th>
+        </tr>
+        </thead>
+        
+        <tbody>
+        @if (!Model.Any())
+        {
+            <tr>
+                <td colspan="6" class="text-center fst-italic">Geen boekingen gevonden</td>
+            </tr>
+        }
+        @foreach (var booking in Model)
+        {
+            <tr>
+                <td>@booking.Date</td>
+                <td>@booking.TotalPrice.ToString("C")</td>
+                <td>@(booking.TotalDiscountPercentage)%</td>
+                <td>
+                    @foreach (var animal in booking.Animals)
+                    {
+                        <img src="@Url.Content("~/img/animals/" + animal.ImageUrl)" alt="@animal.Name" style="height: 50px"/>
+                    }
+                </td>
+                <td>
+                    <form asp-action="Delete" method="post" class="d-inline">
+                        <input type="hidden" name="bookingId" value="@booking.Id"/>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je deze boeking wil verwijderen?')">
+                            Verwijder
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+    

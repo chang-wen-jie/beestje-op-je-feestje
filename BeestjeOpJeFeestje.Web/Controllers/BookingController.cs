@@ -23,7 +23,27 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         private readonly ICustomerRepository _customerRepository = customerRepository;
         private readonly IPasswordGeneratorService _passwordGeneratorService = passwordGeneratorService;
         private readonly DiscountService _discountService = discountService;
-        
+
+        public IActionResult Index()
+        {
+            var customerId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var bookings = _bookingRepository.GetBookingsByCustomerId(customerId);
+            var bookingViewModels = bookings.Select(booking => new BookingViewModel
+            {
+                Id = booking.Id,
+                Date = booking.Date,
+                CustomerId = booking.CustomerId,
+                TotalPrice = booking.TotalPrice,
+                TotalDiscountPercentage = booking.TotalDiscountPercentage,
+                Animals = booking.Animals.Select(animal => new AnimalViewModel
+                {
+                    Name = animal.Name,
+                    ImageUrl = animal.ImageUrl,
+                }).ToList()
+            }).ToList();
+            
+            return View(bookingViewModels);
+        }
 
         public IActionResult Step1()
         {
@@ -54,7 +74,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         {
             var bookingFormState = GetBookingFormState();
             var userEmail = HttpContext.User.Identity?.Name;
-            var bookings = _bookingRepository.GetBookings().ToList();
+            var bookings = _bookingRepository.GetAllBookings().ToList();
             var animals = _animalRepository.GetAllAnimals().ToList();
             
             var animalViewModels = animals.Select(animal => new AnimalViewModel
@@ -88,7 +108,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             if (!ModelState.IsValid)
             {
                 var bookingFormState = GetBookingFormState();
-                var bookings = _bookingRepository.GetBookings().ToList();
+                var bookings = _bookingRepository.GetAllBookings().ToList();
                 var animals = _animalRepository.GetAllAnimals().ToList();
                 
                 var animalViewModels = animals.Select(animal => new AnimalViewModel
@@ -227,13 +247,25 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                     .FirstOrDefault(a => a.Id == animalViewModel.Id))
                 .OfType<Animal>()
                 .ToList();
-
+            
+            var totalPrice = bookingAnimals.Sum(a => a.Price);
+            var discountPercentage = _discountService.CalculateDiscount(new Booking
+            {
+                Date = DateOnly.Parse(bookingFormState.Date),
+                Animals = bookingAnimals,
+                Customer = new Customer
+                {
+                    TypeId =bookingFormState.Customer.TypeId,
+                }
+            });
+            var discountedPrice = totalPrice * (1 - discountPercentage / 100);
+            
             var booking = new Booking
             {
                 Date = DateOnly.Parse(bookingFormState.Date),
                 CustomerId = customerId,
-                TotalPrice = bookingFormViewModel.TotalPrice,
-                TotalDiscountPercentage = 0,
+                TotalPrice = discountedPrice,
+                TotalDiscountPercentage = discountPercentage,
                 Animals = bookingAnimals,
             };
             _bookingRepository.AddBooking(booking);
@@ -319,6 +351,22 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             };
             
             return bookingFormState;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int bookingId)
+        {
+            var booking = _bookingRepository.GetBookingById(bookingId);
+            if (booking == null) return NotFound();
+            
+            if (!_bookingRepository.DeleteBooking(bookingId))
+            {
+                TempData["ErrorMessage"] = "Boeking kon niet worden verwijderd";
+                return RedirectToAction("Index");
+            }
+            TempData["SuccessMessage"] = "Boeking is verwijderd";
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,6 +1,7 @@
 using BeestjeOpJeFeestje.Data.DbContext;
 using BeestjeOpJeFeestje.Data.Interfaces;
 using BeestjeOpJeFeestje.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeestjeOpJeFeestje.Data.Repositories;
 
@@ -8,16 +9,24 @@ public class BookingRepository(BeestjeOpJeFeestjeDbContext context) : IBookingRe
 {
     private readonly BeestjeOpJeFeestjeDbContext _context = context;
 
-    public IEnumerable<Booking> GetBookings()
+    public IEnumerable<Booking> GetAllBookings()
     {
         return _context.Bookings;
     }
     
-    public Booking? GetBooking(int bookingId)
+    public Booking? GetBookingById(int id)
     {
-        var bookingToRead = _context.Bookings.Find(bookingId);
+        var bookingToRead = _context.Bookings.Find(id);
         return bookingToRead;
     }
+
+    public IQueryable<Booking> GetBookingsByCustomerId(string customerId)
+    {
+        return _context.Bookings.Include(b => b.Animals)
+            .Where(b => b.CustomerId == customerId);
+    }
+
+
 
     public void AddBooking(Booking booking)
     {
@@ -25,19 +34,9 @@ public class BookingRepository(BeestjeOpJeFeestjeDbContext context) : IBookingRe
         _context.SaveChanges();
     }
 
-    public bool UpdateBooking(Booking booking)
+    public bool DeleteBooking(int id)
     {
-        var bookingToUpdate = _context.Bookings.Find(booking.Id);
-        if (bookingToUpdate == null) return false;
-        
-        _context.Entry(bookingToUpdate).CurrentValues.SetValues(booking);
-        _context.SaveChanges();
-        return true;
-    }
-
-    public bool DeleteBooking(int bookingId)
-    {
-        var bookingToDelete = _context.Bookings.Find(bookingId);
+        var bookingToDelete = _context.Bookings.Find(id);
         if (bookingToDelete == null) return false;
         
         _context.Bookings.Remove(bookingToDelete);

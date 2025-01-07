@@ -9,16 +9,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44dbeae5-1f11-4641-b2d9-b90162b4c556" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Models/Customer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Models/Customer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/SignInManagerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/SignInManagerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IBookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IBookingRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/BookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/BookingRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Animal/AnimalViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Animal/AnimalViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingFormViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingFormViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Customer/CustomerViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Customer/CustomerViewModel.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step1.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step1.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Details.cshtml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step4.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step4.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Details.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Index.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Shared/_Layout.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -125,6 +125,7 @@
       <workItem from="1735978670542" duration="13818000" />
       <workItem from="1736061249536" duration="22018000" />
       <workItem from="1736149623220" duration="21455000" />
+      <workItem from="1736273308814" duration="9037000" />
     </task>
     <servers />
   </component>

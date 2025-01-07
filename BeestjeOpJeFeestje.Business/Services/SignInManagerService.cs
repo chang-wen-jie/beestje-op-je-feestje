@@ -31,6 +31,8 @@ public class SignInManagerService(
         identity.AddClaim(new Claim("ZipCode", user.ZipCode ?? string.Empty));
         identity.AddClaim(new Claim("EmailAddress", user.Email ?? string.Empty));
         identity.AddClaim(new Claim("PhoneNumber", user.PhoneNumber ?? string.Empty));
+        Console.WriteLine($"TypeId: {user.TypeId}");
+        identity.AddClaim(new Claim("TypeId", user.TypeId.ToString() ?? string.Empty));
 
         return principal;
     }

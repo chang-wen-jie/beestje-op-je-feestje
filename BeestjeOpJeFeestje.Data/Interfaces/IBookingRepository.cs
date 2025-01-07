@@ -4,9 +4,9 @@ namespace BeestjeOpJeFeestje.Data.Interfaces;
 
 public interface IBookingRepository
 {
-    public IEnumerable<Booking> GetBookings();
-    public Booking? GetBooking(int bookingId);
+    public IEnumerable<Booking> GetAllBookings();
+    public Booking? GetBookingById(int id);
+    public IQueryable<Booking> GetBookingsByCustomerId(string customerId);
     public void AddBooking(Booking booking);
-    public bool UpdateBooking(Booking booking);
-    public bool DeleteBooking(int bookingId);
+    public bool DeleteBooking(int id);
 }
