@@ -9,14 +9,17 @@ public class BookingRepository(BeestjeOpJeFeestjeDbContext context) : IBookingRe
 {
     private readonly BeestjeOpJeFeestjeDbContext _context = context;
 
-    public IEnumerable<Booking> GetAllBookings()
+    public IQueryable<Booking> GetAllBookings()
     {
-        return _context.Bookings;
+        return _context.Bookings.Include(b => b.Animals)
+            .Include(b => b.Customer);
     }
     
     public Booking? GetBookingById(int id)
     {
-        var bookingToRead = _context.Bookings.Find(id);
+        var bookingToRead = _context.Bookings.Include(b => b.Customer)
+            .Include(b => b.Animals)
+            .FirstOrDefault(b => b.Id == id);
         return bookingToRead;
     }
 

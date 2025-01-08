@@ -17,6 +17,7 @@ public class CustomerRepository(BeestjeOpJeFeestjeDbContext context) : ICustomer
     public Customer? GetCustomerByEmail(string email)
     {
         var customerToRead = _context.Users
+            .Include(c => c.Type)
             .FirstOrDefault(c => c.Email == email);
         return customerToRead;
     }

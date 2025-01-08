@@ -3,13 +3,15 @@ using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Web.ViewModels.Animal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
     [Authorize]
-    public class AnimalController(IAnimalRepository animalRepository) : Controller
+    public class AnimalController(IAnimalRepository animalRepository, IAnimalTypeRepository animalTypeRepository) : Controller
     {
         private readonly IAnimalRepository _animalRepository = animalRepository;
+        private readonly IAnimalTypeRepository _animalTypeRepository = animalTypeRepository;
         
         public IActionResult Index()
         {
@@ -37,6 +39,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 Id = animal.Id,
                 Name = animal.Name,
                 TypeId = animal.TypeId,
+                Type = animal.Type,
                 Price = animal.Price,
                 ImageUrl = animal.ImageUrl,
             };
@@ -47,14 +50,34 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var animalViewModel = new AnimalViewModel
+            {
+                Types = _animalTypeRepository.GetAnimalTypes().Select(at => new SelectListItem
+                {
+                    Value = at.Id.ToString(),
+                    Text = at.Name
+                })
+            };
+            
+            return View(animalViewModel);
         }
         
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(AnimalViewModel animalViewModel)
         {
-            if (!ModelState.IsValid) return View(animalViewModel);
+            if (!ModelState.IsValid)
+            {
+                animalViewModel.Types = _animalTypeRepository.GetAnimalTypes()
+                    .Select(ct => new SelectListItem
+                    {
+                        Value = ct.Id.ToString(),
+                        Text = ct.Name
+                    })
+                    .ToList();
+                
+                return View(animalViewModel);
+            }
 
             var animal = new Animal()
             {
@@ -82,6 +105,13 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 TypeId = animal.TypeId,
                 Price = animal.Price,
                 ImageUrl = animal.ImageUrl,
+                Types = _animalTypeRepository.GetAnimalTypes()
+                    .Select(ct => new SelectListItem
+                    {
+                        Value = ct.Id.ToString(),
+                        Text = ct.Name
+                    })
+                    .ToList(),
             };
             
             return View(animalViewModel);
@@ -91,7 +121,18 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(AnimalViewModel animalViewModel)
         {
-            if (!ModelState.IsValid) return View(animalViewModel);
+            if (!ModelState.IsValid)
+            {
+                animalViewModel.Types = _animalTypeRepository.GetAnimalTypes()
+                    .Select(ct => new SelectListItem
+                    {
+                        Value = ct.Id.ToString(),
+                        Text = ct.Name
+                    })
+                    .ToList();
+                
+                return View(animalViewModel);
+            }
 
             var animal = new Animal()
             {

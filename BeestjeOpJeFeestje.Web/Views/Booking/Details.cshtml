@@ -1,0 +1,95 @@
+@using BeestjeOpJeFeestje.Web.ViewModels.Booking
+@model BookingViewModel
+
+@{
+    ViewData["Title"] = "Boekingsoverzicht";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <span class="fw-bold">Boeking #@Model.Id</span>
+                </div>
+
+
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <span class="fw-bold">Klantoverzicht</span>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label asp-for="Customer.Name" class="form-label">Naam</label>
+                                    <input asp-for="Customer.Name" class="form-control" readonly/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Customer.HouseNumber" class="form-label">Huisnummer</label>
+                                    <input asp-for="Customer.HouseNumber" class="form-control" readonly/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Customer.ZipCode" class="form-label">Postcode</label>
+                                    <input asp-for="Customer.ZipCode" class="form-control" readonly/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Customer.EmailAddress" class="form-label">E-mailadres</label>
+                                    <input asp-for="Customer.EmailAddress" class="form-control" readonly/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label asp-for="Customer.PhoneNumber" class="form-label">Telefoonnummer</label>
+                                    <input asp-for="Customer.PhoneNumber" value="@(Model.Customer.PhoneNumber ?? "-")" class="form-control" readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card mt-3">
+                            <div class="card-header">
+                                <span class="fw-bold">Boekingsoverzicht</span>
+                            </div>
+                            
+                            <div class="card-body">
+                                <ul class="ps-3">
+                                    @foreach (var animal in Model.Animals)
+                                    {
+                                        <li>
+                                            <span>@animal.Name - @animal.Price.ToString("C")</span>
+                                        </li>
+                                    }
+                                </ul>
+                                <span class="fst-italic">Korting: @Model.TotalDiscountPercentage%</span>
+                                <hr/>
+                                <span>Totaalprijs: @Model.TotalPrice.ToString("C")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <span class="fw-bold">Boeking</span>
+                </div>
+
+                <div class="card-body">
+                    <span>Datum: @Model.Date</span>
+                    <hr/>
+                    <p>Beestjes:</p>
+
+                    @foreach (var animal in Model.Animals)
+                    {
+                        <img class="border" alt="@animal.Name" style="height: 50px;" src="@Url.Content("~/img/animals/" + animal.ImageUrl)">
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

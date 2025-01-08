@@ -1,0 +1,64 @@
+    @using BeestjeOpJeFeestje.Web.ViewModels.Booking;
+    @model IEnumerable<BookingViewModel>
+
+    @{
+        ViewData["Title"] = "Alle Boekingen";
+    }
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Alle Boekingen (@Model.Count())</h1>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success text-center">
+                <span>@TempData["SuccessMessage"]</span>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger text-center">
+                <span>@TempData["ErrorMessage"]</span>
+            </div>
+        }
+        
+        <table class="table table-bordered table-striped text-center">
+            <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Datum</th>
+                <th>E-mailadres</th>
+                <th>Totaalbedrag</th>
+                <th>Beestjes</th>
+                <th>Acties</th>
+            </tr>
+            </thead>
+            
+            <tbody>
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="6" class="text-center fst-italic">Geen boekingen gevonden</td>
+                </tr>
+            }
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@booking.Id</td>
+                    <td>@booking.Date</td>
+                    <td>@booking.Customer.EmailAddress</td>
+                    <td>@booking.TotalPrice.ToString("C")</td>
+                    <td>
+                        @foreach (var animal in booking.Animals)
+                        {
+                            <img src="@Url.Content("~/img/animals/" + animal.ImageUrl)" alt="@animal.Name" style="height: 50px"/>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-bookingId="@booking.Id" class="btn btn-secondary btn-sm">Details</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+        

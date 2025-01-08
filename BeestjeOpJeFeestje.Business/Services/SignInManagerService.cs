@@ -18,7 +18,7 @@ public class SignInManagerService(
     IAuthenticationSchemeProvider schemes,
     IUserConfirmation<Customer> confirmation)
     : SignInManager<Customer>(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes,
-        confirmation), ISignInManagerService
+        confirmation)
 {
     public override async Task<ClaimsPrincipal> CreateUserPrincipalAsync(Customer user)
     {
@@ -26,12 +26,11 @@ public class SignInManagerService(
         var identity = (ClaimsIdentity)principal.Identity;
 
         if (identity == null) return principal;
-        identity.AddClaim(new Claim("Name", user.Name ?? string.Empty));
-        identity.AddClaim(new Claim("HouseNumber", user.HouseNumber.ToString() ?? "0"));
-        identity.AddClaim(new Claim("ZipCode", user.ZipCode ?? string.Empty));
+        identity.AddClaim(new Claim("Name", user.Name));
+        identity.AddClaim(new Claim("HouseNumber", user.HouseNumber.ToString()));
+        identity.AddClaim(new Claim("ZipCode", user.ZipCode));
         identity.AddClaim(new Claim("EmailAddress", user.Email ?? string.Empty));
         identity.AddClaim(new Claim("PhoneNumber", user.PhoneNumber ?? string.Empty));
-        Console.WriteLine($"TypeId: {user.TypeId}");
         identity.AddClaim(new Claim("TypeId", user.TypeId.ToString() ?? string.Empty));
 
         return principal;

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BeestjeOpJeFeestje.Data.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BeestjeOpJeFeestje.Web.ViewModels.Animal
 {
@@ -13,7 +14,7 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Animal
         [Required(ErrorMessage = "Type is verplicht")]
         [Range(1, 5, ErrorMessage = "Type moet tussen de 1 en 5 liggen")]
         public int TypeId { get; set; }
-        public AnimalType Type { get; set; }
+        public AnimalType? Type { get; set; }
 
         [Required(ErrorMessage = "Prijs is verplicht")]
         public decimal Price { get; set; }
@@ -21,5 +22,6 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Animal
         [Required(ErrorMessage = "Afbeelding link is verplicht")]
         public string ImageUrl { get; set; }
         
+        public IEnumerable<SelectListItem>? Types { get; set; }
     }
 }

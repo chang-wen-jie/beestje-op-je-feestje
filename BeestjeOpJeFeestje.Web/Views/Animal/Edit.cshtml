@@ -25,7 +25,9 @@
 
             <div class="col-md-6">
                 <label asp-for="TypeId" class="form-label">Type*</label>
-                <input asp-for="TypeId" class="form-control"/>
+                <select asp-for="TypeId" class="form-control" asp-items="Model.Types">
+                    <option value="">Selecteer een type</option>
+                </select>
                 <span asp-validation-for="TypeId" class="text-danger"></span>
             </div>
 

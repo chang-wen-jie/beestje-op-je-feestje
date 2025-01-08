@@ -16,7 +16,8 @@ public class AnimalRepository(BeestjeOpJeFeestjeDbContext context) : IAnimalRepo
     
     public Animal? GetAnimalById(int id)
     {
-        var animalToRead = _context.Animals.Find(id);
+        var animalToRead = _context.Animals.Include(a => a.Type)
+            .FirstOrDefault(a => a.Id == id);
         return animalToRead;
     }
 

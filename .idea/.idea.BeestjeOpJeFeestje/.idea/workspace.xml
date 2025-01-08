@@ -10,16 +10,33 @@
   <component name="ChangeListManager">
     <list default="true" id="44dbeae5-1f11-4641-b2d9-b90162b4c556" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Interfaces/ISignInManagerService.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/SignInManagerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/SignInManagerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IAnimalTypeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IAnimalTypeRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IBookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IBookingRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/ICustomerTypeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/ICustomerTypeRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/AnimalRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/AnimalRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/BookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/BookingRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/CustomerRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/CustomerRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/CustomerTypeRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/CustomerTypeRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Login.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Areas/Identity/Pages/Account/Login.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/AnimalController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/AnimalController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/CustomerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/CustomerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Animal/AnimalViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Animal/AnimalViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Customer/CustomerViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Customer/CustomerViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Create.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Create.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Details.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Edit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Edit.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Animal/Index.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Details.cshtml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/CustomerIndex.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step4.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Booking/Step4.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Create.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Create.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Details.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Details.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Edit.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Edit.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Index.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Customer/Index.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Shared/_Layout.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,6 +143,7 @@
       <workItem from="1736061249536" duration="22018000" />
       <workItem from="1736149623220" duration="21455000" />
       <workItem from="1736273308814" duration="9037000" />
+      <workItem from="1736322418907" duration="17483000" />
     </task>
     <servers />
   </component>

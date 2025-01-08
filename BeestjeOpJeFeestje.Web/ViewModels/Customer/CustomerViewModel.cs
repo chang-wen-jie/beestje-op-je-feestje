@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using BeestjeOpJeFeestje.Data.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BeestjeOpJeFeestje.Web.ViewModels.Customer
 {
@@ -26,5 +27,7 @@ namespace BeestjeOpJeFeestje.Web.ViewModels.Customer
         public int? TypeId { get; set; }
         
         public CustomerType? Type { get; set; }
+        
+        public IEnumerable<SelectListItem>? Types { get; set; }
     }
 }

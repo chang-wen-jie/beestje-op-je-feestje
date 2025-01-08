@@ -36,9 +36,11 @@ namespace BeestjeOpJeFeestje.Web
                 .AddEntityFrameworkStores<BeestjeOpJeFeestjeDbContext>();
             
             builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+            builder.Services.AddScoped<IAnimalTypeRepository, AnimalTypeRepository>();
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-            builder.Services.AddScoped<ISignInManagerService, SignInManagerService>();
+            builder.Services.AddScoped<ICustomerTypeRepository, CustomerTypeRepository>();
+            builder.Services.AddScoped<SignInManager<Customer>, SignInManagerService>();
             builder.Services.AddScoped<IPasswordGeneratorService, PasswordGeneratorService>();
             builder.Services.AddScoped<IDiscountRule, AnimalTypeDiscountService>();
             builder.Services.AddScoped<IDiscountRule, DuckDiscountService>();

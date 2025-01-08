@@ -24,7 +24,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         private readonly IPasswordGeneratorService _passwordGeneratorService = passwordGeneratorService;
         private readonly DiscountService _discountService = discountService;
 
-        public IActionResult Index()
+        public IActionResult CustomerIndex()
         {
             var customerId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             var bookings = _bookingRepository.GetBookingsByCustomerId(customerId);
@@ -33,6 +33,14 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 Id = booking.Id,
                 Date = booking.Date,
                 CustomerId = booking.CustomerId,
+                Customer = new CustomerViewModel
+                {
+                    Name = booking.Customer.Name,
+                    HouseNumber = booking.Customer.HouseNumber,
+                    ZipCode = booking.Customer.ZipCode,
+                    EmailAddress = booking.Customer.Email,
+                    PhoneNumber = booking.Customer.PhoneNumber,
+                },
                 TotalPrice = booking.TotalPrice,
                 TotalDiscountPercentage = booking.TotalDiscountPercentage,
                 Animals = booking.Animals.Select(animal => new AnimalViewModel
@@ -43,6 +51,62 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             }).ToList();
             
             return View(bookingViewModels);
+        }
+
+        public IActionResult ManagerIndex()
+        {
+            var bookings = _bookingRepository.GetAllBookings();
+            var bookingViewModels = bookings.Select(booking => new BookingViewModel
+            {
+                Id = booking.Id,
+                Date = booking.Date,
+                CustomerId = booking.CustomerId,
+                Customer = new CustomerViewModel
+                {
+                    EmailAddress = booking.Customer.Email,
+                },
+                TotalPrice = booking.TotalPrice,
+                TotalDiscountPercentage = booking.TotalDiscountPercentage,
+                Animals = booking.Animals.Select(animal => new AnimalViewModel
+                {
+                    Name = animal.Name,
+                    ImageUrl = animal.ImageUrl,
+                }).ToList()
+            }).ToList();
+            
+            return View(bookingViewModels);
+        }
+
+        [HttpGet]
+        public IActionResult Details(int bookingId)
+        {
+            var booking = _bookingRepository.GetBookingById(bookingId);
+            if (booking == null) return NotFound();
+
+            var bookingViewModel = new BookingViewModel
+            {
+                Id = booking.Id,
+                Date = booking.Date,
+                CustomerId = booking.CustomerId,
+                Customer = new CustomerViewModel
+                {
+                    Name = booking.Customer.Name,
+                    HouseNumber = booking.Customer.HouseNumber,
+                    ZipCode = booking.Customer.ZipCode,
+                    EmailAddress = booking.Customer.Email,
+                    PhoneNumber = booking.Customer.PhoneNumber,
+                },
+                TotalPrice = booking.TotalPrice,
+                TotalDiscountPercentage = booking.TotalDiscountPercentage,
+                Animals = booking.Animals.Select(animal => new AnimalViewModel
+                {
+                    Name = animal.Name,
+                    Price = animal.Price,
+                    ImageUrl = animal.ImageUrl,
+                }).ToList()
+            };
+            
+            return View(bookingViewModel);
         }
 
         public IActionResult Step1()
@@ -255,7 +319,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 Animals = bookingAnimals,
                 Customer = new Customer
                 {
-                    TypeId =bookingFormState.Customer.TypeId,
+                    TypeId = bookingFormState.Customer.TypeId,
                 }
             });
             var discountedPrice = totalPrice * (1 - discountPercentage / 100);
@@ -363,10 +427,10 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             if (!_bookingRepository.DeleteBooking(bookingId))
             {
                 TempData["ErrorMessage"] = "Boeking kon niet worden verwijderd";
-                return RedirectToAction("Index");
+                return RedirectToAction("CustomerIndex");
             }
             TempData["SuccessMessage"] = "Boeking is verwijderd";
-            return RedirectToAction("Index");
+            return RedirectToAction("CustomerIndex");
         }
     }
 }

@@ -4,12 +4,12 @@ using BeestjeOpJeFeestje.Data.Models;
 
 namespace BeestjeOpJeFeestje.Data.Repositories;
 
-public class CustomerTypeRepository(BeestjeOpJeFeestjeDbContext context) : ICustomerTypeRepository
+public class AnimalTypeRepository(BeestjeOpJeFeestjeDbContext context) : IAnimalTypeRepository
 {
     private readonly BeestjeOpJeFeestjeDbContext _context = context;
 
-    public IEnumerable<CustomerType> GetCustomerTypes()
+    public IEnumerable<AnimalType> GetAnimalTypes()
     {
-        return _context.CustomerTypes;
+        return _context.AnimalTypes;
     }
 }

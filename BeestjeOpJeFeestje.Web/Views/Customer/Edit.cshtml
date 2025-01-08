@@ -1,11 +1,11 @@
 ﻿@model BeestjeOpJeFeestje.Web.ViewModels.Customer.CustomerViewModel
 
 @{
-    ViewData["Title"] = "Customer Bewerken";
+    ViewData["Title"] = "Klant Aanpassen";
 }
 
 <div class="container mt-4">
-    <h1 class="text-center mb-4">Customer bewerken</h1>
+    <h1 class="text-center mb-4">Klant aanpassen</h1>
 
     @if (TempData["ErrorMessage"] != null)
     {
@@ -47,8 +47,10 @@
             </div>
 
             <div class="col-md-6">
-                <label asp-for="TypeId" class="form-label">Klantenkaart*</label>
-                <input asp-for="TypeId" class="form-control"/>
+                <label asp-for="TypeId" class="form-label">Klantenkaart</label>
+                <select asp-for="TypeId" class="form-control" asp-items="Model.Types">
+                    <option value="">Selecteer een klantenkaart</option>
+                </select>
                 <span asp-validation-for="TypeId" class="text-danger"></span>
             </div>
         </div>

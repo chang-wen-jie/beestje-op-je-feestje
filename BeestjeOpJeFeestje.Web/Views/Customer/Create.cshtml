@@ -1,11 +1,11 @@
 ﻿@model BeestjeOpJeFeestje.Web.ViewModels.Customer.CustomerViewModel
 
 @{
-    ViewData["Title"] = "Klant Aanmaken";
+    ViewData["Title"] = "Klant Toevoegen";
 }
 
 <div class="container mt-4">
-    <h1 class="text-center mb-4">Klant aanmaken</h1>
+    <h1 class="text-center mb-4">Klant toevoegen</h1>
 
     <form asp-action="Create" method="post">
         <div class="row gy-3">
@@ -41,7 +41,9 @@
 
             <div class="col-md-6">
                 <label asp-for="TypeId" class="form-label">Klantenkaart</label>
-                <input asp-for="TypeId" class="form-control"/>
+                <select asp-for="TypeId" class="form-control" asp-items="Model.Types">
+                    <option value="">Selecteer een klantenkaart</option>
+                </select>
                 <span asp-validation-for="TypeId" class="text-danger"></span>
             </div>
         </div>

@@ -5,14 +5,16 @@ using BeestjeOpJeFeestje.Web.ViewModels.Customer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
     [Authorize]
-    public class CustomerController(ICustomerRepository customerRepository, UserManager<Customer> userManager,
+    public class CustomerController(ICustomerRepository customerRepository, ICustomerTypeRepository customerTypeRepository, UserManager<Customer> userManager,
         IPasswordGeneratorService passwordGeneratorService) : Controller
     {
         private readonly ICustomerRepository _customerRepository = customerRepository;
+        private readonly ICustomerTypeRepository _customerTypeRepository = customerTypeRepository;
         private readonly UserManager<Customer> _userManager = userManager;
         private readonly IPasswordGeneratorService _passwordGeneratorService = passwordGeneratorService;
         
@@ -43,6 +45,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 EmailAddress = customer.Email,
                 PhoneNumber = customer.PhoneNumber,
                 TypeId = customer.TypeId,
+                Type = customer.Type,
             };
             
             return View(customerViewModel);
@@ -51,14 +54,37 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var customerViewModel = new CustomerViewModel
+            {
+                Types = _customerTypeRepository.GetCustomerTypes().Select(ct => new SelectListItem
+                {
+                    Value = ct.Id.ToString(),
+                    Text = ct.Name,
+                })
+            };
+            
+            return View(customerViewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CustomerViewModel customerViewModel)
         {
-            if (!ModelState.IsValid) return View(customerViewModel);
+            if (!ModelState.IsValid)
+            {
+                if (!ModelState.IsValid)
+                {
+                    customerViewModel.Types = _customerTypeRepository.GetCustomerTypes()
+                        .Select(ct => new SelectListItem
+                        {
+                            Value = ct.Id.ToString(),
+                            Text = ct.Name
+                        })
+                        .ToList();
+
+                    return View(customerViewModel);
+                }
+            }
 
             var customer = new Customer()
             {
@@ -90,7 +116,13 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 HouseNumber = customer.HouseNumber,
                 ZipCode = customer.ZipCode,
                 EmailAddress = customer.Email,
-                TypeId = customer.TypeId,
+                Types = _customerTypeRepository.GetCustomerTypes()
+                    .Select(ct => new SelectListItem
+                    {
+                        Value = ct.Id.ToString(),
+                        Text = ct.Name
+                    })
+                    .ToList(),
             };
             
             return View(customerViewModel);
@@ -100,7 +132,21 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(CustomerViewModel customerViewModel)
         {
-            if (!ModelState.IsValid) return View(customerViewModel);
+            if (!ModelState.IsValid)
+            {
+                if (!ModelState.IsValid)
+                {
+                    customerViewModel.Types = _customerTypeRepository.GetCustomerTypes()
+                        .Select(ct => new SelectListItem
+                        {
+                            Value = ct.Id.ToString(),
+                            Text = ct.Name
+                        })
+                        .ToList();
+
+                    return View(customerViewModel);
+                }
+            }
             
             var customer = await _userManager.FindByEmailAsync(customerViewModel.EmailAddress);
             if (customer == null) return NotFound();

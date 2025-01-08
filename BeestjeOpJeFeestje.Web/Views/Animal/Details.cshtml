@@ -2,7 +2,7 @@
 @model AnimalViewModel
 
 @{
-    ViewData["Title"] = "Gegevens van " + @Model.Name;
+    ViewData["Title"] = "Beestgegevens";
 }
 
 <div class="container mt-4">
@@ -26,7 +26,7 @@
 
         <div class="col-md-6">
             <label asp-for="TypeId" class="form-label">Type</label>
-            <input asp-for="TypeId" class="form-control" readonly/>
+            <input value="@((Model.Type.Name))" class="form-control" readonly/>
         </div>
 
         <div class="col-md-6">
