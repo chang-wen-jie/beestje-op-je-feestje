@@ -7,11 +7,21 @@ namespace BeestjeOpJeFeestje.Data.Seeders
 {
     public static class DatabaseSeeder
     {
-        public static void SeedDatabase(BeestjeOpJeFeestjeDbContext context, UserManager<Customer> userManager)
+        public static void SeedDatabase(BeestjeOpJeFeestjeDbContext context, UserManager<Customer> userManager, RoleManager<IdentityRole> roleManager)
         {
             try
             {
                 var needsSeeding = false;
+
+                if (!roleManager.Roles.Any())
+                {
+                    var roles = new[] { "Manager", "Customer" };
+
+                    foreach (var role in roles)
+                    {
+                        roleManager.CreateAsync(new IdentityRole(role)).Wait();
+                    }
+                }
 
                 if (!context.AnimalTypes.Any())
                 {
@@ -36,7 +46,6 @@ namespace BeestjeOpJeFeestje.Data.Seeders
                         new() { Name = "Zilver"},
                         new() { Name = "Goud" },
                         new() { Name = "Platina" },
-                        new() { Name = "Eigenaar" },
                     };
 
                     context.CustomerTypes.AddRange(customerTypes);
@@ -82,8 +91,6 @@ namespace BeestjeOpJeFeestje.Data.Seeders
 
                 if (!context.Users.Any())
                 {
-                    var ownerType = context.CustomerTypes.SingleOrDefault(ct => ct.Name == "Eigenaar");
-
                     var customer = new Customer()
                     {
                         UserName = "admin@example.com",
@@ -91,11 +98,11 @@ namespace BeestjeOpJeFeestje.Data.Seeders
                         Name = "admin",
                         HouseNumber = 1,
                         ZipCode = "1111AA",
-                        TypeId = ownerType.Id,
                     };
                     
                     const string password = "admin";
                     userManager.CreateAsync(customer, password).Wait();
+                    userManager.AddToRoleAsync(customer, "Manager").Wait();
 
                     needsSeeding = true;
                 }

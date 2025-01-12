@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeestjeOpJeFeestje.Data", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeestjeOpJeFeestje.Business", "BeestjeOpJeFeestje.Business\BeestjeOpJeFeestje.Business.csproj", "{6D213AAC-7BAC-480B-BEEF-A6D692A21F84}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeestjeOpJeFeestje.Tests", "BeestjeOpJeFeestje.Tests\BeestjeOpJeFeestje.Tests.csproj", "{6B11F7DE-56DD-4E78-B450-622031D40440}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6D213AAC-7BAC-480B-BEEF-A6D692A21F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D213AAC-7BAC-480B-BEEF-A6D692A21F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D213AAC-7BAC-480B-BEEF-A6D692A21F84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B11F7DE-56DD-4E78-B450-622031D40440}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B11F7DE-56DD-4E78-B450-622031D40440}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B11F7DE-56DD-4E78-B450-622031D40440}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B11F7DE-56DD-4E78-B450-622031D40440}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

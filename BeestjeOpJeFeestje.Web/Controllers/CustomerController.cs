@@ -99,6 +99,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             
             var generatedPassword = _passwordGeneratorService.GeneratePassword();
             await _userManager.CreateAsync(customer, generatedPassword);
+            await _userManager.AddToRoleAsync(customer, "Customer");
             
             TempData["SuccessMessage"] = $"{customer.Name} is aangemaakt met het wachtwoord: {generatedPassword}";
             return RedirectToAction("Index");

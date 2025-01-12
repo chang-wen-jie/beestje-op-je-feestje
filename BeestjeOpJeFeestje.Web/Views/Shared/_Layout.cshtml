@@ -30,7 +30,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="CustomerIndex">Mijn Boekingen</a>
                             </li>
                             
-                            @if (User.FindFirstValue("TypeId") == "4")
+                            @if (User.IsInRole("Manager"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="ManagerIndex">Boekingen</a>

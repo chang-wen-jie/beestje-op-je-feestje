@@ -91,8 +91,9 @@ namespace BeestjeOpJeFeestje.Web
                 var serviceProvider = scope.ServiceProvider;
                 var context = serviceProvider.GetRequiredService<BeestjeOpJeFeestjeDbContext>();
                 var userManager = serviceProvider.GetRequiredService<UserManager<Customer>>();
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 
-                DatabaseSeeder.SeedDatabase(context, userManager);
+                DatabaseSeeder.SeedDatabase(context, userManager, roleManager);
             }
 
             app.Run();

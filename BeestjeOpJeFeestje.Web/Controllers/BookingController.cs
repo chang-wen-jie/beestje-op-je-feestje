@@ -302,6 +302,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 };
                 var generatedPassword = _passwordGeneratorService.GeneratePassword();
                 await _userManager.CreateAsync(newCustomer, generatedPassword);
+                await _userManager.AddToRoleAsync(newCustomer, "Customer");
 
                 customerId = newCustomer.Id;
                 TempData["AccountSuccessMessage"] = "Klantenaccount is aangemaakt met het wachtwoord: " + generatedPassword;
