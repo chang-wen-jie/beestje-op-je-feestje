@@ -9,14 +9,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44dbeae5-1f11-4641-b2d9-b90162b4c556" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Tests/AnimalBookingValidation/AnimalBookingValidationTests.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Seeders/DatabaseSeeder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Seeders/DatabaseSeeder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/DiscountRules/CustomerCardDiscountService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/DiscountRules/CustomerCardDiscountService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/DiscountRules/NameLetterDiscountService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/DiscountRules/NameLetterDiscountService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IBookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IBookingRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/BookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/BookingRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Tests/BookingAnimalFormTests.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/CustomerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/CustomerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Views/Shared/_Layout.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.sln" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingAnimalFormViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingAnimalFormViewModel.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +35,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/59b19d8d0febef2e46cc2ae2dcca54a3c6e6502577a6e8801e7135f52114bb/DateOnly.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IAnimalTypeRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file:///usr/local/share/dotnet/sdk/8.0.404/Microsoft.Common.CurrentVersion.targets" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -128,6 +130,9 @@
       <workItem from="1736414068675" duration="4627000" />
       <workItem from="1736432369060" duration="465000" />
       <workItem from="1736670393318" duration="14002000" />
+      <workItem from="1736753357856" duration="11930000" />
+      <workItem from="1736847365345" duration="7255000" />
+      <workItem from="1736927882361" duration="23008000" />
     </task>
     <servers />
   </component>

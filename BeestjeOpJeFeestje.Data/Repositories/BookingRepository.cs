@@ -29,9 +29,7 @@ public class BookingRepository(BeestjeOpJeFeestjeDbContext context) : IBookingRe
             .Where(b => b.CustomerId == customerId);
     }
 
-
-
-    public void AddBooking(Booking booking)
+    public void CreateBooking(Booking booking)
     {
         _context.Bookings.Add(booking);
         _context.SaveChanges();

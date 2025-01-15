@@ -9,7 +9,7 @@ public class NameLetterDiscountService : IDiscountRule
     {
         return "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             .Where(letter => booking.Animals
-                .Any(a => a.Name.IndexOf(letter.ToString(), StringComparison.CurrentCultureIgnoreCase) >= 0))
+                .Any(a => a.Name.Contains(letter.ToString(), StringComparison.CurrentCultureIgnoreCase)))
             .Distinct()
             .Sum(letter => 2m);
     }

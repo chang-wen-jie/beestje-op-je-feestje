@@ -333,7 +333,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 TotalDiscountPercentage = discountPercentage,
                 Animals = bookingAnimals,
             };
-            _bookingRepository.AddBooking(booking);
+            _bookingRepository.CreateBooking(booking);
             
             var session = HttpContext.Session;
             var sessionKeys = session.Keys;

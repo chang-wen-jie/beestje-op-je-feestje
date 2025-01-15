@@ -1,7 +1,6 @@
 ﻿    using System.ComponentModel.DataAnnotations;
     using BeestjeOpJeFeestje.Data.Interfaces;
     using BeestjeOpJeFeestje.Web.ViewModels.Animal;
-    using BeestjeOpJeFeestje.Web.ViewModels.Customer;
 
     namespace BeestjeOpJeFeestje.Web.ViewModels.Booking
     {
@@ -23,13 +22,14 @@
                     yield break;
                 }
                 
+                // Retrieve all animals because Validate empties AvailableAnimals upon form submission
                 var animalRepository = validationContext.GetService(typeof(IAnimalRepository)) as IAnimalRepository;
                 var customerRepository = validationContext.GetService(typeof(ICustomerRepository)) as ICustomerRepository;
+                var animals = animalRepository?.GetAllAnimals();
+                var customer = customerRepository?.GetCustomerByEmail(CustomerEmail ?? string.Empty);
                 
                 var bookingDate = DateOnly.Parse(BookingFormState.Date);
-                var animals = animalRepository?.GetAllAnimals();
                 var selectedAnimals = animals.Where(animal => SelectedAnimalIds.Contains(animal.Id));
-                var customer = customerRepository?.GetCustomerByEmail(CustomerEmail);
                 
                 if (selectedAnimals.Any(animal => animal.Name == "Leeuw" || animal.Name == "IJsbeer"))
                 {
@@ -60,7 +60,7 @@
                 var isVipAnimalSelected = selectedAnimals.Any(animal => animal.Type.Name == "VIP");
                 if (customer != null)
                 {
-                    if (customer.TypeId == null && SelectedAnimalIds.Count > 3)
+                    if (customer.TypeId == null && SelectedAnimalIds.Count > 3) // check typename?
                     {
                         yield return new ValidationResult("Kies maximaal drie beestjes", [nameof(SelectedAnimalIds)]);
                     }
@@ -82,12 +82,12 @@
                         yield return new ValidationResult("Magische ervaring alleen voor VIP's", [nameof(SelectedAnimalIds)
                         ]);
                     }
+                    
                     if (SelectedAnimalIds.Count > 3)
                     {
                         yield return new ValidationResult("Kies maximaal drie beestjes", [nameof(SelectedAnimalIds)]);
                     }
                 }
-
             }
         }
     }

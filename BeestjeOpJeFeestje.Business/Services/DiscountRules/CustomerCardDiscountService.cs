@@ -7,6 +7,6 @@ public class CustomerCardDiscountService : IDiscountRule
 {
     public decimal CalculateDiscount(Booking booking)
     {
-        return booking.Customer.TypeId != null ? 10m : 0m;
+        return booking.Customer?.TypeId != null ? 10m : 0m;
     }
 }
