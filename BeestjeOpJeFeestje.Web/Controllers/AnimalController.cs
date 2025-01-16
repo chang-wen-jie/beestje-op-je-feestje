@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Manager")]
     public class AnimalController(IAnimalRepository animalRepository, IAnimalTypeRepository animalTypeRepository) : Controller
     {
         private readonly IAnimalRepository _animalRepository = animalRepository;

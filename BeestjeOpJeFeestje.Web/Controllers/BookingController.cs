@@ -8,6 +8,7 @@ using BeestjeOpJeFeestje.Data.Models;
 using BeestjeOpJeFeestje.Web.ViewModels.Animal;
 using BeestjeOpJeFeestje.Web.ViewModels.Booking;
 using BeestjeOpJeFeestje.Web.ViewModels.Customer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,10 +25,11 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         private readonly IPasswordGeneratorService _passwordGeneratorService = passwordGeneratorService;
         private readonly DiscountService _discountService = discountService;
 
+        [Authorize]
         public IActionResult CustomerIndex()
         {
             var customerId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            var bookings = _bookingRepository.GetBookingsByCustomerId(customerId);
+            var bookings = _bookingRepository.GetBookingsByCustomerId(customerId ?? string.Empty);
             var bookingViewModels = bookings.Select(booking => new BookingViewModel
             {
                 Id = booking.Id,
@@ -38,7 +40,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                     Name = booking.Customer.Name,
                     HouseNumber = booking.Customer.HouseNumber,
                     ZipCode = booking.Customer.ZipCode,
-                    EmailAddress = booking.Customer.Email,
+                    EmailAddress = booking.Customer.Email ?? string.Empty,
                     PhoneNumber = booking.Customer.PhoneNumber,
                 },
                 TotalPrice = booking.TotalPrice,
@@ -53,6 +55,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             return View(bookingViewModels);
         }
 
+        [Authorize(Roles = "Manager")]
         public IActionResult ManagerIndex()
         {
             var bookings = _bookingRepository.GetAllBookings();
@@ -63,7 +66,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 CustomerId = booking.CustomerId,
                 Customer = new CustomerViewModel
                 {
-                    EmailAddress = booking.Customer.Email,
+                    EmailAddress = booking.Customer.Email ?? string.Empty,
                 },
                 TotalPrice = booking.TotalPrice,
                 TotalDiscountPercentage = booking.TotalDiscountPercentage,
@@ -76,8 +79,9 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             
             return View(bookingViewModels);
         }
-
+        
         [HttpGet]
+        [Authorize(Roles = "Manager")]
         public IActionResult Details(int bookingId)
         {
             var booking = _bookingRepository.GetBookingById(bookingId);
@@ -93,7 +97,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                     Name = booking.Customer.Name,
                     HouseNumber = booking.Customer.HouseNumber,
                     ZipCode = booking.Customer.ZipCode,
-                    EmailAddress = booking.Customer.Email,
+                    EmailAddress = booking.Customer.Email ?? string.Empty,
                     PhoneNumber = booking.Customer.PhoneNumber,
                 },
                 TotalPrice = booking.TotalPrice,
@@ -152,7 +156,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             
             var availableAnimals = animalViewModels
                 .Where(a => !bookings.Any(b =>
-                    b.Date == DateOnly.Parse(bookingFormState.Date) && b.Animals.Any(ba => ba.Id == a.Id)))
+                    b.Date == DateOnly.Parse(bookingFormState.Date ?? throw new InvalidOperationException()) && b.Animals.Any(ba => ba.Id == a.Id)))
                 .ToList();
             
             var bookingAnimalFormViewModel = new BookingAnimalFormViewModel
@@ -186,7 +190,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 
                 var availableAnimals = animalViewModels
                     .Where(a => !bookings.Any(b =>
-                        b.Date == DateOnly.Parse(bookingFormState.Date) && b.Animals.Any(ba => ba.Id == a.Id)))
+                        b.Date == DateOnly.Parse(bookingFormState.Date ?? string.Empty) && b.Animals.Any(ba => ba.Id == a.Id)))
                     .ToList();
                 
                 bookingAnimalFormViewModel.AvailableAnimals = availableAnimals;
@@ -252,21 +256,21 @@ namespace BeestjeOpJeFeestje.Web.Controllers
 
             var customer = new Customer
             {
-                TypeId = bookingFormViewModel.BookingFormState.Customer.TypeId,
+                TypeId = bookingFormViewModel.BookingFormState.Customer?.TypeId,
             };
             
             var booking = new Booking
             {
-                Date = DateOnly.Parse(bookingFormState.Date),
+                Date = DateOnly.Parse(bookingFormState.Date ?? throw new InvalidOperationException()),
                 Customer = customer,
-                Animals = bookingFormState.Animals.Select(a => new Animal
+                Animals = (bookingFormState.Animals ?? throw new InvalidOperationException()).Select(a => new Animal
                 {
                     Name = a.Name,
                     TypeId = a.TypeId,
                 }).ToList(),
             };
             
-            var totalPrice = bookingFormViewModel.BookingFormState.Animals.Sum(a => a.Price);
+            var totalPrice = (bookingFormViewModel.BookingFormState.Animals ?? throw new InvalidOperationException()).Sum(a => a.Price);
             var discountPercentage = _discountService.CalculateDiscount(booking);
             var discountedPrice = totalPrice * (1 - discountPercentage / 100);
             bookingFormViewModel.TotalPrice = discountedPrice;
@@ -281,60 +285,63 @@ namespace BeestjeOpJeFeestje.Web.Controllers
         {
             var bookingFormState = GetBookingFormState();
             var customer = bookingFormState.Customer;
-            var existingCustomer = _customerRepository.GetCustomerByEmail(customer.EmailAddress);
-            var phoneNumber = string.IsNullOrWhiteSpace(customer.PhoneNumber) ? null : customer.PhoneNumber;
+            if (customer != null)
+            {
+                var existingCustomer = _customerRepository.GetCustomerByEmail(customer.EmailAddress);
+                var phoneNumber = string.IsNullOrWhiteSpace(customer.PhoneNumber) ? null : customer.PhoneNumber;
             
-            string customerId;
-            if (existingCustomer != null)
-            {
-                customerId = existingCustomer.Id;
-            }
-            else
-            {
-                var newCustomer = new Customer
+                string customerId;
+                if (existingCustomer != null)
                 {
-                    UserName = customer.EmailAddress,
-                    Name = customer.Name,
-                    HouseNumber = customer.HouseNumber,
-                    ZipCode = customer.ZipCode,
-                    Email = customer.EmailAddress,
-                    PhoneNumber =  phoneNumber,
-                };
-                var generatedPassword = _passwordGeneratorService.GeneratePassword();
-                await _userManager.CreateAsync(newCustomer, generatedPassword);
-                await _userManager.AddToRoleAsync(newCustomer, "Customer");
-
-                customerId = newCustomer.Id;
-                TempData["AccountSuccessMessage"] = "Klantenaccount is aangemaakt met het wachtwoord: " + generatedPassword;
-            }
-
-            var bookingAnimals = bookingFormState.Animals.Select(animalViewModel => _animalRepository.GetAllAnimals()
-                    .FirstOrDefault(a => a.Id == animalViewModel.Id))
-                .OfType<Animal>()
-                .ToList();
-            
-            var totalPrice = bookingAnimals.Sum(a => a.Price);
-            var discountPercentage = _discountService.CalculateDiscount(new Booking
-            {
-                Date = DateOnly.Parse(bookingFormState.Date),
-                Animals = bookingAnimals,
-                Customer = new Customer
-                {
-                    TypeId = bookingFormState.Customer.TypeId,
+                    customerId = existingCustomer.Id;
                 }
-            });
-            var discountedPrice = totalPrice * (1 - discountPercentage / 100);
+                else
+                {
+                    var newCustomer = new Customer
+                    {
+                        UserName = customer.EmailAddress,
+                        Name = customer.Name,
+                        HouseNumber = customer.HouseNumber,
+                        ZipCode = customer.ZipCode,
+                        Email = customer.EmailAddress,
+                        PhoneNumber =  phoneNumber,
+                    };
+                    var generatedPassword = _passwordGeneratorService.GeneratePassword();
+                    await _userManager.CreateAsync(newCustomer, generatedPassword);
+                    await _userManager.AddToRoleAsync(newCustomer, "Customer");
+
+                    customerId = newCustomer.Id;
+                    TempData["AccountSuccessMessage"] = "Klantenaccount is aangemaakt met het wachtwoord: " + generatedPassword;
+                }
+
+                var bookingAnimals = (bookingFormState.Animals ?? throw new InvalidOperationException()).Select(animalViewModel => _animalRepository.GetAllAnimals()
+                        .FirstOrDefault(a => a.Id == animalViewModel.Id))
+                    .OfType<Animal>()
+                    .ToList();
             
-            var booking = new Booking
-            {
-                Date = DateOnly.Parse(bookingFormState.Date),
-                CustomerId = customerId,
-                TotalPrice = discountedPrice,
-                TotalDiscountPercentage = discountPercentage,
-                Animals = bookingAnimals,
-            };
-            _bookingRepository.CreateBooking(booking);
+                var totalPrice = bookingAnimals.Sum(a => a.Price);
+                var discountPercentage = _discountService.CalculateDiscount(new Booking
+                {
+                    Date = DateOnly.Parse(bookingFormState.Date ?? throw new InvalidOperationException()),
+                    Animals = bookingAnimals,
+                    Customer = new Customer
+                    {
+                        TypeId = bookingFormState.Customer?.TypeId,
+                    }
+                });
+                var discountedPrice = totalPrice * (1 - discountPercentage / 100);
             
+                var booking = new Booking
+                {
+                    Date = DateOnly.Parse(bookingFormState.Date),
+                    CustomerId = customerId,
+                    TotalPrice = discountedPrice,
+                    TotalDiscountPercentage = discountPercentage,
+                    Animals = bookingAnimals,
+                };
+                _bookingRepository.CreateBooking(booking);
+            }
+
             var session = HttpContext.Session;
             var sessionKeys = session.Keys;
             foreach (var key in sessionKeys)
@@ -360,7 +367,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var selectedAnimals = new List<AnimalViewModel>();
             if (!string.IsNullOrEmpty(serializedAnimalIds))
             {
-                var selectedAnimalIds = JsonSerializer.Deserialize<List<int>>(serializedAnimalIds, new JsonSerializerOptions()
+                var selectedAnimalIds = JsonSerializer.Deserialize<List<int>>(serializedAnimalIds, new JsonSerializerOptions
                 {
                     ReferenceHandler = ReferenceHandler.IgnoreCycles
                 });
@@ -395,7 +402,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 customer.Name = existingCustomer.Name;
                 customer.HouseNumber = existingCustomer.HouseNumber;
                 customer.ZipCode = existingCustomer.ZipCode;
-                customer.EmailAddress = existingCustomer.Email;
+                customer.EmailAddress = existingCustomer.Email ?? string.Empty;
                 customer.PhoneNumber = existingCustomer.PhoneNumber;
                 customer.TypeId = existingCustomer.TypeId;
             }

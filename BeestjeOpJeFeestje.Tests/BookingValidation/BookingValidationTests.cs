@@ -3,14 +3,14 @@ using BeestjeOpJeFeestje.Tests.HelperClasses;
 
 namespace BeestjeOpJeFeestje.Tests.AnimalBookingValidation
 {
-    public class AnimalBookingValidationTests
+    public class BookingValidationTests
     {
-        private AnimalBookingValidationTestHelper _helper;
+        private BookingValidationTestHelper _helper;
 
         [SetUp]
         public void SetUp()
         {
-            _helper = new AnimalBookingValidationTestHelper();
+            _helper = new BookingValidationTestHelper();
         }
 
         [Test]
@@ -22,10 +22,10 @@ namespace BeestjeOpJeFeestje.Tests.AnimalBookingValidation
                 new() { Id = 2, Name = "Koe", Type = new AnimalType { Name = "Boerderij" } }
             });
 
-            var viewModel = AnimalBookingValidationTestHelper.CreateViewModel([1, 2], "2025-01-12", "test@example.com");
+            var viewModel = BookingValidationTestHelper.CreateViewModel([1, 2], "2025-01-12", "test@example.com");
             var results = _helper.ValidateModel(viewModel);
 
-            AnimalBookingValidationTestHelper.AssertErrorMessage(results, "Nom nom nom");
+            BookingValidationTestHelper.AssertErrorMessage(results, "Nom nom nom");
         }
         
         [Test]
@@ -36,10 +36,10 @@ namespace BeestjeOpJeFeestje.Tests.AnimalBookingValidation
                 new() { Id = 1, Name = "Pinguïn", Type = new AnimalType { Name = "Sneeuw" } }
             });
 
-            var viewModel = AnimalBookingValidationTestHelper.CreateViewModel([1], "2025-01-12", "test@example.com");
+            var viewModel = BookingValidationTestHelper.CreateViewModel([1], "2025-01-12", "test@example.com");
             var results = _helper.ValidateModel(viewModel);
 
-            AnimalBookingValidationTestHelper.AssertErrorMessage(results, "Dieren in pak werken alleen doordeweeks");
+            BookingValidationTestHelper.AssertErrorMessage(results, "Dieren in pak werken alleen doordeweeks");
         }
         
         [Test]
@@ -50,10 +50,10 @@ namespace BeestjeOpJeFeestje.Tests.AnimalBookingValidation
                 new() { Id = 1, Name = "Kameel", Type = new AnimalType { Name = "Woestijn" } }
             });
 
-            var viewModel = AnimalBookingValidationTestHelper.CreateViewModel([1], "2025-01-12", "test@example.com");
+            var viewModel = BookingValidationTestHelper.CreateViewModel([1], "2025-01-12", "test@example.com");
             var results = _helper.ValidateModel(viewModel);
 
-            AnimalBookingValidationTestHelper.AssertErrorMessage(results, "Brrrr – Veelste koud");
+            BookingValidationTestHelper.AssertErrorMessage(results, "Brrrr – Veelste koud");
         }
         
         [Test]
@@ -64,10 +64,10 @@ namespace BeestjeOpJeFeestje.Tests.AnimalBookingValidation
                 new() { Id = 1, Name = "IJsbeer", Type = new AnimalType { Name = "Sneeuw" } }
             });
 
-            var viewModel = AnimalBookingValidationTestHelper.CreateViewModel([1], "2025-07-12", "test@example.com");
+            var viewModel = BookingValidationTestHelper.CreateViewModel([1], "2025-07-12", "test@example.com");
             var results = _helper.ValidateModel(viewModel);
 
-            AnimalBookingValidationTestHelper.AssertErrorMessage(results, "Some People Are Worth Melting For. ~ Olaf");
+            BookingValidationTestHelper.AssertErrorMessage(results, "Some People Are Worth Melting For. ~ Olaf");
         }
         
         [Test]
@@ -81,16 +81,16 @@ namespace BeestjeOpJeFeestje.Tests.AnimalBookingValidation
                 new() { Id = 4, Name = "Eend", Type = new AnimalType { Name = "Boerderij" } },
             });
 
-            var viewModel = AnimalBookingValidationTestHelper.CreateViewModel([1, 2, 3, 4, 5], "2025-01-12", "test@example.com");
+            var viewModel = BookingValidationTestHelper.CreateViewModel([1, 2, 3, 4, 5], "2025-01-12", "test@example.com");
             var results = _helper.ValidateModel(viewModel);
 
-            AnimalBookingValidationTestHelper.AssertErrorMessage(results, "Kies maximaal drie beestjes");
+            BookingValidationTestHelper.AssertErrorMessage(results, "Kies maximaal drie beestjes");
         }
         
         [Test]
         public void ValidateBooking_WhenSilverCustomerBooksTooManyAnimals_ShouldReturnLimitError()
         {
-            _helper.SetupCustomer("test@example.com", 1, "Zilver");
+            _helper.SetupCustomer("test@example.com", "Zilver");
             _helper.SetupAnimals(new List<Animal>
             {
                 new() { Id = 1, Name = "Hond", Type = new AnimalType { Name = "Boerderij" } },
@@ -100,25 +100,25 @@ namespace BeestjeOpJeFeestje.Tests.AnimalBookingValidation
                 new() { Id = 5, Name = "Kuiken", Type = new AnimalType { Name = "Boerderij" } }
             });
 
-            var viewModel = AnimalBookingValidationTestHelper.CreateViewModel([1, 2, 3, 4, 5], "2025-01-12", "test@example.com");
+            var viewModel = BookingValidationTestHelper.CreateViewModel([1, 2, 3, 4, 5], "2025-01-12", "test@example.com");
             var results = _helper.ValidateModel(viewModel);
 
-            AnimalBookingValidationTestHelper.AssertErrorMessage(results, "Kies maximaal vier beestjes");
+            BookingValidationTestHelper.AssertErrorMessage(results, "Kies maximaal vier beestjes");
         }
         
         [Test]
-        public void Validate_WhenNonPlatinumCustomerBooksVIPAnimal_ShouldReturnVIPError()
+        public void ValidateBooking_WhenNonPlatinumCustomerBooksVIPAnimal_ShouldReturnVIPError()
         {
-            _helper.SetupCustomer("test@example.com", 1, "Gold");
+            _helper.SetupCustomer("test@example.com", "Goud");
             _helper.SetupAnimals(new List<Animal>
             {
                 new() { Id = 1, Name = "Unicorn", Type = new AnimalType { Name = "VIP" } }
             });
 
-            var viewModel = AnimalBookingValidationTestHelper.CreateViewModel([1], "2025-01-12", "test@example.com");
+            var viewModel = BookingValidationTestHelper.CreateViewModel([1], "2025-01-12", "test@example.com");
             var results = _helper.ValidateModel(viewModel);
 
-            AnimalBookingValidationTestHelper.AssertErrorMessage(results, "Magische ervaring alleen voor VIP's");
+            BookingValidationTestHelper.AssertErrorMessage(results, "Magische ervaring alleen voor VIP's");
         }
     }
 }

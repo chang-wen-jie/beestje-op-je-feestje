@@ -9,15 +9,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44dbeae5-1f11-4641-b2d9-b90162b4c556" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Tests/AnimalBookingValidation/AnimalBookingValidationTests.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BeestjeOpJeFeestje/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/DiscountRules/CustomerCardDiscountService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/DiscountRules/CustomerCardDiscountService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/DiscountRules/NameLetterDiscountService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Business/Services/DiscountRules/NameLetterDiscountService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IBookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Interfaces/IBookingRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/BookingRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Data/Repositories/BookingRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Tests/BookingAnimalFormTests.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Tests/AnimalBookingValidation/AnimalBookingValidationTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Tests/BookingValidation/BookingValidationTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Tests/HelperClasses/AnimalBookingValidationTestHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Tests/HelperClasses/BookingValidationTestHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/AnimalController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/AnimalController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/BookingController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/CustomerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/CustomerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/HomeController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/Controllers/HomeController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingAnimalFormViewModel.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/ViewModels/Booking/BookingAnimalFormViewModel.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BeestjeOpJeFeestje.Web/appsettings.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -133,6 +133,7 @@
       <workItem from="1736753357856" duration="11930000" />
       <workItem from="1736847365345" duration="7255000" />
       <workItem from="1736927882361" duration="23008000" />
+      <workItem from="1737013024554" duration="4740000" />
     </task>
     <servers />
   </component>

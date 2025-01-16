@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BeestjeOpJeFeestje.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Manager")]
     public class CustomerController(ICustomerRepository customerRepository, ICustomerTypeRepository customerTypeRepository, UserManager<Customer> userManager,
         IPasswordGeneratorService passwordGeneratorService) : Controller
     {
@@ -24,7 +24,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
             var customerViewModels = customers.Select(customer => new CustomerViewModel
             {
                 Name = customer.Name,
-                EmailAddress = customer.Email,
+                EmailAddress = customer.Email ?? string.Empty,
                 Type = customer.Type,
             }).ToList();
 
@@ -42,7 +42,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 Name = customer.Name,
                 HouseNumber = customer.HouseNumber,
                 ZipCode = customer.ZipCode,
-                EmailAddress = customer.Email,
+                EmailAddress = customer.Email ?? string.Empty,
                 PhoneNumber = customer.PhoneNumber,
                 TypeId = customer.TypeId,
                 Type = customer.Type,
@@ -116,7 +116,7 @@ namespace BeestjeOpJeFeestje.Web.Controllers
                 Name = customer.Name,
                 HouseNumber = customer.HouseNumber,
                 ZipCode = customer.ZipCode,
-                EmailAddress = customer.Email,
+                EmailAddress = customer.Email ?? string.Empty,
                 Types = _customerTypeRepository.GetCustomerTypes()
                     .Select(ct => new SelectListItem
                     {

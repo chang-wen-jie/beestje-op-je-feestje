@@ -7,7 +7,7 @@ using Moq;
 
 namespace BeestjeOpJeFeestje.Tests.HelperClasses
 {
-    public class AnimalBookingValidationTestHelper
+    public class BookingValidationTestHelper
     {
         private Mock<IAnimalRepository> AnimalRepositoryMock { get; } = new();
         private Mock<ICustomerRepository> CustomerRepositoryMock { get; } = new();
@@ -33,11 +33,10 @@ namespace BeestjeOpJeFeestje.Tests.HelperClasses
             AnimalRepositoryMock.Setup(repo => repo.GetAllAnimals()).Returns(animals.AsQueryable());
         }
 
-        public void SetupCustomer(string email, int? typeId, string customerType)
+        public void SetupCustomer(string email, string customerType)
         {
             CustomerRepositoryMock.Setup(repo => repo.GetCustomerByEmail(email)).Returns(new Customer
             {
-                TypeId = typeId,
                 Type = new CustomerType { Name = customerType }
             });
         }

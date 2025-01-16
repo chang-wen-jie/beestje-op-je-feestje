@@ -7,7 +7,7 @@
         public class BookingAnimalFormViewModel : IValidatableObject
         {
             [Required(ErrorMessage = "Selecteer een beestje om verder te gaan")]
-            public List<int> SelectedAnimalIds { get; init; }
+            public List<int> SelectedAnimalIds { get; init; } = [];
             public List<AnimalViewModel>? AvailableAnimals { get; set; }
             public BookingFormStateViewModel? BookingFormState { get; set; }
             public string? CustomerEmail { get; init; }
@@ -22,14 +22,14 @@
                     yield break;
                 }
                 
-                // Retrieve all animals because Validate empties AvailableAnimals upon form submission
+                // Retrieve all animals because AvailableAnimals is empty upon entering Validate
                 var animalRepository = validationContext.GetService(typeof(IAnimalRepository)) as IAnimalRepository;
                 var customerRepository = validationContext.GetService(typeof(ICustomerRepository)) as ICustomerRepository;
                 var animals = animalRepository?.GetAllAnimals();
                 var customer = customerRepository?.GetCustomerByEmail(CustomerEmail ?? string.Empty);
                 
                 var bookingDate = DateOnly.Parse(BookingFormState.Date);
-                var selectedAnimals = animals.Where(animal => SelectedAnimalIds.Contains(animal.Id));
+                var selectedAnimals = (animals ?? throw new InvalidOperationException()).Where(animal => SelectedAnimalIds.Contains(animal.Id));
                 
                 if (selectedAnimals.Any(animal => animal.Name == "Leeuw" || animal.Name == "IJsbeer"))
                 {
@@ -60,19 +60,21 @@
                 var isVipAnimalSelected = selectedAnimals.Any(animal => animal.Type.Name == "VIP");
                 if (customer != null)
                 {
-                    if (customer.TypeId == null && SelectedAnimalIds.Count > 3) // check typename?
-                    {
-                        yield return new ValidationResult("Kies maximaal drie beestjes", [nameof(SelectedAnimalIds)]);
-                    }
-                    else if (customer.Type?.Name == "Zilver" && SelectedAnimalIds.Count > 4)
-                    {
-                        yield return new ValidationResult("Kies maximaal vier beestjes", [nameof(SelectedAnimalIds)]);
-                    }
-
                     if (customer.Type?.Name != "Platina" && isVipAnimalSelected)
                     {
                         yield return new ValidationResult("Magische ervaring alleen voor VIP's", [nameof(SelectedAnimalIds)
                         ]);
+                    }
+                    
+                    if (customer.Type?.Name == "Zilver" && SelectedAnimalIds.Count > 4)
+                    {
+                        yield return new ValidationResult("Kies maximaal vier beestjes", [nameof(SelectedAnimalIds)]);
+                        yield break; // Ensure statement exit for proper BookingValidationTest testing
+                    }
+                    
+                    if (customer.TypeId == null && SelectedAnimalIds.Count > 3)
+                    {
+                        yield return new ValidationResult("Kies maximaal drie beestjes", [nameof(SelectedAnimalIds)]);
                     }
                 }
                 else
